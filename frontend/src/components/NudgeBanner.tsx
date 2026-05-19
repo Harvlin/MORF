@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { Flame, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { activeNudge } from "@/lib/mock-data";
 import { useApp } from "@/lib/store";
@@ -19,8 +19,8 @@ export function NudgeBanner() {
           transition={{ duration: 0.2, ease: "easeOut" }}
           className="bg-surface border border-border rounded-2xl p-4 flex gap-3 items-start shadow-[var(--shadow-soft)]"
         >
-          <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground grid place-items-center font-semibold text-sm shrink-0">
-            A
+          <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground grid place-items-center shrink-0">
+            <Flame size={16} aria-hidden="true" />
           </div>
           <div className="flex-1 min-w-0">
             <div className="font-semibold text-sm">{activeNudge.headline}</div>

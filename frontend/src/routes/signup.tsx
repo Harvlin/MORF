@@ -18,7 +18,7 @@ function strength(pw: string) {
   return s;
 }
 const labels = ["", "Weak", "Fair", "Good", "Strong"];
-const colors = ["bg-white/10", "bg-red-400", "bg-orange-400", "bg-yellow-400", "bg-green-400"];
+const colors = ["bg-border", "bg-red-400", "bg-orange-400", "bg-yellow-400", "bg-green-400"];
 
 function SignupPage() {
   const nav = useNavigate();
@@ -42,8 +42,8 @@ function SignupPage() {
   return (
     <AuthShell>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        <h1 className="text-2xl font-medium text-white">Create your account</h1>
-        <p className="text-sm text-white/60 mt-1.5">
+        <h1 className="text-2xl font-medium text-foreground">Create your account</h1>
+        <p className="text-sm text-text-2 mt-1.5">
           Start your inclusive sports journey in 60 seconds.
         </p>
 
@@ -82,7 +82,7 @@ function SignupPage() {
                 <button
                   type="button"
                   onClick={() => setShowPw(!showPw)}
-                  className="w-8 h-8 grid place-items-center rounded-md text-white/50 hover:text-white/80 transition-colors"
+                  className="w-8 h-8 grid place-items-center rounded-md text-text-3 hover:text-text-1 transition-colors"
                 >
                   {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
@@ -94,11 +94,11 @@ function SignupPage() {
                   {[1, 2, 3, 4].map((i) => (
                     <div
                       key={i}
-                      className={`h-0.5 rounded-full transition-colors ${i <= s ? colors[s] : "bg-white/10"}`}
+                      className={`h-0.5 rounded-full transition-colors ${i <= s ? colors[s] : "bg-border"}`}
                     />
                   ))}
                 </div>
-                <span className="text-[11px] text-white/55 w-12 text-right">{labels[s]}</span>
+                <span className="text-[11px] text-text-3 w-12 text-right">{labels[s]}</span>
               </div>
             )}
           </div>
@@ -109,17 +109,19 @@ function SignupPage() {
               onClick={() => setAgreed(!agreed)}
               aria-checked={agreed}
               role="checkbox"
-              className={`w-4 h-4 rounded border mt-0.5 grid place-items-center flex-shrink-0 transition-colors ${agreed ? "bg-[#E8593C] border-[#E8593C]" : "border-white/30 bg-white/5"}`}
+              className={`w-4 h-4 rounded border mt-0.5 grid place-items-center flex-shrink-0 transition-colors ${
+                agreed ? "bg-primary border-primary" : "border-border bg-surface-2"
+              }`}
             >
               {agreed && <Check size={11} className="text-white" strokeWidth={3} />}
             </button>
-            <span className="text-xs text-white/55 leading-relaxed">
+            <span className="text-xs text-text-2 leading-relaxed">
               I agree to Athena's{" "}
-              <a href="#" className="text-white/80 hover:underline">
+              <a href="#" className="text-foreground hover:underline">
                 Terms
               </a>{" "}
               and{" "}
-              <a href="#" className="text-white/80 hover:underline">
+              <a href="#" className="text-foreground hover:underline">
                 Privacy Policy
               </a>
               .
@@ -129,7 +131,7 @@ function SignupPage() {
           <button
             type="submit"
             disabled={!canSubmit}
-            className="w-full h-12 rounded-xl bg-[#E8593C] hover:bg-[#D44E33] text-white text-sm font-medium flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-50"
+            className="w-full h-12 rounded-xl bg-primary text-primary-foreground text-sm font-medium flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50"
           >
             {loading ? (
               <>
@@ -141,9 +143,9 @@ function SignupPage() {
           </button>
         </form>
 
-        <p className="text-sm text-white/55 text-center mt-6">
+        <p className="text-sm text-text-2 text-center mt-6">
           Already have an account?{" "}
-          <Link to="/login" className="text-[#F06B4F] hover:underline font-medium">
+          <Link to="/login" className="text-primary hover:underline font-medium">
             Sign in
           </Link>
         </p>

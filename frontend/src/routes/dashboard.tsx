@@ -69,7 +69,6 @@ function Dashboard() {
 
             {/* 30-day milestone card */}
             <div className="bg-secondary-light border border-secondary/20 rounded-2xl p-4 flex items-start gap-3">
-              <MorfMark className="text-secondary mt-0.5 shrink-0" size={20} />
               <div className="flex-1">
                 <div className="font-semibold text-sm">You've been here 30 days</div>
                 <div className="text-xs text-text-2 mt-0.5">

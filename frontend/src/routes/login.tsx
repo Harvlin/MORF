@@ -39,8 +39,8 @@ function LoginPage() {
         animate={shake ? { x: [0, -8, 8, -6, 6, 0] } : {}}
         transition={{ duration: 0.4 }}
       >
-        <h1 className="text-2xl font-medium text-white">Welcome back</h1>
-        <p className="text-sm text-white/60 mt-1.5">Sign in to continue your journey.</p>
+        <h1 className="text-2xl font-medium text-foreground">Welcome back</h1>
+        <p className="text-sm text-text-2 mt-1.5">Sign in to continue your journey.</p>
 
         <AnimatePresence>
           {error && (
@@ -48,10 +48,9 @@ function LoginPage() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="liquid-glass rounded-xl px-4 py-3 mt-5 flex items-start gap-2.5 text-sm text-red-300"
-              style={{ background: "rgba(220, 60, 60, 0.08)" }}
+              className="rounded-xl px-4 py-3 mt-5 flex items-start gap-2.5 text-sm border border-destructive/20 bg-destructive/10 text-destructive"
             >
-              <AlertCircle size={16} className="text-red-400 mt-0.5 flex-shrink-0" />
+              <AlertCircle size={16} className="text-destructive mt-0.5 flex-shrink-0" />
               <span>{error}</span>
             </motion.div>
           )}
@@ -75,7 +74,7 @@ function LoginPage() {
               <AuthLabel>Password</AuthLabel>
               <Link
                 to="/forgot-password"
-                className="text-xs text-white/55 hover:text-white/85 transition-colors"
+                className="text-xs text-text-2 hover:text-text-1 transition-colors"
               >
                 Forgot password?
               </Link>
@@ -92,7 +91,7 @@ function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPw(!showPw)}
-                  className="w-8 h-8 grid place-items-center rounded-md text-white/50 hover:text-white/80 transition-colors"
+                  className="w-8 h-8 grid place-items-center rounded-md text-text-3 hover:text-text-1 transition-colors"
                 >
                   {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
@@ -103,7 +102,7 @@ function LoginPage() {
           <button
             type="submit"
             disabled={loading || !email || !password}
-            className="w-full h-12 rounded-xl bg-[#E8593C] hover:bg-[#D44E33] text-white text-sm font-medium flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-50"
+            className="w-full h-12 rounded-xl bg-primary text-primary-foreground text-sm font-medium flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50"
           >
             {loading ? (
               <>
@@ -116,25 +115,25 @@ function LoginPage() {
         </form>
 
         <div className="flex items-center gap-3 my-6">
-          <span className="flex-1 h-px bg-white/15" />
-          <span className="text-xs text-white/35">or</span>
-          <span className="flex-1 h-px bg-white/15" />
+          <span className="flex-1 h-px bg-border" />
+          <span className="text-xs text-text-3">or</span>
+          <span className="flex-1 h-px bg-border" />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           {["Google", "Apple"].map((p) => (
             <button
               key={p}
-              className="liquid-glass rounded-xl h-11 text-sm text-white/85 hover:text-white transition-colors"
+              className="bg-surface border border-border rounded-xl h-11 text-sm text-text-1 hover:text-foreground transition-colors"
             >
               {p}
             </button>
           ))}
         </div>
 
-        <p className="text-sm text-white/55 text-center mt-7">
+        <p className="text-sm text-text-2 text-center mt-7">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-[#F06B4F] hover:underline font-medium">
+          <Link to="/signup" className="text-primary hover:underline font-medium">
             Sign up
           </Link>
         </p>

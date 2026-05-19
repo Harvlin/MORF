@@ -10,6 +10,7 @@ import {
 import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
+import { useApp } from "@/lib/store";
 
 function NotFoundComponent() {
   return (
@@ -125,6 +126,12 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const theme = useApp((s) => s.theme);
+  const setTheme = useApp((s) => s.setTheme);
+
+  useEffect(() => {
+    setTheme(theme);
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     const el = document.getElementById("app-loading");

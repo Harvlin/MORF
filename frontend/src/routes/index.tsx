@@ -1,4 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Flame } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -13,15 +15,24 @@ export const Route = createFileRoute("/")({
 });
 
 const Logo = ({ size = 32, className = "" }: { size?: number; className?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 32 32" fill="none" className={className}>
-    <path d="M16 4 L28 28 L22 28 L16 14 L10 28 L4 28 Z" fill="currentColor" />
-    <path d="M11.5 22 L20.5 22" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-  </svg>
+  <Flame size={size} className={className} />
 );
 
 function LandingPage() {
   return (
-    <div className="dark landing-page landing-minimal text-white min-h-dvh font-sans flex flex-col">
+    <div className="dark landing-page landing-minimal text-white min-h-dvh font-sans flex flex-col relative">
+      <header className="absolute top-0 inset-x-0 z-10">
+        <div className="max-w-6xl mx-auto px-6 lg:px-12 py-6 flex items-center justify-end">
+          <div className="flex items-center gap-3">
+            <Button asChild variant="ghost" className="bg-transparent text-white hover:bg-white/20 hover:text-white">
+              <Link to="/login">Sign in</Link>
+            </Button>
+            <Button asChild variant="ghost" className="bg-transparent text-white hover:bg-white/20 hover:text-white">
+              <Link to="/signup">Sign up</Link>
+            </Button>
+          </div>
+        </div>
+      </header>
       <main className="flex-1 flex items-center justify-center px-6 lg:px-12 py-16 text-center">
         <div className="max-w-4xl">
           <h1 className="hero-magazine text-5xl sm:text-6xl lg:text-7xl leading-[1.05]">

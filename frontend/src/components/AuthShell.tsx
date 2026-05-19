@@ -12,36 +12,26 @@ const Logo = ({ size = 32 }: { size?: number }) => (
 
 export function AuthShell({ children }: { children: ReactNode }) {
   return (
-    <div className="dark bg-[#0f0f0e] text-white min-h-dvh font-sans relative overflow-hidden">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      >
-        <source
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260315_073750_51473149-4350-4920-ae24-c8214286f323.mp4"
-          type="video/mp4"
-        />
-      </video>
+    <div className="bg-background text-foreground min-h-dvh font-sans relative overflow-hidden">
       <div
-        className="absolute inset-0 z-0"
-        style={{ background: "linear-gradient(135deg, #0f0f0e 0%, #1a1917 50%, #0d1f15 100%)" }}
+        className="pointer-events-none absolute -top-40 -left-24 h-80 w-80 rounded-full bg-primary/15 blur-3xl"
         aria-hidden
       />
-      <div className="absolute inset-0 bg-black/55 z-[1]" aria-hidden />
+      <div
+        className="pointer-events-none absolute -bottom-32 right-0 h-96 w-96 rounded-full bg-secondary/12 blur-3xl"
+        aria-hidden
+      />
 
       <Link
         to="/"
-        className="absolute top-5 left-5 z-20 liquid-glass rounded-full w-10 h-10 grid place-items-center text-white/85 hover:text-white transition-colors"
+        className="absolute top-5 left-5 z-20 bg-surface border border-border rounded-full w-10 h-10 grid place-items-center text-text-2 hover:text-text-1 transition-colors"
       >
         <ArrowLeft size={16} />
       </Link>
 
       <div className="relative z-10 min-h-dvh flex flex-col items-center justify-center px-5 py-12">
-        <div className="flex items-center gap-2 mb-6 text-white">
-          <span className="text-[#F06B4F]">
+        <div className="flex items-center gap-2 mb-6 text-foreground">
+          <span className="text-primary">
             <Logo size={28} />
           </span>
           <span className="font-semibold text-xl tracking-tight">MORF</span>
@@ -50,7 +40,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="liquid-glass-strong rounded-3xl p-8 w-full max-w-md"
+          className="bg-surface border border-border rounded-3xl p-8 w-full max-w-md shadow-[0_24px_50px_-38px_rgba(20,18,14,0.6)]"
         >
           {children}
         </motion.div>
@@ -80,14 +70,20 @@ export function AuthInput({
 }) {
   return (
     <div className="relative">
-      <Icon size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40" />
+      <Icon size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-3" />
       <input
         type={type}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         autoComplete={autoComplete}
-        className={`w-full h-12 bg-white/5 rounded-xl pl-10 ${rightSlot ? "pr-12" : "pr-4"} text-sm text-white placeholder:text-white/40 outline-none transition-all ring-2 ${error ? "ring-red-400/60" : "ring-transparent focus:ring-[#F06B4F]/50"} border-none`}
+        className={`w-full h-12 bg-surface-2 rounded-xl pl-10 ${
+          rightSlot ? "pr-12" : "pr-4"
+        } text-sm text-foreground placeholder:text-text-3 outline-none transition-all border ring-2 ${
+          error
+            ? "border-destructive ring-destructive/20"
+            : "border-border ring-transparent focus:ring-primary/30"
+        }`}
       />
       {rightSlot && <div className="absolute right-3 top-1/2 -translate-y-1/2">{rightSlot}</div>}
     </div>
@@ -95,5 +91,5 @@ export function AuthInput({
 }
 
 export function AuthLabel({ children }: { children: ReactNode }) {
-  return <label className="text-xs font-medium text-white/65 mb-1.5 block">{children}</label>;
+  return <label className="text-xs font-medium text-text-2 mb-1.5 block">{children}</label>;
 }

@@ -69,7 +69,7 @@ const sampleHealth: HealthProfile = {
 };
 
 export const useApp = create<AppState>((set) => ({
-  theme: "system",
+  theme: "dark",
   setTheme: (t) => {
     set({ theme: t });
     if (typeof document !== "undefined") {
