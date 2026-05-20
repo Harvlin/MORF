@@ -16,15 +16,12 @@ export function SideNav() {
     return null;
 
   return (
-    <aside className="card-frosted hidden lg:flex fixed inset-y-4 left-4 w-60 flex-col px-4 py-6 z-30 border-none" style={{ borderRadius: "32px" }}>
+    <aside className="glass hidden lg:flex fixed inset-y-4 left-4 w-60 flex-col px-4 py-6 z-30 rounded-[32px]">
       <Link to="/dashboard" className="flex items-center gap-2 px-2 mb-8">
-        <div
-          className="w-8 h-8 grid place-items-center font-bold text-white text-[15px]"
-          style={{ background: "#1a3d35", borderRadius: "8px" }}
-        >
+        <div className="w-8 h-8 grid place-items-center font-bold text-white text-[15px] rounded-lg bg-[color:var(--sage-deep)]">
           M
         </div>
-        <span className="text-xl font-bold tracking-tight" style={{ color: "#0f2420" }}>MORF</span>
+        <span className="text-xl font-bold tracking-tight text-white">MORF</span>
       </Link>
 
       <nav className="flex-1">
@@ -38,17 +35,11 @@ export function SideNav() {
                 <Link
                   to={item.to}
                   className={cn(
-                    "flex items-center gap-3 px-3.5 py-2 text-sm font-medium transition-colors",
+                    "flex items-center gap-3 px-3.5 py-2 text-sm font-medium rounded-[10px] transition-colors",
                     active
-                      ? "text-white"
-                      : "hover:bg-[rgba(0,0,0,0.04)]",
+                      ? "bg-[color:var(--sage-deep)] text-white font-semibold ring-1 ring-white/30"
+                      : "text-white/75 hover:bg-white/10 hover:text-white",
                   )}
-                  style={{
-                    borderRadius: "10px",
-                    background: active ? "#1a3d35" : undefined,
-                    color: active ? "#ffffff" : "#4a6b62",
-                    fontWeight: active ? 600 : 500,
-                  }}
                 >
                   <Icon size={18} strokeWidth={active ? 2.5 : 2} />
                   {item.label}
@@ -59,13 +50,10 @@ export function SideNav() {
         </ul>
       </nav>
 
-      <div className="border-t pt-4 space-y-3" style={{ borderColor: "rgba(0,0,0,0.07)" }}>
-        <div
-          className="flex items-center gap-2 px-3 py-2"
-          style={{ borderRadius: "8px", background: "#f0f5f2" }}
-        >
-          <Sparkles size={14} style={{ color: "#1a3d35" }} />
-          <span className="text-xs" style={{ color: "#3d6058" }}>Beta build · v0.1</span>
+      <div className="border-t border-white/20 pt-4">
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/15">
+          <Sparkles size={14} className="text-white/90" />
+          <span className="text-xs text-white/70">Beta build · v0.1</span>
         </div>
       </div>
     </aside>

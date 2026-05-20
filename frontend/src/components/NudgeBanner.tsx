@@ -23,11 +23,11 @@ export function NudgeBanner() {
             <Flame size={16} aria-hidden="true" />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="font-semibold text-sm">{activeNudge.headline}</div>
-            <div className="text-sm text-text-2 mt-0.5">{activeNudge.message}</div>
+            <div className="font-semibold text-sm text-white">{activeNudge.headline}</div>
+            <div className="text-sm text-white/70 mt-0.5">{activeNudge.message}</div>
             <Link
               to={activeNudge.ctaLink}
-              className="inline-block mt-3 text-sm font-semibold text-primary hover:underline"
+              className="inline-block mt-3 text-sm font-semibold text-white hover:underline"
             >
               {activeNudge.cta} →
             </Link>
@@ -35,7 +35,7 @@ export function NudgeBanner() {
           <button
             onClick={dismiss}
             aria-label="Dismiss"
-            className="w-8 h-8 grid place-items-center rounded-lg hover:bg-surface-3 text-text-2 shrink-0 -mt-1 -mr-1"
+            className="w-8 h-8 grid place-items-center rounded-lg hover:bg-white/10 text-white/70 shrink-0 -mt-1 -mr-1"
           >
             <X size={16} />
           </button>

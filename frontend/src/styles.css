@@ -2,50 +2,103 @@
 @source "../src";
 @import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
 /* ═══════════════════════════════════════════════════════════════════
-   MORF Design System (Glassmorphism & Gradients)
+   MORF Design System — aligned with build-my-page (Pulse)
+   Landing page keeps .landing-minimal (unchanged gradient).
    ═══════════════════════════════════════════════════════════════════ */
 
 @theme inline {
-  --font-sans:    "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sage-mist: var(--sage-mist);
+  --color-sage-deep: var(--sage-deep);
+  --color-sage-ink: var(--sage-ink);
+  --color-ember: var(--ember);
+
+  /* Legacy aliases used across routes */
+  --color-surface: var(--card);
+  --color-surface-2: var(--secondary);
+  --color-surface-3: var(--muted);
+  --color-text-1: var(--foreground);
+  --color-text-2: var(--muted-foreground);
+  --color-text-3: oklch(0.55 0.025 175);
+
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono:    "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", "Cormorant Garamond", Georgia, serif;
+  --font-mono: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --radius-sm:  6px;
-  --radius-md:  10px;
-  --radius-lg:  14px;
-  --radius-xl:  18px;
-  --radius-2xl: 24px;
-  --radius-3xl: 32px;
-
-  --color-primary:            #1a3d35;
-  --color-primary-foreground: #ffffff;
-  --color-primary-light:      rgba(26, 61, 53, 0.1);
-
-  --color-accent:             #f47c3c;
-  --color-accent-foreground:  #ffffff;
-
-  --color-text-1: #ffffff;
-  --color-text-2: rgba(255, 255, 255, 0.8);
-  --color-text-3: rgba(255, 255, 255, 0.6);
-  --color-text-dark: #0f2420;
-  --color-text-dark-muted: #4a6b62;
-  
-  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-glass: 0 12px 40px -16px oklch(0.18 0.025 175 / 0.35);
+  --shadow-card: 0 18px 50px -20px oklch(0.18 0.025 175 / 0.4);
 }
 
 :root {
-  --radius: 1.5rem;
-  --background: #5D7A73;
-  --foreground: #ffffff;
+  --radius: 1.25rem;
+  --background: oklch(0.93 0.025 165);
+  --foreground: oklch(0.18 0.025 175);
+  --card: oklch(0.98 0.01 165);
+  --card-foreground: oklch(0.18 0.025 175);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.025 175);
+  --primary: oklch(0.28 0.04 175);
+  --primary-foreground: oklch(0.98 0.01 165);
+  --secondary: oklch(0.92 0.02 165);
+  --secondary-foreground: oklch(0.28 0.04 175);
+  --muted: oklch(0.9 0.018 165);
+  --muted-foreground: oklch(0.5 0.025 175);
+  --accent: oklch(0.85 0.03 165);
+  --accent-foreground: oklch(0.18 0.025 175);
+  --destructive: oklch(0.6 0.22 27);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.85 0.02 165 / 0.5);
+  --input: oklch(0.88 0.02 165);
+  --ring: oklch(0.28 0.04 175);
+  --sage-mist: oklch(0.93 0.025 165);
+  --sage-deep: oklch(0.28 0.04 175);
+  --sage-ink: oklch(0.18 0.025 175);
+  --ember: oklch(0.72 0.19 50);
 }
 
 @layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
   html {
     min-height: 100%;
-    /* Dark top, lighter bottom matching the middle screen */
-    background: linear-gradient(180deg, #446059 0%, #76978E 40%, #B8D3CC 100%);
-    background-attachment: fixed;
+    background: var(--background);
   }
 
   body {
@@ -53,37 +106,195 @@
     min-height: 100dvh;
     color: var(--foreground);
     font-feature-settings: "kern" 1, "liga" 1;
-    -webkit-font-smoothing: antialiased;
   }
 }
 
 @layer components {
-  /* Frosted Glass Card */
+  /* App shell — dramatic sage stage (build-my-page) */
+  .app-stage {
+    background:
+      radial-gradient(140% 60% at 50% 110%, oklch(0.88 0.03 165) 0%, transparent 55%),
+      linear-gradient(
+        180deg,
+        oklch(0.92 0.025 165) 0%,
+        oklch(0.78 0.035 170) 22%,
+        oklch(0.45 0.04 175) 55%,
+        oklch(0.55 0.04 172) 80%,
+        oklch(0.85 0.03 165) 100%
+      );
+    background-attachment: fixed;
+    color: #ffffff;
+    min-height: 100dvh;
+  }
+
+  .app-stage-light {
+    background: linear-gradient(180deg, oklch(0.97 0.012 165) 0%, oklch(0.93 0.02 165) 100%);
+    background-attachment: fixed;
+    color: var(--foreground);
+    min-height: 100dvh;
+  }
+
+  /* Glass surfaces (build-my-page) */
+  .glass {
+    background: linear-gradient(180deg, oklch(1 0 0 / 0.35), oklch(1 0 0 / 0.18));
+    backdrop-filter: blur(22px) saturate(140%);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    border: 1px solid oklch(1 0 0 / 0.45);
+    box-shadow:
+      inset 0 1px 0 oklch(1 0 0 / 0.5),
+      var(--shadow-glass);
+    color: #ffffff;
+  }
+
+  .glass-strong {
+    background: linear-gradient(180deg, oklch(1 0 0 / 0.7), oklch(1 0 0 / 0.55));
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid oklch(1 0 0 / 0.7);
+    box-shadow:
+      inset 0 1px 0 oklch(1 0 0 / 0.8),
+      var(--shadow-card);
+    color: var(--sage-ink);
+  }
+
+  .glass-light {
+    background: oklch(1 0 0 / 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid oklch(0.85 0.02 165 / 0.6);
+    box-shadow: 0 8px 24px -12px oklch(0.18 0.025 175 / 0.15);
+    color: var(--sage-ink);
+  }
+
+  /* MORF aliases — frosted cards on stage */
   .card-frosted {
-    background: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: linear-gradient(180deg, oklch(1 0 0 / 0.35), oklch(1 0 0 / 0.18));
+    backdrop-filter: blur(22px) saturate(140%);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    border: 1px solid oklch(1 0 0 / 0.45);
     border-radius: 28px;
-    box-shadow: var(--shadow-glass);
-    color: var(--color-text-dark); /* Dark text inside cards */
+    box-shadow:
+      inset 0 1px 0 oklch(1 0 0 / 0.5),
+      var(--shadow-glass);
+    color: #ffffff;
   }
 
   .card-frosted-light {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
+    background: linear-gradient(180deg, oklch(1 0 0 / 0.28), oklch(1 0 0 / 0.14));
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+    border: 1px solid oklch(1 0 0 / 0.35);
+    border-radius: 22px;
     box-shadow: var(--shadow-glass);
-    color: var(--foreground);
+    color: #ffffff;
   }
 
-  /* Bottom Nav */
+  /* Bottom nav pill */
   .nav-pill {
     background: #ffffff;
     border-radius: 9999px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    border: 1px solid oklch(0.28 0.04 175 / 0.15);
+    box-shadow: 0 18px 40px -16px oklch(0.18 0.025 175 / 0.4);
+  }
+
+  /* Reusable UI patterns */
+  .icon-btn-glass {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background: oklch(1 0 0 / 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid oklch(1 0 0 / 0.3);
+    color: #ffffff;
+    transition: background 0.15s ease;
+  }
+
+  .icon-btn-glass:hover {
+    background: oklch(1 0 0 / 0.22);
+  }
+
+  .btn-pill-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--sage-deep);
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 9999px;
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .btn-pill-primary:hover {
+    opacity: 0.92;
+  }
+
+  .btn-pill-primary:active {
+    transform: scale(0.97);
+  }
+
+  .chip-on-glass {
+    font-size: 11px;
+    font-weight: 500;
+    background: oklch(1 0 0 / 0.85);
+    color: var(--sage-ink);
+    border-radius: 9999px;
+    padding: 0.375rem 0.75rem;
+    backdrop-filter: blur(8px);
+  }
+
+  .tag-pill-dark {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 9999px;
+    padding: 2px 10px;
+    background: oklch(0.18 0.025 175 / 0.7);
+    backdrop-filter: blur(8px);
+    color: #ffffff;
+  }
+
+  .ember-dot {
+    background: radial-gradient(circle at 30% 30%, oklch(0.85 0.16 65), oklch(0.65 0.2 45));
+    box-shadow:
+      inset 0 1px 0 oklch(1 0 0 / 0.5),
+      0 6px 18px -4px oklch(0.65 0.2 45 / 0.55);
+  }
+}
+
+@layer utilities {
+  .bg-sage-stage {
+    background:
+      radial-gradient(140% 60% at 50% 110%, oklch(0.88 0.03 165) 0%, transparent 55%),
+      linear-gradient(
+        180deg,
+        oklch(0.92 0.025 165) 0%,
+        oklch(0.78 0.035 170) 22%,
+        oklch(0.45 0.04 175) 55%,
+        oklch(0.55 0.04 172) 80%,
+        oklch(0.85 0.03 165) 100%
+      );
+    background-attachment: fixed;
+  }
+
+  .bg-sage-light {
+    background: linear-gradient(180deg, oklch(0.97 0.012 165) 0%, oklch(0.93 0.02 165) 100%);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 
@@ -94,9 +305,20 @@
   z-index: 60;
   display: grid;
   place-items: center;
-  background: linear-gradient(180deg, #446059 0%, #76978E 40%, #B8D3CC 100%);
+  background:
+    radial-gradient(140% 60% at 50% 110%, oklch(0.88 0.03 165) 0%, transparent 55%),
+    linear-gradient(
+      180deg,
+      oklch(0.92 0.025 165) 0%,
+      oklch(0.78 0.035 170) 22%,
+      oklch(0.45 0.04 175) 55%,
+      oklch(0.55 0.04 172) 80%,
+      oklch(0.85 0.03 165) 100%
+    );
   color: #ffffff;
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
 }
 
 .app-loading--hide {
@@ -112,7 +334,7 @@
 }
 
 .app-loading__label {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -139,14 +361,20 @@
 }
 
 @keyframes app-loading-bar {
-  0%   { transform: translateX(-120%); }
-  60%  { transform: translateX(320%); }
-  100% { transform: translateX(320%); }
+  0% {
+    transform: translateX(-120%);
+  }
+  60% {
+    transform: translateX(320%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
 }
 
-/* ─── Landing page ────────────────────────────────────────────── */
+/* ─── Landing page (UNCHANGED — excluded from app restyle) ─────── */
 .landing-minimal {
-  background: linear-gradient(180deg, #446059 0%, #76978E 40%, #B8D3CC 100%);
+  background: linear-gradient(180deg, #446059 0%, #76978e 40%, #b8d3cc 100%);
   background-attachment: fixed;
   min-height: 100dvh;
 }

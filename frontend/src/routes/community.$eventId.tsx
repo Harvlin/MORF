@@ -13,25 +13,25 @@ function EventDetail() {
   const full = event.joined >= event.capacity;
 
   return (
-    <div className="min-h-dvh bg-background">
-      <div className="bg-primary-light h-48 lg:h-64 flex items-end p-5 relative">
+    <div className="min-h-dvh">
+      <div className="h-48 lg:h-64 flex items-end p-5 relative" style={{ background: "rgba(255,255,255,0.2)" }}>
         <Link
           to="/community"
-          className="absolute top-4 left-4 w-10 h-10 grid place-items-center rounded-lg bg-surface/80 backdrop-blur"
+          className="absolute top-4 left-4 w-10 h-10 grid place-items-center rounded-lg bg-[rgba(255,255,255,0.45)] backdrop-blur text-[var(--foreground)] hover:bg-[rgba(255,255,255,0.6)] transition-colors"
           aria-label="Back"
         >
           <ChevronLeft size={20} />
         </Link>
         <div className="absolute right-6 top-1/2 -translate-y-1/2" aria-hidden>
-          <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-surface/80 border border-border text-xl lg:text-[24px] font-bold text-text-1 grid place-items-center text-text-2">
+          <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-[rgba(255,255,255,0.7)] shadow-lg text-xl lg:text-[24px] font-bold text-[#1a3d35] grid place-items-center">
             {getInitials(event.sport)}
           </div>
         </div>
         <div>
-          <div className="text-xs uppercase tracking-widest text-primary font-semibold">
+          <div className="text-xs uppercase tracking-widest text-[#1a3d35] opacity-80 font-bold">
             {event.sport}
           </div>
-          <h1 className="text-3xl font-semibold mt-1 max-w-md">{event.title}</h1>
+          <h1 className="text-3xl font-bold mt-1 max-w-md text-[var(--foreground)]">{event.title}</h1>
         </div>
       </div>
 
@@ -45,11 +45,11 @@ function EventDetail() {
           />
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-2 mb-6 mt-6">
           {event.tags.map((t) => (
             <span
               key={t}
-              className="text-xs font-medium bg-secondary-light text-secondary px-3 py-1.5 rounded-full"
+              className="text-xs font-semibold bg-[rgba(26,61,53,0.1)] text-[#1a3d35] px-3 py-1.5 rounded-full"
             >
               {t}
             </span>
@@ -57,23 +57,23 @@ function EventDetail() {
         </div>
 
         <div>
-          <h2 className="font-semibold mb-2">About</h2>
-          <p className="text-sm text-text-2 leading-relaxed">{event.description}</p>
+          <h2 className="font-semibold mb-2 text-[var(--foreground)]">About</h2>
+          <p className="text-sm text-[var(--foreground)] opacity-80 leading-relaxed font-medium">{event.description}</p>
         </div>
 
         <div className="mt-8">
-          <h2 className="font-semibold mb-3">Who's coming</h2>
+          <h2 className="font-semibold mb-3 text-[var(--foreground)]">Who's coming</h2>
           <div className="flex -space-x-2">
             {Array.from({ length: Math.min(8, event.joined) }).map((_, i) => (
               <div
                 key={i}
-                className="w-9 h-9 rounded-full bg-surface-3 border-2 border-surface text-xs font-semibold grid place-items-center"
+                className="w-9 h-9 rounded-full bg-[rgba(255,255,255,0.7)] shadow border border-white text-xs font-bold text-[#1a3d35] grid place-items-center"
               >
                 {String.fromCharCode(65 + i)}
               </div>
             ))}
             {event.joined > 8 && (
-              <div className="w-9 h-9 rounded-full bg-surface-3 border-2 border-surface text-xs font-medium grid place-items-center text-text-2">
+              <div className="w-9 h-9 rounded-full bg-[rgba(255,255,255,0.4)] shadow border border-white text-xs font-bold grid place-items-center text-[#1a3d35]">
                 +{event.joined - 8}
               </div>
             )}
@@ -81,11 +81,11 @@ function EventDetail() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 inset-x-0 border-t border-border bg-surface/95 backdrop-blur px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <div className="fixed bottom-0 inset-x-0 bg-[rgba(255,255,255,0.6)] backdrop-blur-md border-t border-[rgba(255,255,255,0.3)] px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
         <div className="max-w-2xl mx-auto">
           <button
             disabled={full}
-            className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-semibold disabled:bg-surface-3 disabled:text-text-3 hover:opacity-90 active:scale-[0.98] transition-all"
+            className="w-full h-[52px] rounded-full bg-[#1a3d35] text-white font-bold disabled:opacity-50 hover:opacity-90 active:scale-[0.98] shadow-lg transition-all"
           >
             {full ? "Event full" : "Join event"}
           </button>
@@ -97,11 +97,11 @@ function EventDetail() {
 
 function Row({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
-    <div className="flex items-center gap-3 text-sm">
-      <div className="w-8 h-8 rounded-lg bg-surface-3 grid place-items-center text-text-2">
+    <div className="flex items-center gap-3 text-sm text-[var(--foreground)]">
+      <div className="w-8 h-8 rounded-lg bg-[rgba(255,255,255,0.4)] grid place-items-center text-[#1a3d35]">
         {icon}
       </div>
-      {label}
+      <span className="font-semibold">{label}</span>
     </div>
   );
 }

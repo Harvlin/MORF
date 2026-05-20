@@ -9,7 +9,7 @@ export const Route = createFileRoute("/profile/nudges")({
 
 function NudgesPage() {
   return (
-    <div className="min-h-dvh bg-background">
+    <div className="app-stage min-h-dvh text-white">
       <PageHeader title="Nudge history" back="/profile" />
       <div className="px-4 lg:px-8 py-6 max-w-2xl mx-auto pb-12 space-y-2">
         {nudgeHistory.map((n) => (

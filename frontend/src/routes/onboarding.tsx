@@ -111,7 +111,7 @@ function OnboardingPage() {
   const progress = step / 4;
 
   return (
-    <div className="min-h-dvh flex flex-col text-white">
+    <div className="app-stage min-h-dvh flex flex-col text-white">
       <div className="h-1 bg-[rgba(255,255,255,0.2)]">
         <motion.div
           className="h-full bg-white"

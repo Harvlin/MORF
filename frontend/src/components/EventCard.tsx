@@ -86,7 +86,7 @@ export function EventCard({ event, compact = false }: { event: EventItem; compac
 
           {compact && (
             <div className="flex items-center gap-1.5 mt-1">
-              <MapPin size={12} style={{ color: "#6e9e96" }} />
+              <MapPin size={12} style={{ color: "#3d6058", flexShrink: 0 }} />
               <span className="truncate" style={{ fontSize: "12px", color: "#3d6058" }}>
                 {event.location}
               </span>

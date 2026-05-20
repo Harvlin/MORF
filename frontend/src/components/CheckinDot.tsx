@@ -15,13 +15,13 @@ export function CheckinDot({
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-[14px] font-medium flex items-center gap-2" style={{ color: "#0f2420" }}>
-          <span aria-hidden style={{ color: "#6e9e96" }}>
+        <span className="text-[14px] font-medium flex items-center gap-2 text-white" >
+          <span aria-hidden className="text-white/60">
             {icon}
           </span>
           {label}
         </span>
-        <span className="text-[11px]" style={{ color: "#6e9e96" }}>
+        <span className="text-[11px] text-white/60" >
           {value > 0 ? `${value}/5` : "Tap to rate"}
         </span>
       </div>

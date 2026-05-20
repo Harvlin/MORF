@@ -14,7 +14,6 @@ export function BottomNav() {
   const { location } = useRouterState();
   const checkinDone = useApp((s) => s.checkinDoneToday);
 
-  // hide on workout focus mode and chat
   if (
     location.pathname.startsWith("/coach/workout") ||
     location.pathname.startsWith("/coach/chat") ||
@@ -23,43 +22,43 @@ export function BottomNav() {
     return null;
 
   return (
-    <nav
-      className="nav-pill fixed bottom-[20px] left-1/2 -translate-x-1/2 z-40 lg:hidden flex items-center gap-1 w-fit"
-      style={{
-        padding: "6px 8px",
-        height: "56px",
-      }}
-    >
-      {items.map((item) => {
-        const active =
-          location.pathname === item.to || location.pathname.startsWith(item.to + "/");
-        const Icon = item.icon;
-        const showDot = (item.dot === "checkin" && !checkinDone) || item.dot === "events";
-        return (
-          <Link
-            key={item.to}
-            to={item.to}
-            className={cn(
-              "relative flex items-center justify-center gap-2 h-[44px] transition-all duration-200",
-              active ? "px-4 font-semibold text-[14px]" : "px-3"
-            )}
-            style={{
-              borderRadius: "9999px",
-              background: active ? "var(--color-primary)" : "transparent",
-              color: active ? "#ffffff" : "var(--color-text-dark)",
-            }}
-          >
-            <Icon size={20} strokeWidth={active ? 2.5 : 2} />
-            {showDot && !active && (
-              <span
-                className="absolute -top-1 -right-1 w-2 h-2 rounded-full"
-                style={{ background: "#1a3d35", outline: "2px solid #ffffff" }}
-              />
-            )}
-            {active && <span>{item.label}</span>}
-          </Link>
-        );
-      })}
-    </nav>
+    <div className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[calc(100%-2.5rem)] max-w-[360px] z-40 lg:hidden">
+      <nav className="nav-pill p-1.5 flex items-center justify-between">
+        {items.map((item) => {
+          const active =
+            location.pathname === item.to || location.pathname.startsWith(item.to + "/");
+          const Icon = item.icon;
+          const showDot = (item.dot === "checkin" && !checkinDone) || item.dot === "events";
+
+          if (active) {
+            return (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-[color:var(--sage-deep)] text-white border-2 border-[color:var(--sage-deep)] ring-1 ring-white font-semibold text-sm transition-all"
+              >
+                <Icon className="size-4" strokeWidth={2.2} />
+                <span>{item.label}</span>
+              </Link>
+            );
+          }
+
+          return (
+            <Link
+              key={item.to}
+              to={item.to}
+              className={cn(
+                "relative size-10 flex items-center justify-center rounded-full text-[color:var(--sage-deep)] transition-colors",
+              )}
+            >
+              <Icon className="size-[18px]" strokeWidth={2} />
+              {showDot && (
+                <span className="absolute top-0.5 right-0.5 size-2 rounded-full bg-[color:var(--ember)] ring-2 ring-white" />
+              )}
+            </Link>
+          );
+        })}
+      </nav>
+    </div>
   );
 }

@@ -76,8 +76,8 @@ function CoachPage() {
               >
                 <X size={16} />
               </button>
-              <h2 className="font-display text-[20px] font-semibold mb-1" style={{ color: "var(--color-text-dark)" }}>Daily check-in</h2>
-              <p className="text-[13px] mb-5" style={{ color: "#3d6058" }}>
+              <h2 className="font-display text-[20px] font-semibold mb-1" style={{ color: "var(--foreground)" }}>Daily check-in</h2>
+              <p className="text-[13px] mb-5 text-white/70" >
                 5 quick taps. Your plan adapts to your answers.
               </p>
               <div className="space-y-4">
@@ -173,8 +173,7 @@ function CoachPage() {
                     </div>
                     <button
                       onClick={() => setExpanded(isOpen ? null : ex.id)}
-                      className="w-8 h-8 grid place-items-center rounded-lg"
-                      style={{ color: "#6e9e96" }}
+                      className="w-8 h-8 grid place-items-center rounded-lg text-white/60" 
                       onMouseEnter={(e) => (e.currentTarget.style.background = "#f0f5f2")}
                       onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                       aria-label="Details"
@@ -193,7 +192,7 @@ function CoachPage() {
                         exit={{ height: 0 }}
                         className="overflow-hidden"
                       >
-                         <div className="px-4 pb-4 pl-[52px] text-[13px]" style={{ color: "#3d6058" }}>
+                         <div className="px-4 pb-4 pl-[52px] text-[13px] text-white/70" >
                           <p className="italic mb-2">{ex.tip}</p>
                           <p>{ex.instructions}</p>
                         </div>

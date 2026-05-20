@@ -4,7 +4,7 @@ import { SideNav } from "./SideNav";
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-dvh text-foreground">
+    <div className="app-stage min-h-dvh text-white">
       <SideNav />
       <main className="lg:pl-[280px] pb-24 lg:pb-0 min-h-dvh">{children}</main>
       <BottomNav />

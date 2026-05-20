@@ -33,7 +33,7 @@ function CreateEvent() {
   };
 
   return (
-    <div className="min-h-dvh bg-background">
+    <AppShell>
       <PageHeader title="Create event" back="/community" />
       <div className="px-4 lg:px-8 py-6 max-w-2xl mx-auto pb-12 space-y-6">
         <Section label="Basics">
@@ -72,14 +72,14 @@ function CreateEvent() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setCap(Math.max(2, cap - 1))}
-                className="w-11 h-11 rounded-xl border border-border grid place-items-center hover:bg-surface-3 active:scale-90"
+                className="w-11 h-11 rounded-xl border border-[rgba(0,0,0,0.1)] grid place-items-center hover:bg-[rgba(255,255,255,0.4)] text-[var(--foreground)] active:scale-90"
               >
                 <Minus size={14} />
               </button>
-              <div className="flex-1 text-center text-[24px] font-bold text-text-1 tabular">{cap}</div>
+              <div className="flex-1 text-center text-[24px] font-bold text-[var(--foreground)] tabular">{cap}</div>
               <button
                 onClick={() => setCap(cap + 1)}
-                className="w-11 h-11 rounded-xl border border-border grid place-items-center hover:bg-surface-3 active:scale-90"
+                className="w-11 h-11 rounded-xl border border-[rgba(0,0,0,0.1)] grid place-items-center hover:bg-[rgba(255,255,255,0.4)] text-[var(--foreground)] active:scale-90"
               >
                 <Plus size={14} />
               </button>
@@ -96,10 +96,10 @@ function CreateEvent() {
                   key={t}
                   onClick={() => setTags(active ? tags.filter((x) => x !== t) : [...tags, t])}
                   className={cn(
-                    "px-4 py-2 rounded-full text-sm font-medium border-2 transition-all active:scale-95",
+                    "px-4 py-2 rounded-full text-sm font-semibold border transition-all active:scale-95",
                     active
-                      ? "bg-primary-light border-primary text-primary"
-                      : "bg-surface border-border",
+                      ? "bg-[rgba(26,61,53,0.15)] border-[#1a3d35] text-[#1a3d35]"
+                      : "bg-[rgba(255,255,255,0.45)] border-[rgba(255,255,255,0.6)] text-[var(--foreground)]",
                   )}
                 >
                   {t}
@@ -120,7 +120,7 @@ function CreateEvent() {
           <button
             onClick={generate}
             disabled={generating}
-            className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline disabled:opacity-50"
+            className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-[#1a3d35] hover:underline disabled:opacity-50"
           >
             {generating ? <Loader2 className="animate-spin" size={14} /> : <Sparkles size={14} />}
             {generating ? "Generating..." : "Generate with AI"}
@@ -131,24 +131,24 @@ function CreateEvent() {
           <button
             onClick={() => navigate({ to: "/community" })}
             disabled={!name || !date || !location}
-            className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-semibold disabled:bg-surface-3 disabled:text-text-3 hover:opacity-90 active:scale-[0.98] transition-all"
+            className="w-full h-[52px] rounded-full bg-[#1a3d35] text-white font-bold disabled:opacity-50 hover:opacity-90 active:scale-[0.98] transition-all"
           >
             Publish event
           </button>
-          <button className="w-full text-center text-sm text-text-2 hover:text-text-1">
+          <button className="w-full text-center text-sm font-semibold text-[var(--foreground)] opacity-70 hover:opacity-100">
             Save as draft
           </button>
         </div>
       </div>
-      <style>{`.input{width:100%;background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:12px 16px;font-size:14px;outline:none}.input:focus{border-color:var(--color-primary)}`}</style>
-    </div>
+      <style>{`.input{width:100%;background:rgba(255,255,255,0.45);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.6);border-radius:16px;padding:12px 16px;font-size:14px;font-weight:500;outline:none;color:var(--foreground);box-shadow:var(--shadow-glass)}.input::placeholder{color:var(--foreground);opacity:0.5}.input:focus{border-color:#1a3d35}`}</style>
+    </AppShell>
   );
 }
 
 function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <h2 className="text-xs font-bold uppercase tracking-widest text-text-2 mb-3">{label}</h2>
+      <h2 className="text-xs font-bold uppercase tracking-widest text-[#0f2420] opacity-60 mb-3">{label}</h2>
       <div className="space-y-3">{children}</div>
     </div>
   );
@@ -157,7 +157,7 @@ function Section({ label, children }: { label: string; children: React.ReactNode
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-sm font-medium mb-1.5">{label}</label>
+      <label className="block text-sm font-semibold text-[#0f2420] mb-1.5">{label}</label>
       {children}
     </div>
   );

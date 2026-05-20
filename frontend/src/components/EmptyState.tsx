@@ -15,7 +15,7 @@ export function EmptyState({
     <div className="text-center py-12 px-6">
       {icon && <div className="mx-auto mb-4">{icon}</div>}
       <h3 className="font-semibold text-base">{title}</h3>
-      {description && <p className="text-sm text-text-2 mt-1.5 max-w-sm mx-auto">{description}</p>}
+      {description && <p className="text-sm opacity-70 mt-1.5 max-w-sm mx-auto">{description}</p>}
       {action && <div className="mt-5 flex justify-center">{action}</div>}
     </div>
   );

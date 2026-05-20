@@ -34,7 +34,7 @@ function Dashboard() {
               {greet}, <strong style={{ fontWeight: 700 }}>{currentUser.name}!</strong><br />
               <span className="opacity-90 text-[clamp(18px,3vw,24px)]">here's your health snapshot for today.</span>
             </h1>
-            <p className="text-[13px] mt-2 font-medium" style={{ color: "rgba(255, 255, 255, 0.7)" }}>Today is 01 November 2025</p>
+            <p className="text-[13px] mt-2 font-medium text-white/70" >Today is 01 November 2025</p>
           </div>
         </div>
 
@@ -59,8 +59,8 @@ function Dashboard() {
                   <Zap size={18} />
                 </div>
                 <div className="flex-1">
-                  <div className="font-display text-[14px] font-semibold" style={{ color: "#0f2420" }}>How are you feeling today?</div>
-                  <div className="text-[12px]" style={{ color: "#6e9e96" }}>Quick check-in helps tune your plan</div>
+                  <div className="font-display text-[14px] font-semibold text-[var(--foreground)]" >How are you feeling today?</div>
+                  <div className="text-[12px] text-[var(--foreground)] opacity-70" >Quick check-in helps tune your plan</div>
                 </div>
                 <Link
                   to="/coach"
@@ -88,38 +88,68 @@ function Dashboard() {
               className="card-frosted-light p-4 flex items-start gap-3"
             >
               <div className="flex-1">
-                <div className="font-display text-[14px] font-semibold" style={{ color: "#ffffff" }}>You've been here 30 days</div>
-                <div className="text-[12px] mt-0.5" style={{ color: "rgba(255,255,255,0.8)" }}>
+                <div className="font-display text-[14px] font-semibold text-[var(--foreground)]" >You've been here 30 days</div>
+                <div className="text-[12px] mt-0.5 text-[var(--foreground)] opacity-80" >
                   Your fitness profile might have changed. Let's see if your recommendations still fit.
                 </div>
                 <Link
                   to="/onboarding/reassess"
-                  className="inline-block mt-2 text-[13px] font-semibold hover:underline"
-                  style={{ color: "#ffffff" }}
+                  className="inline-block mt-2 text-[13px] font-semibold hover:underline text-[var(--foreground)]" 
                 >
                   Retake sport quiz →
                 </Link>
               </div>
             </motion.div>
 
-            {/* Today's Workout */}
+
+
+            {/* Quick stats */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.28 }}
+              className="grid grid-cols-3 gap-3"
+            >
+              <Stat
+                icon={<Flame size={16} />}
+                label="Streak"
+                value={`${currentUser.bestStreak}d`}
+                accentBg="#ddeee8"
+                accentColor="#1a3d35"
+              />
+              <Stat
+                icon={<Activity size={16} />}
+                label="This week"
+                value="3 / 4"
+                accentBg="rgba(244,124,60,0.12)"
+                accentColor="#f47c3c"
+              />
+              <Stat
+                icon={<Award size={16} />}
+                label="Last score"
+                value={String(lastScore)}
+                accentBg="rgba(244,124,60,0.12)"
+                accentColor="#f47c3c"
+              />
+            </motion.div>
+
+            {/* Today's Workout */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.35 }}
               className="card-frosted p-5 lg:p-6"
             >
               <div className="flex items-center gap-2 mb-3">
                 <span
-                  className="text-[10px] font-semibold uppercase tracking-[0.12em]"
-                  style={{ color: "#6e9e96" }}
+                  className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--foreground)] opacity-70" 
                 >
                   Today's plan
                 </span>
                 <span className="h-px flex-1" style={{ background: "rgba(0,0,0,0.08)" }} />
-                <span className="text-[12px] tabular" style={{ color: "#3d6058" }}>{todayWorkout.duration} min</span>
+                <span className="text-[12px] tabular text-[var(--foreground)] opacity-80" >{todayWorkout.duration} min</span>
               </div>
-              <h2 className="text-[24px] font-display font-semibold mb-3" style={{ color: "#0f2420" }}>{todayWorkout.title}</h2>
+              <h2 className="text-[24px] font-display font-semibold mb-3 text-[var(--foreground)]" >{todayWorkout.title}</h2>
               <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-1 px-1 mb-5">
                 {todayWorkout.exercises.map((e) => (
                   <span
@@ -148,36 +178,6 @@ function Dashboard() {
               </Link>
             </motion.div>
 
-            {/* Quick stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.35 }}
-              className="grid grid-cols-3 gap-3"
-            >
-              <Stat
-                icon={<Flame size={16} />}
-                label="Streak"
-                value={`${currentUser.bestStreak}d`}
-                accentBg="#ddeee8"
-                accentColor="#1a3d35"
-              />
-              <Stat
-                icon={<Activity size={16} />}
-                label="This week"
-                value="3 / 4"
-                accentBg="rgba(244,124,60,0.12)"
-                accentColor="#f47c3c"
-              />
-              <Stat
-                icon={<Award size={16} />}
-                label="Last score"
-                value={String(lastScore)}
-                accentBg="rgba(244,124,60,0.12)"
-                accentColor="#f47c3c"
-              />
-            </motion.div>
-
             {/* Coach preview */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
@@ -192,14 +192,14 @@ function Dashboard() {
                 >
                   M
                 </div>
-                <span className="text-[12px] font-medium" style={{ color: "#0f2420" }}>MORF Coach</span>
-                <span className="ml-auto text-[11px]" style={{ color: "#6e9e96" }}>just now</span>
+                <span className="text-[12px] font-semibold text-[var(--foreground)]" >MORF Coach</span>
+                <span className="ml-auto text-[11px] text-[var(--foreground)] opacity-60" >just now</span>
               </div>
-              <p className="text-[13px] line-clamp-2 mb-3" style={{ color: "#3d6058" }}>{lastChat.text}</p>
+              <p className="text-[13px] line-clamp-2 mb-3 text-[var(--foreground)] opacity-80 font-medium" >{lastChat.text}</p>
               <Link
                 to="/coach/chat"
-                className="text-[13px] font-semibold inline-flex items-center gap-1 hover:gap-2 transition-all"
-                style={{ color: "#1a3d35" }}
+                className="text-[13px] font-bold inline-flex items-center gap-1 hover:gap-2 transition-all"
+                style={{ color: "#f47c3c" }}
               >
                 <MessageCircle size={14} /> Reply
               </Link>
@@ -209,11 +209,10 @@ function Dashboard() {
           {/* Sidebar / Events */}
           <div className="mt-6 lg:mt-0 lg:sticky lg:top-8">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-display text-[16px] font-semibold" style={{ color: "#ffffff" }}>Events near you</h2>
+              <h2 className="font-display text-[16px] font-semibold text-white" >Events near you</h2>
               <Link
                 to="/community"
-                className="text-[12px] flex items-center gap-1 hover:opacity-75"
-                style={{ color: "rgba(255,255,255,0.8)" }}
+                className="text-[12px] flex items-center gap-1 hover:opacity-75 text-white/80" 
               >
                 See all <ChevronRight size={12} />
               </Link>
