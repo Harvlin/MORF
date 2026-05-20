@@ -39,7 +39,7 @@ function Reassess() {
             <div className="text-xs uppercase tracking-widest text-text-2 mb-1">
               You started with
             </div>
-            <div className="text-2xl font-semibold flex items-center justify-center gap-2">
+            <div className="text-[24px] font-bold text-text-1 flex items-center justify-center gap-2">
               <span className="w-9 h-9 rounded-full bg-surface-3 border border-border text-[11px] font-semibold grid place-items-center text-text-2">
                 {getInitials("Badminton")}
               </span>

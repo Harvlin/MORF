@@ -20,7 +20,7 @@ function AchievementsPage() {
       />
       <div className="px-4 lg:px-8 py-6 max-w-3xl mx-auto pb-12">
         <div className="mb-6">
-          <div className="h-2 bg-surface-3 rounded-full overflow-hidden">
+          <div className="h-1 bg-surface-3 rounded-full overflow-hidden">
             <div
               className="h-full bg-primary transition-all duration-700"
               style={{ width: `${pct}%` }}

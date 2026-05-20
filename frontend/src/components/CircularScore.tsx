@@ -34,7 +34,7 @@ export function CircularScore({
           cx={size / 2}
           cy={size / 2}
           r={r}
-          stroke="var(--color-surface-3)"
+          stroke="#e2ece7"
           strokeWidth={10}
           fill="none"
         />
@@ -42,7 +42,7 @@ export function CircularScore({
           cx={size / 2}
           cy={size / 2}
           r={r}
-          stroke="var(--color-primary)"
+          stroke="#f47c3c"
           strokeWidth={10}
           fill="none"
           strokeLinecap="round"
@@ -53,8 +53,17 @@ export function CircularScore({
       </svg>
       <div className="absolute inset-0 grid place-items-center">
         <div className="text-center">
-          <div className="text-5xl font-semibold tabular">{animated}</div>
-          {label && <div className="text-xs text-text-2 mt-1">{label}</div>}
+          <div
+            className="tabular"
+            style={{ fontSize: "40px", fontWeight: 800, color: "#0f2420" }}
+          >
+            {animated}
+          </div>
+          {label && (
+            <div style={{ fontSize: "12px", color: "#6e9e96", marginTop: "4px" }}>
+              {label}
+            </div>
+          )}
         </div>
       </div>
     </div>

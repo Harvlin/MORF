@@ -17,7 +17,7 @@ export function NudgeBanner() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="bg-surface border border-border rounded-2xl p-4 flex gap-3 items-start shadow-[var(--shadow-soft)]"
+          className="card-frosted p-4 flex gap-3 items-start"
         >
           <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground grid place-items-center shrink-0">
             <Flame size={16} aria-hidden="true" />

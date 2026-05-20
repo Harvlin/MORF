@@ -290,7 +290,7 @@ function RestRing({ seconds, total }: { seconds: number; total: number }) {
           cx={110}
           cy={110}
           r={r}
-          stroke="var(--color-surface-3)"
+          stroke="#e2ece7"
           strokeWidth={8}
           fill="none"
         />
@@ -298,7 +298,7 @@ function RestRing({ seconds, total }: { seconds: number; total: number }) {
           cx={110}
           cy={110}
           r={r}
-          stroke="var(--color-primary)"
+          stroke="#f47c3c"
           strokeWidth={8}
           fill="none"
           strokeLinecap="round"
@@ -307,7 +307,7 @@ function RestRing({ seconds, total }: { seconds: number; total: number }) {
           style={{ transition: "stroke-dashoffset 1s linear" }}
         />
       </svg>
-      <div className="text-6xl font-semibold tabular">{seconds}</div>
+      <div className="text-[56px] font-extrabold tabular text-text-1">{seconds}</div>
     </div>
   );
 }

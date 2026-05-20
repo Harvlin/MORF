@@ -23,7 +23,7 @@ function EventDetail() {
           <ChevronLeft size={20} />
         </Link>
         <div className="absolute right-6 top-1/2 -translate-y-1/2" aria-hidden>
-          <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-surface/80 border border-border text-xl lg:text-2xl font-semibold grid place-items-center text-text-2">
+          <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-surface/80 border border-border text-xl lg:text-[24px] font-bold text-text-1 grid place-items-center text-text-2">
             {getInitials(event.sport)}
           </div>
         </div>

@@ -60,13 +60,13 @@ function AnalysisPage() {
     <AppShell>
       <div className="px-4 lg:px-8 py-5 lg:py-8 max-w-3xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-3xl lg:text-4xl font-semibold leading-tight">Movement analysis</h1>
+          <h1 className="text-[24px] font-bold text-text-1 leading-tight">Movement analysis</h1>
           <p className="text-text-2 text-sm mt-1">
             Upload a short video and get instant AI feedback on your technique.
           </p>
         </div>
 
-        <div className="mb-6 bg-surface border border-border rounded-3xl p-5 shadow-[var(--shadow-soft)]">
+        <div className="card-frosted mb-6 p-5">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-sm font-semibold">Pick a movement</h2>
             <span className="text-[10px] uppercase tracking-widest text-text-3">Select one</span>
@@ -79,38 +79,42 @@ function AnalysisPage() {
                   key={ex.id}
                   onClick={() => setExercise(ex.id)}
                   className={cn(
-                    "group relative rounded-2xl border text-left transition-all bg-surface p-4 min-w-[220px] sm:min-w-0",
-                    active
-                      ? "bg-primary-light border-primary shadow-[var(--shadow-soft)]"
-                      : "border-border hover:border-border-strong hover:shadow-[var(--shadow-soft)]"
+                    "group relative rounded-2xl text-left transition-all p-4 min-w-[220px] sm:min-w-0"
                   )}
+                  style={{
+                    background: active ? "#ffffff" : "#ffffff",
+                    border: active ? "2px solid #1a3d35" : "0.5px solid rgba(0,0,0,0.07)",
+                    boxShadow: active ? "0 2px 12px rgba(0,0,0,0.07)" : "0 2px 12px rgba(0,0,0,0.07)",
+                    borderRadius: "16px",
+                  }}
                 >
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
                       <span
                         className={cn(
-                          "w-9 h-9 rounded-xl border grid place-items-center text-[11px] font-semibold",
-                          active
-                            ? "bg-white text-primary border-primary/30"
-                            : "bg-surface-3 text-text-2 border-border"
+                          "w-9 h-9 rounded-xl border grid place-items-center text-[11px] font-semibold"
                         )}
+                        style={{
+                          background: active ? "#1a3d35" : "#e2ece7",
+                          color: active ? "#ffffff" : "#4a6b62",
+                          border: active ? "1px solid #1a3d35" : "1px solid rgba(0,0,0,0.07)",
+                        }}
                       >
                         {getInitials(ex.label)}
                       </span>
                       <div className="font-semibold text-sm">{ex.label}</div>
                     </div>
                     <span
-                      className={cn(
-                        "text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-full",
-                        active
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-surface-3 text-text-3"
-                      )}
+                      className="text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-full"
+                      style={{
+                        background: active ? "#1a3d35" : "#e2ece7",
+                        color: active ? "#ffffff" : "#4a6b62",
+                      }}
                     >
                       {active ? "Selected" : "Ready"}
                     </span>
                   </div>
-                  <div className="mt-3 text-[11px] text-text-2 uppercase tracking-wider">
+                  <div className="mt-3 text-[11px] uppercase tracking-wider" style={{ color: "#6e9e96" }}>
                     {ex.focus}
                   </div>
                 </button>
@@ -121,7 +125,12 @@ function AnalysisPage() {
             {lockedExercises.map((ex) => (
               <div
                 key={ex.id}
-                className="p-4 rounded-2xl bg-surface-2 text-text-3 border border-dashed border-border-strong min-w-[200px] sm:min-w-0"
+                className="p-4 rounded-2xl min-w-[200px] sm:min-w-0"
+                style={{
+                  background: "#f0f5f2",
+                  border: "1px dashed rgba(0,0,0,0.10)",
+                  color: "#6e9e96",
+                }}
               >
                 <div className="flex items-center gap-2 mb-2 text-[10px] font-semibold uppercase tracking-wider">
                   <Lock size={12} /> Coming soon
@@ -132,7 +141,7 @@ function AnalysisPage() {
           </div>
         </div>
 
-        <div className="mb-4 bg-surface border border-border rounded-3xl p-5">
+        <div className="card-frosted mb-4 p-5">
           <h2 className="text-sm font-semibold mb-3">Upload video</h2>
           <input
             ref={inputRef}
@@ -144,13 +153,22 @@ function AnalysisPage() {
           <button
             onClick={() => inputRef.current?.click()}
             className={cn(
-              "w-full h-52 rounded-2xl border-2 border-dashed grid place-items-center transition-colors text-center px-4",
-              file ? "border-primary bg-primary-light" : "border-border hover:border-text-3"
+              "w-full rounded-2xl border-2 border-dashed grid place-items-center transition-colors text-center px-4 py-12"
             )}
+            style={{
+              borderColor: file ? "#1a3d35" : "rgba(0,0,0,0.12)",
+              background: file ? "#f0f5f2" : "#ffffff",
+              borderRadius: "16px",
+            }}
+            onMouseEnter={(e) => { if (!file) { e.currentTarget.style.borderColor = "#1a3d35"; e.currentTarget.style.background = "#f7faf9"; }}}
+            onMouseLeave={(e) => { if (!file) { e.currentTarget.style.borderColor = "rgba(0,0,0,0.12)"; e.currentTarget.style.background = "#ffffff"; }}}
           >
             {file ? (
               <div>
-                <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-primary text-primary-foreground grid place-items-center">
+                <div
+                  className="w-12 h-12 mx-auto mb-3 rounded-xl grid place-items-center"
+                  style={{ background: "#1a3d35", color: "#ffffff" }}
+                >
                   <Play size={16} />
                 </div>
                 <div className="font-semibold text-sm truncate max-w-xs">{file.name}</div>
@@ -160,7 +178,7 @@ function AnalysisPage() {
               </div>
             ) : (
               <div>
-                <UploadCloud className="mx-auto mb-3 text-text-2" size={36} />
+                <UploadCloud className="mx-auto mb-3" size={36} style={{ color: "#6e9e96" }} />
                 <div className="font-semibold">Tap to choose video</div>
                 <div className="text-xs text-text-2 mt-1">or drag and drop here</div>
               </div>
@@ -170,7 +188,8 @@ function AnalysisPage() {
             {["MP4", "Max 30 sec", "50MB"].map((s) => (
               <span
                 key={s}
-                className="text-[10px] bg-surface-3 px-2.5 py-1 rounded-full font-medium tracking-wide text-text-2 uppercase"
+                className="text-[10px] font-medium tracking-wide uppercase"
+                style={{ background: "#e2ece7", color: "#3d6058", padding: "4px 10px", borderRadius: "9999px" }}
               >
                 {s}
               </span>
@@ -178,7 +197,7 @@ function AnalysisPage() {
           </div>
         </div>
 
-        <div className="mb-6 bg-surface border border-border rounded-2xl overflow-hidden">
+        <div className="card-frosted mb-6 overflow-hidden">
           <button
             onClick={() => setTipsOpen((o) => !o)}
             className="w-full flex items-center justify-between p-4 hover:bg-surface-3"
@@ -207,14 +226,27 @@ function AnalysisPage() {
           onClick={handleAnalyze}
           disabled={!canAnalyze}
           className={cn(
-            "w-full h-13 py-4 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 relative overflow-hidden",
-            canAnalyze ? "bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.98]" : "bg-surface-3 text-text-3 cursor-not-allowed"
+            "w-full h-[52px] font-semibold text-[15px] transition-all flex items-center justify-center gap-2 relative overflow-hidden"
           )}
+          style={{
+            borderRadius: "9999px",
+            fontWeight: 700,
+            background: canAnalyze ? "#1a3d35" : "#e2ece7",
+            color: canAnalyze ? "#ffffff" : "#8aada5",
+            cursor: canAnalyze ? "pointer" : "not-allowed",
+          }}
         >
           {progress !== null ? (
             <>
-              <div className="absolute inset-0 bg-primary" style={{ width: `${progress}%`, transition: "width 0.12s linear" }} />
-              <span className="relative flex items-center gap-2 text-primary-foreground"><Loader2 className="animate-spin" size={14} /> Analyzing... {progress}%</span>
+              <div
+                className="absolute inset-0"
+                style={{ background: "#1a3d35", width: `${progress}%`, transition: "width 0.12s linear" }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: "rgba(255,255,255,0.2)", width: `${progress}%`, transition: "width 0.12s linear", mixBlendMode: "overlay" }}
+              />
+              <span className="relative flex items-center gap-2" style={{ color: "#ffffff" }}><Loader2 className="animate-spin" size={14} /> Analyzing... {progress}%</span>
             </>
           ) : "Analyze my form"}
         </button>

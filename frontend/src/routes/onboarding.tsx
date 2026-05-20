@@ -111,10 +111,10 @@ function OnboardingPage() {
   const progress = step / 4;
 
   return (
-    <div className="min-h-dvh bg-background flex flex-col">
-      <div className="h-1 bg-surface-3">
+    <div className="min-h-dvh flex flex-col text-white">
+      <div className="h-1 bg-[rgba(255,255,255,0.2)]">
         <motion.div
-          className="h-full bg-primary"
+          className="h-full bg-white"
           animate={{ width: `${progress * 100}%` }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         />
@@ -124,7 +124,7 @@ function OnboardingPage() {
         {step > 1 && step < 4 ? (
           <button
             onClick={back}
-            className="w-10 h-10 grid place-items-center rounded-lg hover:bg-surface-3"
+            className="w-10 h-10 grid place-items-center rounded-lg hover:bg-[rgba(255,255,255,0.1)]"
             aria-label="Back"
           >
             <ChevronLeft size={20} />
@@ -133,7 +133,7 @@ function OnboardingPage() {
           <div className="w-10" />
         )}
         {step === 1 && (
-          <Link to="/dashboard" className="text-sm text-text-2 hover:text-text-1">
+          <Link to="/dashboard" className="text-sm text-[rgba(255,255,255,0.7)] hover:text-white">
             Skip
           </Link>
         )}
@@ -145,7 +145,7 @@ function OnboardingPage() {
             {step === 1 && !loading && !showResult && (
               <motion.div key="s1" {...slide(direction)}>
                 <h1 className="text-3xl sm:text-4xl font-semibold mb-2">What brings you here?</h1>
-                <p className="text-text-2 mb-8">
+                <p className="text-[rgba(255,255,255,0.8)] mb-8">
                   Pick everything that applies. We'll personalize from here.
                 </p>
                 <div className="grid grid-cols-2 gap-3">
@@ -163,16 +163,19 @@ function OnboardingPage() {
                           })
                         }
                         className={cn(
-                          "p-4 rounded-2xl border-2 text-left transition-all active:scale-[0.97]",
+                          "p-5 rounded-[28px] border text-left transition-all active:scale-[0.97]",
                           active
-                            ? "bg-primary-light border-primary"
-                            : "bg-surface border-border hover:border-text-3",
+                            ? "bg-white text-[#1a3d35] border-white shadow-[0_8px_32px_rgba(0,0,0,0.15)]"
+                            : "bg-[rgba(255,255,255,0.6)] text-[#0f2420] border-transparent hover:bg-[rgba(255,255,255,0.75)] backdrop-blur-md",
                         )}
                       >
-                        <div className="w-9 h-9 rounded-xl bg-surface-3 text-text-1 grid place-items-center mb-2">
+                        <div className={cn(
+                          "w-9 h-9 rounded-xl grid place-items-center mb-2 transition-colors",
+                          active ? "bg-[#f0f5f2] text-[#1a3d35]" : "bg-[rgba(255,255,255,0.4)] text-[#1a3d35]"
+                        )}>
                           <Icon size={18} />
                         </div>
-                        <div className="font-medium text-sm leading-tight">{g.label}</div>
+                        <div className="font-semibold text-[15px] leading-tight">{g.label}</div>
                       </button>
                     );
                   })}
@@ -182,7 +185,7 @@ function OnboardingPage() {
 
             {step === 2 && (
               <motion.div key="s2" {...slide(direction)} className="space-y-7">
-                <h1 className="text-3xl sm:text-4xl font-semibold">Tell us about yourself</h1>
+                <h1 className="text-3xl sm:text-4xl font-semibold mb-2 text-white">Tell us about yourself</h1>
                 <Pills
                   label="Fitness level"
                   options={fitnessLevels}
@@ -202,7 +205,7 @@ function OnboardingPage() {
                   onChange={(v) => setOnboarding({ timePerWeek: v })}
                 />
                 <div>
-                  <div className="text-sm font-medium mb-3">How do you feel about exercise?</div>
+                  <div className="text-sm font-medium mb-3 text-white">How do you feel about exercise?</div>
                   <div className="grid grid-cols-5 gap-2">
                     {confidenceLevels.map((c) => {
                       const active = onboarding.confidence === c.value;
@@ -213,12 +216,12 @@ function OnboardingPage() {
                           className={cn(
                             "flex flex-col items-center justify-center gap-1 h-14 rounded-xl border-2 transition-all active:scale-95",
                             active
-                              ? "bg-primary-light border-primary"
-                              : "bg-surface border-border hover:border-text-3",
+                              ? "bg-white text-[#1a3d35] border-white shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
+                              : "bg-[rgba(255,255,255,0.4)] text-white border-transparent hover:bg-[rgba(255,255,255,0.6)] backdrop-blur-md",
                           )}
                         >
-                          <span className="text-sm font-semibold text-text-1">{c.value}</span>
-                          <span className="text-[10px] text-text-2 leading-tight">{c.label}</span>
+                          <span className={cn("text-sm font-semibold", active ? "text-[#1a3d35]" : "text-white")}>{c.value}</span>
+                          <span className={cn("text-[10px] leading-tight", active ? "text-[#1a3d35]" : "text-[rgba(255,255,255,0.8)]")}>{c.label}</span>
                         </button>
                       );
                     })}
@@ -230,11 +233,11 @@ function OnboardingPage() {
             {step === 3 && (
               <motion.div key="s3" {...slide(direction)} className="space-y-7">
                 <div>
-                  <h1 className="text-3xl sm:text-4xl font-semibold">We want to get this right</h1>
-                  <p className="text-text-2 mt-2">This helps us personalize your experience.</p>
+                  <h1 className="text-3xl sm:text-4xl font-semibold text-white">We want to get this right</h1>
+                  <p className="text-[rgba(255,255,255,0.8)] mt-2">This helps us personalize your experience.</p>
                 </div>
                 <div>
-                  <div className="text-sm font-medium mb-3">Any physical considerations?</div>
+                  <div className="text-sm font-medium mb-3 text-white">Any physical considerations?</div>
                   <div className="flex flex-wrap gap-2">
                     {physicalOptions.map((p) => {
                       const active = onboarding.physical.includes(p);
@@ -251,8 +254,8 @@ function OnboardingPage() {
                           className={cn(
                             "px-4 py-2 rounded-full border-2 text-sm font-medium transition-all active:scale-95",
                             active
-                              ? "bg-primary-light border-primary text-primary"
-                              : "bg-surface border-border",
+                              ? "bg-white border-white text-[#1a3d35] shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
+                              : "bg-[rgba(255,255,255,0.4)] border-transparent text-white backdrop-blur-md",
                           )}
                         >
                           {p}
@@ -269,7 +272,7 @@ function OnboardingPage() {
                   onChange={(v) => setOnboarding({ social: v })}
                 />
                 <div>
-                  <label className="text-sm font-medium mb-2 block">
+                  <label className="text-sm font-medium mb-2 block text-white">
                     Anything else we should know?
                   </label>
                   <textarea
@@ -277,7 +280,7 @@ function OnboardingPage() {
                     value={onboarding.notes}
                     onChange={(e) => setOnboarding({ notes: e.target.value })}
                     rows={3}
-                    className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm resize-none focus:outline-none focus:border-primary"
+                    className="w-full bg-[rgba(255,255,255,0.4)] text-[#0f2420] border border-transparent rounded-xl px-4 py-3 text-sm resize-none focus:outline-none focus:bg-white placeholder-[rgba(15,36,32,0.5)] transition-colors backdrop-blur-md"
                   />
                 </div>
               </motion.div>
@@ -317,10 +320,10 @@ function OnboardingPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <h1 className="text-3xl sm:text-4xl font-semibold mb-2">
+                <h1 className="text-3xl sm:text-4xl font-semibold mb-2 text-white">
                   Here's what we think you'll love
                 </h1>
-                <p className="text-text-2 mb-8">Three sports tuned to your answers.</p>
+                <p className="text-[rgba(255,255,255,0.8)] mb-8">Three sports tuned to your answers.</p>
                 <div className="space-y-3 mb-8">
                   {sportRecommendations.map((sport) => (
                     <SportRecCard
@@ -334,12 +337,12 @@ function OnboardingPage() {
                   ))}
                 </div>
                 <div className="mb-6">
-                  <h3 className="font-semibold mb-3">Your 4-week starter plan</h3>
+                  <h3 className="font-semibold mb-3 text-white">Your 4-week starter plan</h3>
                   <div className="flex gap-3 overflow-x-auto no-scrollbar -mx-5 px-5 pb-2">
                     {[1, 2, 3, 4].map((w) => (
                       <div
                         key={w}
-                        className="shrink-0 w-44 bg-surface border border-border rounded-2xl p-4"
+                        className="card-frosted shrink-0 w-44 p-4"
                       >
                         <div className="text-xs text-text-2 uppercase tracking-wider mb-1">
                           Week {w}
@@ -363,7 +366,7 @@ function OnboardingPage() {
                 </div>
                 <button
                   onClick={() => navigate({ to: "/dashboard" })}
-                  className="text-sm text-text-2 hover:text-text-1 underline underline-offset-4 block mx-auto"
+                  className="text-sm text-[rgba(255,255,255,0.7)] hover:text-white underline underline-offset-4 block mx-auto"
                 >
                   I'll decide later
                 </button>
@@ -374,16 +377,16 @@ function OnboardingPage() {
       </div>
 
       {!loading && !showResult && (
-        <div className="sticky bottom-0 bg-background/95 backdrop-blur border-t border-border px-5 py-4">
+        <div className="sticky bottom-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-xl border-t border-[rgba(255,255,255,0.2)] px-5 py-4">
           <div className="max-w-[480px] mx-auto">
             <button
               onClick={next}
               disabled={!canContinue}
               className={cn(
-                "w-full h-12 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 active:scale-[0.98]",
+                "w-full h-[52px] rounded-full font-semibold text-[15px] transition-all flex items-center justify-center gap-2 active:scale-[0.98]",
                 canContinue
-                  ? "bg-primary text-primary-foreground hover:opacity-90"
-                  : "bg-surface-3 text-text-3 cursor-not-allowed",
+                  ? "bg-white text-[#1a3d35] hover:opacity-90 shadow-lg"
+                  : "bg-[rgba(255,255,255,0.2)] text-[rgba(255,255,255,0.5)] cursor-not-allowed",
               )}
             >
               {step === 3 ? "Find my sports" : "Continue"} <ChevronRight size={16} />
@@ -426,10 +429,10 @@ function Pills({
               key={o}
               onClick={() => onChange(o)}
               className={cn(
-                "px-4 py-2 rounded-full border-2 text-sm font-medium transition-all active:scale-95",
+                "px-4 py-2 rounded-full border text-sm font-medium transition-all active:scale-95",
                 active
-                  ? "bg-primary-light border-primary text-primary"
-                  : "bg-surface border-border hover:border-text-3",
+                  ? "bg-white border-white text-[#1a3d35] shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
+                  : "bg-[rgba(255,255,255,0.4)] border-transparent text-white hover:bg-[rgba(255,255,255,0.6)] backdrop-blur-md",
               )}
             >
               {o}
@@ -450,7 +453,7 @@ function SportRecCard({
 }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="bg-surface border border-border rounded-2xl p-5">
+    <div className="card-frosted p-5">
       <div className="flex items-start justify-between gap-3 mb-2">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
@@ -460,11 +463,11 @@ function SportRecCard({
             >
               {getInitials(sport.name)}
             </span>
-            <h3 className="text-2xl font-semibold">{sport.name}</h3>
+            <h3 className="text-[24px] font-bold text-text-1">{sport.name}</h3>
           </div>
           <p className="text-sm italic text-text-2">{sport.reason}</p>
         </div>
-        <span className="text-[10px] font-semibold bg-secondary-light text-secondary px-2 py-1 rounded-full uppercase tracking-wider">
+        <span className="text-[10px] font-semibold bg-[#1a3d35] text-white px-2 py-1 rounded-full uppercase tracking-wider">
           {sport.difficulty}
         </span>
       </div>
@@ -553,7 +556,7 @@ function ConditionDetailCards({ selected }: { selected: string[] }) {
             const d = details[c] ?? {};
             const selectedSubs = (d.details?.values as string[]) ?? [];
             return (
-              <div key={c} className="border border-border rounded-xl p-4 mb-3 bg-surface">
+              <div key={c} className="card-frosted p-4 mb-3">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-text-2">
                     <Icon size={16} />
@@ -579,8 +582,8 @@ function ConditionDetailCards({ selected }: { selected: string[] }) {
                               className={cn(
                                 "px-3 py-1.5 rounded-full text-xs font-medium border transition-all",
                                 active
-                                  ? "bg-primary-light border-primary text-primary"
-                                  : "bg-surface-2 border-border text-text-2 hover:border-text-3",
+                                  ? "bg-[#1a3d35] border-transparent text-white"
+                                  : "bg-[rgba(255,255,255,0.4)] border-transparent text-[#0f2420] hover:bg-[rgba(255,255,255,0.6)]",
                               )}
                             >
                               {o}
@@ -593,7 +596,7 @@ function ConditionDetailCards({ selected }: { selected: string[] }) {
                         type="text"
                         value={(d.details?.text as string) ?? ""}
                         onChange={(e) => set(c, { details: { text: e.target.value } })}
-                        className="w-full h-10 bg-surface-2 border border-border rounded-lg px-3 text-sm focus:outline-none focus:border-primary"
+                        className="w-full h-10 bg-[rgba(255,255,255,0.4)] border border-transparent rounded-lg px-3 text-sm focus:outline-none focus:bg-white text-[#0f2420] placeholder-[rgba(15,36,32,0.5)] transition-colors"
                         placeholder="e.g. right knee, ACL recovery"
                       />
                     )}
@@ -611,8 +614,8 @@ function ConditionDetailCards({ selected }: { selected: string[] }) {
                           className={cn(
                             "px-3 py-1.5 rounded-full text-xs font-medium border transition-all capitalize",
                             active
-                              ? "bg-primary-light border-primary text-primary"
-                              : "bg-surface-2 border-border text-text-2 hover:border-text-3",
+                              ? "bg-[#1a3d35] border-transparent text-white"
+                              : "bg-[rgba(255,255,255,0.4)] border-transparent text-[#0f2420] hover:bg-[rgba(255,255,255,0.6)]",
                           )}
                         >
                           {s}
@@ -626,7 +629,7 @@ function ConditionDetailCards({ selected }: { selected: string[] }) {
                   onChange={(e) => set(c, { avoidances: e.target.value })}
                   rows={2}
                   placeholder={meta.placeholder}
-                  className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm resize-none min-h-[72px] focus:outline-none focus:border-primary"
+                  className="w-full bg-[rgba(255,255,255,0.4)] border border-transparent rounded-lg px-3 py-2 text-sm resize-none min-h-[72px] focus:outline-none focus:bg-white text-[#0f2420] placeholder-[rgba(15,36,32,0.5)] transition-colors"
                 />
               </div>
             );

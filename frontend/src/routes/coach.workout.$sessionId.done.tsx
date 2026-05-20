@@ -74,7 +74,7 @@ function DonePage() {
       <div className="space-y-3 max-w-md mx-auto w-full">
         <Link
           to="/dashboard"
-          className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-semibold text-sm flex items-center justify-center hover:opacity-90 active:scale-[0.98] transition-all"
+          className="w-full h-[52px] rounded-full bg-primary text-white font-bold text-[15px] flex items-center justify-center hover:opacity-90 active:scale-[0.98] transition-all"
         >
           Save & finish
         </Link>

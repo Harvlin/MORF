@@ -59,7 +59,7 @@ function CoachPage() {
   return (
     <AppShell>
       <div className="px-4 lg:px-8 py-5 lg:py-8 max-w-4xl mx-auto pb-32">
-        <h1 className="text-3xl lg:text-4xl font-semibold mb-5">Coach</h1>
+        <h1 className="font-display text-[clamp(28px,6vw,40px)] font-bold mb-5" style={{ color: "var(--foreground)" }}>Coach</h1>
 
         <AnimatePresence>
           {showCheckin && (
@@ -67,7 +67,7 @@ function CoachPage() {
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-              className="bg-surface border border-border rounded-2xl p-5 mb-5 relative"
+              className="card-frosted p-5 mb-5 relative"
             >
               <button
                 onClick={() => setCollapsed(true)}
@@ -76,8 +76,8 @@ function CoachPage() {
               >
                 <X size={16} />
               </button>
-              <h2 className="font-semibold text-lg mb-1">Daily check-in</h2>
-              <p className="text-sm text-text-2 mb-5">
+              <h2 className="font-display text-[20px] font-semibold mb-1" style={{ color: "var(--color-text-dark)" }}>Daily check-in</h2>
+              <p className="text-[13px] mb-5" style={{ color: "#3d6058" }}>
                 5 quick taps. Your plan adapts to your answers.
               </p>
               <div className="space-y-4">
@@ -115,7 +115,8 @@ function CoachPage() {
               <button
                 onClick={() => setCheckinDone(true)}
                 disabled={Object.values(c).some((v) => v === 0)}
-                className="w-full mt-5 h-11 rounded-xl bg-primary text-primary-foreground font-semibold text-sm disabled:bg-surface-3 disabled:text-text-3 hover:opacity-90 active:scale-[0.98] transition-all"
+                className="w-full mt-5 h-12 rounded-full font-semibold text-[15px] hover:opacity-90 active:scale-[0.97] transition-all"
+                style={Object.values(c).some((v) => v === 0) ? { background: "#e2ece7", color: "#6e9e96" } : { background: "#1a3d35", color: "#ffffff" }}
               >
                 Submit check-in
               </button>
@@ -128,15 +129,15 @@ function CoachPage() {
         {/* Today's plan */}
         <div className="mb-5">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="font-semibold text-lg">Today's workout</h2>
-            <span className="text-[10px] font-semibold bg-secondary-light text-secondary px-2 py-1 rounded-full uppercase tracking-wider">
+            <h2 className="font-semibold text-lg" style={{ color: "var(--foreground)" }}>Today's workout</h2>
+            <span className="text-[10px] font-bold bg-[rgba(244,124,60,0.15)] text-[#f47c3c] px-2 py-1 rounded-full uppercase tracking-wider">
               {todayWorkout.difficulty}
             </span>
           </div>
 
           {todayWorkout.adapted && (
-            <div className="bg-primary-light border border-primary/20 rounded-xl px-4 py-2.5 flex items-center gap-2 mb-3 text-sm">
-              <Sparkles size={14} className="text-primary" /> Plan adjusted based on your check-in
+            <div className="card-teal text-white border-none rounded-xl px-4 py-3 flex items-center gap-2 mb-3 text-[13px]">
+              <Sparkles size={14} className="text-white/70" /> Plan adjusted based on your check-in
             </div>
           )}
 
@@ -147,40 +148,35 @@ function CoachPage() {
               return (
                 <div
                   key={ex.id}
-                  className={cn(
-                    "bg-surface border rounded-2xl overflow-hidden transition-all",
-                    isDone ? "border-secondary/40 bg-secondary-light/40" : "border-border",
-                  )}
+                  className="card-frosted-light overflow-hidden transition-all"
                 >
                   <div className="p-4 flex items-center gap-3">
                     <button
                       onClick={() => setDone({ ...done, [ex.id]: !isDone })}
-                      className={cn(
-                        "w-6 h-6 rounded-md border-2 grid place-items-center shrink-0 transition-all active:scale-90",
-                        isDone
-                          ? "bg-secondary border-secondary text-secondary-foreground"
-                          : "border-text-3",
-                      )}
+                      className="w-[22px] h-[22px] rounded-lg grid place-items-center shrink-0 transition-all"
+                      style={isDone
+                        ? { background: "#1a3d35", color: "#ffffff" }
+                        : { background: "#ffffff", border: "1.5px solid rgba(0,0,0,0.15)", color: "transparent" }}
                       aria-label="Mark done"
                     >
                       {isDone && <Check size={14} strokeWidth={3} />}
                     </button>
                     <div className="flex-1 min-w-0">
                       <div
-                        className={cn(
-                          "font-semibold text-sm",
-                          isDone && "line-through text-text-2",
-                        )}
+                        style={{ fontWeight: 600, fontSize: "14px", color: isDone ? "#8aada5" : "#0f2420", textDecoration: isDone ? "line-through" : "none" }}
                       >
                         {ex.name}
                       </div>
                       <div className="text-xs text-text-2">
-                        {ex.sets} sets × {ex.reps} {ex.name === "Plank" ? "sec" : "reps"}
+                        <span style={{ fontSize: "12px", color: "#3d6058", fontWeight: 500 }}>{ex.sets} sets × {ex.reps} {ex.name === "Plank" ? "sec" : "reps"}</span>
                       </div>
                     </div>
                     <button
                       onClick={() => setExpanded(isOpen ? null : ex.id)}
-                      className="w-8 h-8 grid place-items-center rounded-lg hover:bg-surface-3"
+                      className="w-8 h-8 grid place-items-center rounded-lg"
+                      style={{ color: "#6e9e96" }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = "#f0f5f2")}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                       aria-label="Details"
                     >
                       <ChevronDown
@@ -197,7 +193,7 @@ function CoachPage() {
                         exit={{ height: 0 }}
                         className="overflow-hidden"
                       >
-                        <div className="px-4 pb-4 pl-13 text-sm text-text-2">
+                         <div className="px-4 pb-4 pl-[52px] text-[13px]" style={{ color: "#3d6058" }}>
                           <p className="italic mb-2">{ex.tip}</p>
                           <p>{ex.instructions}</p>
                         </div>
@@ -210,9 +206,9 @@ function CoachPage() {
           </div>
 
           <div className="mt-4 flex items-center gap-3">
-            <div className="flex-1 h-2 bg-surface-3 rounded-full overflow-hidden">
+            <div className="flex-1 h-[3px] rounded-full overflow-hidden" style={{ background: "#e2ece7" }}>
               <motion.div
-                className="h-full bg-primary"
+                style={{ height: "100%", background: "#1a3d35" }}
                 animate={{ width: `${(completed / todayWorkout.exercises.length) * 100}%` }}
               />
             </div>
@@ -224,7 +220,8 @@ function CoachPage() {
           <Link
             to="/coach/workout/$sessionId"
             params={{ sessionId: todayWorkout.id }}
-            className="mt-5 w-full h-12 rounded-xl bg-primary text-primary-foreground font-semibold text-sm flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all"
+            className="mt-5 w-full h-12 flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.97] transition-all"
+            style={{ background: "#1a3d35", color: "#ffffff", borderRadius: "9999px", fontSize: "15px", fontWeight: 700 }}
           >
             <Play size={16} fill="currentColor" /> Enter focus mode
           </Link>
@@ -241,7 +238,8 @@ function CoachPage() {
 
       <Link
         to="/coach/chat"
-        className="fixed bottom-24 lg:bottom-8 right-4 lg:right-8 z-30 bg-primary text-primary-foreground h-12 px-5 rounded-full font-semibold text-sm flex items-center gap-2 shadow-[var(--shadow-lift)] hover:opacity-90 active:scale-95 transition-all"
+        className="fixed bottom-[88px] lg:bottom-8 right-4 lg:right-8 z-30 h-14 px-6 rounded-full font-semibold text-[15px] flex items-center gap-2 hover:opacity-90 active:scale-[0.97] transition-all"
+        style={{ background: "#1a3d35", color: "#ffffff", boxShadow: "0 4px 20px rgba(0,0,0,0.10)" }}
       >
         <MessageCircle size={16} /> Ask coach
       </Link>

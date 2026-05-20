@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronRight, Bell, RefreshCw } from "lucide-react";
-import { ResponsiveContainer, BarChart, Bar, XAxis, Tooltip } from "recharts";
+import { ResponsiveContainer, BarChart, Bar, XAxis, Tooltip, Cell } from "recharts";
 import { AppShell } from "@/components/layout/AppShell";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { BadgeCard } from "@/components/BadgeCard";
@@ -22,11 +22,11 @@ function ProfilePage() {
     <AppShell>
       <div className="px-4 lg:px-8 py-5 lg:py-8 max-w-3xl mx-auto space-y-6">
         <div className="flex items-start gap-4">
-          <div className="w-20 h-20 rounded-full bg-primary text-primary-foreground grid place-items-center text-2xl font-semibold">
+          <div className="w-20 h-20 rounded-full bg-primary text-primary-foreground grid place-items-center text-[24px] font-bold text-text-1">
             {currentUser.initials}
           </div>
           <div className="flex-1 pt-2">
-            <h1 className="text-2xl font-semibold">{currentUser.name}</h1>
+            <h1 className="text-[24px] font-bold text-text-1">{currentUser.name}</h1>
             <p className="text-xs text-text-2 mt-0.5">
               Member since April 2025 · {unlocked.length} achievements
             </p>
@@ -99,9 +99,10 @@ function ProfilePage() {
                   dataKey="week"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: "var(--color-text-2)", fontSize: 11 }}
+                  tick={{ fill: "#8aada5", fontSize: 11 }}
                 />
                 <Tooltip
+                  cursor={{ fill: "transparent" }}
                   contentStyle={{
                     background: "var(--color-surface)",
                     border: "1px solid var(--color-border)",
@@ -109,7 +110,14 @@ function ProfilePage() {
                     fontSize: 12,
                   }}
                 />
-                <Bar dataKey="sessions" fill="var(--color-primary)" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="sessions" radius={[8, 8, 0, 0]}>
+                  {weeklySessions.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={index === weeklySessions.length - 1 ? "#1a3d35" : "#e2ece7"}
+                    />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -151,9 +159,11 @@ function ProfilePage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-surface border border-border rounded-2xl p-4 text-center">
-      <div className="text-2xl font-semibold tabular">{value}</div>
-      <div className="text-[10px] uppercase tracking-wider text-text-2 mt-1">{label}</div>
+    <div
+      className="card-frosted p-4 text-center"
+    >
+      <div className="tabular" style={{ fontSize: "26px", fontWeight: 800, color: "#0f2420" }}>{value}</div>
+      <div className="uppercase tracking-[0.08em] mt-1" style={{ fontSize: "11px", color: "#6e9e96" }}>{label}</div>
     </div>
   );
 }
@@ -168,7 +178,7 @@ function Card({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-surface border border-border rounded-2xl p-5">
+    <div className="card-frosted p-5">
       <div className="flex items-center justify-between mb-4">
         <h2 className="font-semibold text-sm">{title}</h2>
         {right}

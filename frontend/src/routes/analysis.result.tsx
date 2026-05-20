@@ -21,7 +21,7 @@ function ResultPage() {
       <div className="px-4 lg:px-8 py-6 max-w-2xl mx-auto pb-12">
         <div className="flex flex-col items-center text-center mb-6">
           <CircularScore value={result.score} label="Movement Score" />
-          <div className="text-2xl font-semibold mt-5">{grade}</div>
+          <div className="text-[24px] font-bold text-text-1 mt-5">{grade}</div>
           <div className="text-xs text-text-2 mt-1.5 uppercase tracking-wider">{result.exercise} · {new Date(result.date).toLocaleDateString("en-US", { month: "long", day: "numeric" })}</div>
 
           {delta !== null && (
@@ -74,7 +74,7 @@ function ResultPage() {
           <Link to="/analysis" className="h-12 rounded-xl border border-border font-semibold text-sm grid place-items-center hover:bg-surface-3 active:scale-[0.98] transition-all">
             Analyze another
           </Link>
-          <Link to="/coach" className="h-12 rounded-xl bg-primary text-primary-foreground font-semibold text-sm grid place-items-center hover:opacity-90 active:scale-[0.98] transition-all">
+          <Link to="/coach" className="h-[52px] rounded-full bg-primary text-white font-bold text-[15px] grid place-items-center hover:opacity-90 active:scale-[0.98] transition-all">
             Go to my plan
           </Link>
         </div>

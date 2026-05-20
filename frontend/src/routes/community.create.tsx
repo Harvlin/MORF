@@ -76,7 +76,7 @@ function CreateEvent() {
               >
                 <Minus size={14} />
               </button>
-              <div className="flex-1 text-center text-2xl font-semibold tabular">{cap}</div>
+              <div className="flex-1 text-center text-[24px] font-bold text-text-1 tabular">{cap}</div>
               <button
                 onClick={() => setCap(cap + 1)}
                 className="w-11 h-11 rounded-xl border border-border grid place-items-center hover:bg-surface-3 active:scale-90"

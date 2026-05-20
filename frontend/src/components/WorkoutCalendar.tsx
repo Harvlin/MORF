@@ -102,7 +102,7 @@ export function WorkoutCalendar({
   };
 
   return (
-    <div className="bg-surface border border-border rounded-2xl p-5">
+    <div className="card-frosted p-5">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-1">
           <button
@@ -203,7 +203,7 @@ function WeekView({
             <span
               className={cn(
                 "w-full aspect-square rounded-xl flex items-center justify-center text-xs font-medium font-mono relative transition-all",
-                d.status === "done" && "bg-secondary text-secondary-foreground",
+                d.status === "done" && "bg-accent text-white shadow-sm",
                 isToday &&
                   "bg-primary text-primary-foreground ring-2 ring-primary/30 ring-offset-2 ring-offset-background",
                 d.status === "planned" &&
@@ -280,7 +280,7 @@ function MonthView({
               className={cn(
                 "aspect-square rounded-lg flex flex-col items-center justify-center gap-1 transition-colors hover:bg-surface-3 relative",
                 isToday && "bg-primary-light ring-1 ring-primary/40",
-                d.status === "done" && "bg-secondary-light",
+                d.status === "done" && "bg-[rgba(244,124,60,0.15)]",
                 isSelected && "ring-2 ring-primary/60",
               )}
             >
@@ -296,7 +296,7 @@ function MonthView({
               >
                 {dateNum}
               </span>
-              {d.status === "done" && <span className="w-1.5 h-1.5 rounded-full bg-secondary" />}
+              {d.status === "done" && <span className="w-1.5 h-1.5 rounded-full bg-[#f47c3c]" />}
               {isToday && <span className="w-1.5 h-1.5 rounded-full bg-primary" />}
               {d.status === "skipped" && (
                 <span className="w-1.5 h-1.5 rounded-full bg-surface-3 border border-border" />
@@ -307,7 +307,7 @@ function MonthView({
         })}
       </div>
       <div className="flex gap-4 px-1 pt-3 border-t border-border mt-3">
-        <Stat color="bg-secondary" label={`${stats.done} done`} />
+        <Stat color="bg-[#f47c3c]" label={`${stats.done} done`} />
         <Stat color="bg-surface-3" label={`${stats.skipped} skipped`} />
         <Stat color="bg-border" label={`${stats.rest} rest days`} />
       </div>
@@ -332,7 +332,7 @@ function DayPopover({ day, onClose }: { day: CalendarDay; onClose: () => void })
       initial={{ opacity: 0, y: 6, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.18, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="mt-4 bg-surface border border-border rounded-xl p-4 shadow-lift relative"
+      className="mt-4 card-frosted p-4 shadow-xl relative"
     >
       <button
         onClick={onClose}
@@ -358,7 +358,7 @@ function DayPopover({ day, onClose }: { day: CalendarDay; onClose: () => void })
         )}
         {day.status === "done" && (
           <>
-            <span className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-secondary-light text-secondary uppercase tracking-wider">
+            <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(244,124,60,0.15)] text-[#f47c3c] uppercase tracking-wider">
               ✓ Completed
             </span>
             <div className="text-sm font-medium text-text-1 mt-2">
@@ -378,7 +378,7 @@ function DayPopover({ day, onClose }: { day: CalendarDay; onClose: () => void })
         )}
         {day.status === "rest" && (
           <>
-            <span className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-secondary-light text-secondary uppercase tracking-wider">
+            <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(244,124,60,0.15)] text-[#f47c3c] uppercase tracking-wider">
               Rest day
             </span>
             <div className="text-xs text-text-2 mt-2">
