@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Sparkles, Loader2, Minus, Plus } from "lucide-react";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { AppShell } from "@/components/layout/AppShell";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/community/create")({
