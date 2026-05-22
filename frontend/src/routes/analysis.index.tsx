@@ -5,7 +5,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { cn, getInitials } from "@/lib/utils";
 
 export const Route = createFileRoute("/analysis/")({
-  head: () => ({ meta: [{ title: "Movement Analysis — Athena" }] }),
+  head: () => ({ meta: [{ title: "Movement Analysis — MORF" }] }),
   component: AnalysisPage,
 });
 
@@ -58,80 +58,104 @@ function AnalysisPage() {
 
   return (
     <AppShell>
-      <div className="px-4 lg:px-8 py-5 lg:py-8 max-w-3xl mx-auto">
+      <div className="px-4 lg:px-8 py-6 lg:py-8 max-w-3xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-[24px] font-bold text-[var(--foreground)] leading-tight">Movement analysis</h1>
-          <p className="text-[var(--foreground)] opacity-80 text-sm mt-1 font-medium">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] mb-2" style={{ color: "#6B5FC3" }}>
+            AI-powered
+          </p>
+          <h1 className="text-[26px] font-black leading-tight" style={{ color: "#F2F0E9" }}>
+            Movement analysis
+          </h1>
+          <p className="text-sm mt-1 font-medium" style={{ color: "rgba(242,240,233,0.5)" }}>
             Upload a short video and get instant AI feedback on your technique.
           </p>
         </div>
 
-        <div className="card-frosted mb-6 p-5">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-semibold text-[var(--foreground)]">Pick a movement</h2>
-            <span className="text-[10px] uppercase tracking-widest text-[var(--foreground)] opacity-60">Select one</span>
+        {/* Pick a movement */}
+        <div className="card-frosted mb-5 p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-bold" style={{ color: "#F2F0E9" }}>Pick a movement</h2>
+            <span
+              className="text-[10px] uppercase tracking-widest font-semibold"
+              style={{ color: "rgba(242,240,233,0.35)" }}
+            >
+              Select one
+            </span>
           </div>
-          <div className="flex gap-3 overflow-x-auto no-scrollbar -mx-4 px-4 pb-1 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 sm:gap-4">
+          <div className="flex gap-3 overflow-x-auto no-scrollbar -mx-4 px-4 pb-1 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 sm:gap-3">
             {exercises.map((ex) => {
               const active = exercise === ex.id;
               return (
                 <button
                   key={ex.id}
                   onClick={() => setExercise(ex.id)}
-                  className={cn(
-                    "group relative rounded-2xl text-left transition-all p-4 min-w-[220px] sm:min-w-0 border",
-                    active
-                      ? "bg-[rgba(255,255,255,0.7)] border-[#1a3d35] shadow-md"
-                      : "bg-[rgba(255,255,255,0.4)] border-white shadow-sm hover:bg-[rgba(255,255,255,0.6)]"
-                  )}
+                  className="group relative rounded-2xl text-left transition-all p-4 min-w-[200px] sm:min-w-0"
+                  style={{
+                    background: active ? "rgba(214,232,0,0.1)" : "rgba(242,240,233,0.04)",
+                    border: active ? "1px solid rgba(214,232,0,0.35)" : "1px solid rgba(242,240,233,0.07)",
+                    boxShadow: active ? "0 0 20px rgba(214,232,0,0.1)" : "none",
+                  }}
                 >
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
                       <span
-                        className={cn(
-                          "w-9 h-9 rounded-xl grid place-items-center text-[11px] font-bold shadow-sm transition-colors",
+                        className="w-9 h-9 rounded-xl grid place-items-center text-[11px] font-black transition-colors"
+                        style={
                           active
-                            ? "bg-[#1a3d35] text-white"
-                            : "bg-white text-[#1a3d35]"
-                        )}
+                            ? { background: "#6B5FC3", color: "#F2F0E9" }
+                            : { background: "rgba(242,240,233,0.07)", color: "rgba(242,240,233,0.5)" }
+                        }
                       >
                         {getInitials(ex.label)}
                       </span>
-                      <div className="font-bold text-sm text-[var(--foreground)]">{ex.label}</div>
+                      <div className="font-bold text-[14px]" style={{ color: "#F2F0E9" }}>{ex.label}</div>
                     </div>
                     <span
-                      className={cn(
-                        "text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full transition-colors",
-                        active ? "bg-[#1a3d35] text-white" : "bg-[rgba(26,61,53,0.15)] text-[#1a3d35]"
-                      )}
+                      className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full transition-colors"
+                      style={
+                        active
+                          ? { background: "#F5522A", color: "#F2F0E9" }
+                          : { background: "rgba(242,240,233,0.06)", color: "rgba(242,240,233,0.35)" }
+                      }
                     >
-                      {active ? "Selected" : "Ready"}
+                      {active ? "✓" : "—"}
                     </span>
                   </div>
-                  <div className="mt-3 text-[11px] uppercase tracking-wider text-[#0f2420] opacity-60" >
+                  <div
+                    className="mt-2.5 text-[11px] uppercase tracking-wider font-semibold"
+                    style={{ color: active ? "rgba(214,232,0,0.6)" : "rgba(242,240,233,0.3)" }}
+                  >
                     {ex.focus}
                   </div>
                 </button>
               );
             })}
           </div>
+
+          {/* Locked exercises */}
           <div className="flex gap-3 overflow-x-auto no-scrollbar -mx-4 px-4 pb-1 mt-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-4 sm:gap-3">
             {lockedExercises.map((ex) => (
               <div
                 key={ex.id}
-                className="p-4 rounded-2xl min-w-[200px] sm:min-w-0 bg-[rgba(255,255,255,0.2)] border border-[rgba(255,255,255,0.4)] text-[var(--foreground)] opacity-60"
+                className="p-4 rounded-2xl min-w-[160px] sm:min-w-0"
+                style={{
+                  background: "rgba(242,240,233,0.02)",
+                  border: "1px solid rgba(242,240,233,0.05)",
+                  opacity: 0.4,
+                }}
               >
-                <div className="flex items-center gap-2 mb-2 text-[10px] font-bold uppercase tracking-wider">
-                  <Lock size={12} /> Coming soon
+                <div className="flex items-center gap-2 mb-2 text-[10px] font-bold uppercase tracking-wider" style={{ color: "rgba(242,240,233,0.6)" }}>
+                  <Lock size={11} /> Soon
                 </div>
-                <div className="font-bold text-sm">{ex.label}</div>
+                <div className="font-bold text-[13px]" style={{ color: "#F2F0E9" }}>{ex.label}</div>
               </div>
             ))}
           </div>
         </div>
 
+        {/* Upload video */}
         <div className="card-frosted mb-4 p-5">
-          <h2 className="text-sm font-semibold mb-3 text-[var(--foreground)]">Upload video</h2>
+          <h2 className="text-sm font-bold mb-3" style={{ color: "#F2F0E9" }}>Upload video</h2>
           <input
             ref={inputRef}
             type="file"
@@ -141,35 +165,52 @@ function AnalysisPage() {
           />
           <button
             onClick={() => inputRef.current?.click()}
-            className={cn(
-              "w-full rounded-2xl border-2 border-dashed grid place-items-center transition-colors text-center px-4 py-12"
-            )}
+            className="w-full rounded-2xl border-2 border-dashed grid place-items-center transition-all text-center px-4 py-12"
             style={{
-              borderColor: file ? "#1a3d35" : "rgba(255,255,255,0.8)",
-              background: file ? "rgba(26,61,53,0.1)" : "rgba(255,255,255,0.45)",
-              borderRadius: "16px",
+              borderColor: file ? "#6B5FC3" : "rgba(242,240,233,0.1)",
+              background: file ? "rgba(107,95,195,0.05)" : "rgba(242,240,233,0.02)",
             }}
-            onMouseEnter={(e) => { if (!file) { e.currentTarget.style.borderColor = "#1a3d35"; e.currentTarget.style.background = "rgba(255,255,255,0.7)"; }}}
-            onMouseLeave={(e) => { if (!file) { e.currentTarget.style.borderColor = "rgba(255,255,255,0.8)"; e.currentTarget.style.background = "rgba(255,255,255,0.45)"; }}}
+            onMouseEnter={(e) => {
+              if (!file) {
+                e.currentTarget.style.borderColor = "rgba(214,232,0,0.35)";
+                e.currentTarget.style.background = "rgba(214,232,0,0.03)";
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!file) {
+                e.currentTarget.style.borderColor = "rgba(242,240,233,0.1)";
+                e.currentTarget.style.background = "rgba(242,240,233,0.02)";
+              }
+            }}
           >
             {file ? (
               <div>
                 <div
                   className="w-12 h-12 mx-auto mb-3 rounded-xl grid place-items-center"
-                  style={{ background: "#1a3d35", color: "#ffffff" }}
+                  style={{ background: "#F5522A", color: "#F2F0E9" }}
                 >
-                  <Play size={16} />
+                  <Play size={18} fill="currentColor" />
                 </div>
-                <div className="font-semibold text-sm truncate max-w-xs">{file.name}</div>
-                <div className="text-xs text-text-2 mt-1">
+                <div className="font-semibold text-sm truncate max-w-xs" style={{ color: "#F2F0E9" }}>
+                  {file.name}
+                </div>
+                <div className="text-xs mt-1" style={{ color: "rgba(242,240,233,0.4)" }}>
                   {(file.size / 1024 / 1024).toFixed(1)} MB
                 </div>
               </div>
             ) : (
               <div>
-                <UploadCloud className="mx-auto mb-3 text-[var(--foreground)] opacity-50" size={36}  />
-                <div className="font-semibold text-[var(--foreground)]">Tap to choose video</div>
-                <div className="text-xs text-[var(--foreground)] opacity-60 mt-1">or drag and drop here</div>
+                <UploadCloud
+                  className="mx-auto mb-3"
+                  size={36}
+                  style={{ color: "rgba(242,240,233,0.25)" }}
+                />
+                <div className="font-semibold" style={{ color: "rgba(242,240,233,0.7)" }}>
+                  Tap to choose video
+                </div>
+                <div className="text-xs mt-1" style={{ color: "rgba(242,240,233,0.35)" }}>
+                  or drag and drop here
+                </div>
               </div>
             )}
           </button>
@@ -178,7 +219,13 @@ function AnalysisPage() {
               <span
                 key={s}
                 className="text-[10px] font-bold tracking-wide uppercase"
-                style={{ background: "rgba(26,61,53,0.1)", color: "#1a3d35", padding: "4px 10px", borderRadius: "9999px" }}
+                style={{
+                  background: "rgba(242,240,233,0.06)",
+                  color: "rgba(242,240,233,0.4)",
+                  padding: "4px 10px",
+                  borderRadius: "9999px",
+                  border: "1px solid rgba(242,240,233,0.08)",
+                }}
               >
                 {s}
               </span>
@@ -186,13 +233,20 @@ function AnalysisPage() {
           </div>
         </div>
 
+        {/* Tips accordion */}
         <div className="card-frosted mb-6 overflow-hidden">
           <button
             onClick={() => setTipsOpen((o) => !o)}
-            className="w-full flex items-center justify-between p-4 hover:bg-[rgba(255,255,255,0.4)]"
+            className="w-full flex items-center justify-between p-4 transition-colors"
+            onMouseEnter={e => (e.currentTarget.style.background = "rgba(242,240,233,0.03)")}
+            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
           >
-            <span className="font-semibold text-sm text-[var(--foreground)]">Tips for best results</span>
-            <ChevronDown size={16} className={cn("transition-transform text-[var(--foreground)]", tipsOpen && "rotate-180")} />
+            <span className="font-bold text-sm" style={{ color: "#F2F0E9" }}>Tips for best results</span>
+            <ChevronDown
+              size={15}
+              className={cn("transition-transform", tipsOpen && "rotate-180")}
+              style={{ color: "rgba(242,240,233,0.4)" }}
+            />
           </button>
           <div
             className={cn(
@@ -202,42 +256,48 @@ function AnalysisPage() {
           >
             <div className="px-4 pb-4 space-y-3">
               {tips.map((t) => (
-                <div key={t} className="flex items-start gap-3 text-sm text-[var(--foreground)]">
-                  <span className="w-2 h-2 rounded-full bg-[#1a3d35] mt-1.5" aria-hidden />
-                  <span className="opacity-80">{t}</span>
+                <div key={t} className="flex items-start gap-3 text-sm">
+                  <span
+                    className="w-5 h-5 rounded-full grid place-items-center shrink-0 mt-0.5"
+                    style={{ background: "rgba(245,82,42,0.1)" }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#F5522A" }} />
+                  </span>
+                  <span style={{ color: "rgba(242,240,233,0.6)" }}>{t}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
+        {/* Analyze button */}
         <button
           onClick={handleAnalyze}
           disabled={!canAnalyze}
           className={cn(
-            "w-full h-[52px] font-semibold text-[15px] transition-all flex items-center justify-center gap-2 relative overflow-hidden"
+            "w-full h-[52px] font-bold text-[15px] transition-all flex items-center justify-center gap-2 relative overflow-hidden"
           )}
           style={{
             borderRadius: "9999px",
-            fontWeight: 700,
-            background: canAnalyze ? "#1a3d35" : "#e2ece7",
-            color: canAnalyze ? "#ffffff" : "#8aada5",
+            background: canAnalyze ? "#D6E800" : "rgba(242,240,233,0.05)",
+            color: canAnalyze ? "#1C1C1A" : "rgba(242,240,233,0.2)",
             cursor: canAnalyze ? "pointer" : "not-allowed",
+            boxShadow: canAnalyze ? "0 0 28px rgba(214,232,0,0.2)" : "none",
           }}
         >
           {progress !== null ? (
             <>
               <div
                 className="absolute inset-0"
-                style={{ background: "#1a3d35", width: `${progress}%`, transition: "width 0.12s linear" }}
+                style={{ background: "#D6E800", width: `${progress}%`, transition: "width 0.12s linear" }}
               />
-              <div
-                className="absolute inset-0"
-                style={{ background: "rgba(255,255,255,0.2)", width: `${progress}%`, transition: "width 0.12s linear", mixBlendMode: "overlay" }}
-              />
-              <span className="relative flex items-center gap-2 text-white" ><Loader2 className="animate-spin" size={14} /> Analyzing... {progress}%</span>
+              <span className="relative flex items-center gap-2" style={{ color: "#1C1C1A" }}>
+                <Loader2 className="animate-spin" size={14} /> Analyzing... {progress}%
+              </span>
             </>
-          ) : "Analyze my form"}
+          ) : (
+            "Analyze my form"
+          )}
         </button>
       </div>
     </AppShell>

@@ -27,19 +27,29 @@ function Dashboard() {
 
   return (
     <AppShell>
-      <div className="px-4 lg:px-10 py-5 lg:py-8 max-w-6xl mx-auto">
-        <div className="flex items-start justify-between mb-5">
+      <div className="px-4 lg:px-10 py-6 lg:py-8 max-w-6xl mx-auto">
+        {/* Header greeting */}
+        <div className="flex items-start justify-between mb-6">
           <div>
-            <h1 className="font-display text-[clamp(28px,5vw,36px)] leading-tight" style={{ color: "#ffffff", fontWeight: 400 }}>
-              {greet}, <strong style={{ fontWeight: 700 }}>{currentUser.name}!</strong><br />
-              <span className="opacity-90 text-[clamp(18px,3vw,24px)]">here's your health snapshot for today.</span>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] mb-2" style={{ color: "#6B5FC3" }}>
+              Today · Nov 01
+            </p>
+            <h1
+              className="font-display leading-tight"
+              style={{ fontSize: "clamp(26px,5vw,34px)", fontWeight: 800, color: "#F2F0E9" }}
+            >
+              {greet},{" "}
+              <span style={{ color: "#D6E800" }}>{currentUser.name}!</span>
+              <br />
+              <span style={{ fontSize: "clamp(17px,2.8vw,22px)", fontWeight: 400, color: "rgba(242,240,233,0.6)" }}>
+                Here's your health snapshot.
+              </span>
             </h1>
-            <p className="text-[13px] mt-2 font-medium text-white/70" >Today is 01 November 2025</p>
           </div>
         </div>
 
         <div className="lg:grid lg:grid-cols-[1fr_300px] lg:gap-8">
-          <div className="space-y-5">
+          <div className="space-y-4">
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.07 }}>
               <NudgeBanner />
             </motion.div>
@@ -51,23 +61,28 @@ function Dashboard() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.14 }}
                 className="card-frosted flex items-center gap-4 p-4"
+                style={{ borderColor: "rgba(245,82,42,0.2)" }}
               >
                 <div
-                  className="w-11 h-11 rounded-full grid place-items-center text-xl shrink-0"
-                  style={{ background: "rgba(244,124,60,0.12)", color: "#f47c3c" }}
+                  className="w-11 h-11 rounded-2xl grid place-items-center shrink-0"
+                  style={{ background: "rgba(245,82,42,0.12)", color: "#F5522A" }}
                 >
                   <Zap size={18} />
                 </div>
                 <div className="flex-1">
-                  <div className="font-display text-[14px] font-semibold text-[var(--foreground)]" >How are you feeling today?</div>
-                  <div className="text-[12px] text-[var(--foreground)] opacity-70" >Quick check-in helps tune your plan</div>
+                  <div className="font-semibold text-[14px]" style={{ color: "#F2F0E9" }}>
+                    How are you feeling today?
+                  </div>
+                  <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,240,233,0.55)" }}>
+                    Quick check-in helps tune your plan
+                  </div>
                 </div>
                 <Link
                   to="/coach"
                   className="flex items-center hover:opacity-90 active:scale-[0.97] transition-all"
                   style={{
-                    background: "#1a3d35",
-                    color: "#ffffff",
+                    background: "#F5522A",
+                    color: "#F2F0E9",
                     fontSize: "13px",
                     fontWeight: 700,
                     padding: "0 16px",
@@ -86,22 +101,30 @@ function Dashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.21 }}
               className="card-frosted-light p-4 flex items-start gap-3"
+              style={{ borderColor: "rgba(107,95,195,0.2)" }}
             >
+              <div
+                className="w-9 h-9 rounded-xl grid place-items-center shrink-0 mt-0.5"
+                style={{ background: "rgba(107,95,195,0.15)", color: "#6B5FC3" }}
+              >
+                <Award size={16} />
+              </div>
               <div className="flex-1">
-                <div className="font-display text-[14px] font-semibold text-[var(--foreground)]" >You've been here 30 days</div>
-                <div className="text-[12px] mt-0.5 text-[var(--foreground)] opacity-80" >
+                <div className="font-semibold text-[14px]" style={{ color: "#F2F0E9" }}>
+                  You've been here 30 days
+                </div>
+                <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,240,233,0.55)" }}>
                   Your fitness profile might have changed. Let's see if your recommendations still fit.
                 </div>
                 <Link
                   to="/onboarding/reassess"
-                  className="inline-block mt-2 text-[13px] font-semibold hover:underline text-[var(--foreground)]" 
+                  className="inline-block mt-2 text-[13px] font-bold hover:underline"
+                  style={{ color: "#6B5FC3" }}
                 >
                   Retake sport quiz →
                 </Link>
               </div>
             </motion.div>
-
-
 
             {/* Quick stats */}
             <motion.div
@@ -114,22 +137,22 @@ function Dashboard() {
                 icon={<Flame size={16} />}
                 label="Streak"
                 value={`${currentUser.bestStreak}d`}
-                accentBg="#ddeee8"
-                accentColor="#1a3d35"
+                accentBg="rgba(245,82,42,0.12)"
+                accentColor="#F5522A"
               />
               <Stat
                 icon={<Activity size={16} />}
                 label="This week"
                 value="3 / 4"
-                accentBg="rgba(244,124,60,0.12)"
-                accentColor="#f47c3c"
+                accentBg="rgba(107,95,195,0.12)"
+                accentColor="#6B5FC3"
               />
               <Stat
                 icon={<Award size={16} />}
                 label="Last score"
                 value={String(lastScore)}
-                accentBg="rgba(244,124,60,0.12)"
-                accentColor="#f47c3c"
+                accentBg="rgba(214,232,0,0.1)"
+                accentColor="#D6E800"
               />
             </motion.div>
 
@@ -142,20 +165,31 @@ function Dashboard() {
             >
               <div className="flex items-center gap-2 mb-3">
                 <span
-                  className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--foreground)] opacity-70" 
+                  className="text-[10px] font-bold uppercase tracking-[0.15em]"
+                  style={{ color: "rgba(242,240,233,0.45)" }}
                 >
                   Today's plan
                 </span>
-                <span className="h-px flex-1" style={{ background: "rgba(0,0,0,0.08)" }} />
-                <span className="text-[12px] tabular text-[var(--foreground)] opacity-80" >{todayWorkout.duration} min</span>
+                <span className="h-px flex-1" style={{ background: "rgba(242,240,233,0.07)" }} />
+                <span
+                  className="text-[11px] tabular font-semibold px-2 py-0.5 rounded-full"
+                  style={{ background: "rgba(245,82,42,0.1)", color: "#F5522A" }}
+                >
+                  {todayWorkout.duration} min
+                </span>
               </div>
-              <h2 className="text-[24px] font-display font-semibold mb-3 text-[var(--foreground)]" >{todayWorkout.title}</h2>
+              <h2
+                className="font-display font-bold mb-3"
+                style={{ fontSize: "22px", color: "#F2F0E9" }}
+              >
+                {todayWorkout.title}
+              </h2>
               <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-1 px-1 mb-5">
                 {todayWorkout.exercises.map((e) => (
                   <span
                     key={e.id}
-                    className="text-[12px] font-medium px-3 h-7 inline-flex items-center whitespace-nowrap"
-                    style={{ background: "rgba(255,255,255,0.40)", color: "#0f2420", borderRadius: "9999px", fontWeight: 600 }}
+                    className="text-[12px] font-semibold px-3 h-7 inline-flex items-center whitespace-nowrap rounded-full"
+                    style={{ background: "rgba(242,240,233,0.07)", color: "rgba(242,240,233,0.7)", border: "1px solid rgba(242,240,233,0.08)" }}
                   >
                     {e.name}
                   </span>
@@ -164,14 +198,14 @@ function Dashboard() {
               <Link
                 to="/coach/workout/$sessionId"
                 params={{ sessionId: todayWorkout.id }}
-                className="w-full flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.97] transition-all"
+                className="w-full flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.97] transition-all font-bold"
                 style={{
-                  background: "#1a3d35",
-                  color: "#ffffff",
+                  background: "#D6E800",
+                  color: "#1C1C1A",
                   height: "52px",
                   borderRadius: "9999px",
                   fontSize: "15px",
-                  fontWeight: 700,
+                  boxShadow: "0 0 32px rgba(214,232,0,0.25)",
                 }}
               >
                 <Play size={16} fill="currentColor" /> Start workout
@@ -187,19 +221,21 @@ function Dashboard() {
             >
               <div className="flex items-center gap-2 mb-2">
                 <div
-                  className="w-7 h-7 rounded-full grid place-items-center text-[11px] font-semibold"
-                  style={{ background: "#1a3d35", color: "#ffffff" }}
+                  className="w-7 h-7 rounded-full grid place-items-center text-[11px] font-bold"
+                  style={{ background: "#6B5FC3", color: "#F2F0E9" }}
                 >
                   M
                 </div>
-                <span className="text-[12px] font-semibold text-[var(--foreground)]" >MORF Coach</span>
-                <span className="ml-auto text-[11px] text-[var(--foreground)] opacity-60" >just now</span>
+                <span className="text-[12px] font-semibold" style={{ color: "#F2F0E9" }}>MORF Coach</span>
+                <span className="ml-auto text-[11px]" style={{ color: "rgba(242,240,233,0.4)" }}>just now</span>
               </div>
-              <p className="text-[13px] line-clamp-2 mb-3 text-[var(--foreground)] opacity-80 font-medium" >{lastChat.text}</p>
+              <p className="text-[13px] line-clamp-2 mb-3 font-medium" style={{ color: "rgba(242,240,233,0.7)" }}>
+                {lastChat.text}
+              </p>
               <Link
                 to="/coach/chat"
-                className="text-[13px] font-bold inline-flex items-center gap-1 hover:gap-2 transition-all"
-                style={{ color: "#f47c3c" }}
+                className="text-[13px] font-bold inline-flex items-center gap-1.5 hover:gap-2.5 transition-all"
+                style={{ color: "#F5522A" }}
               >
                 <MessageCircle size={14} /> Reply
               </Link>
@@ -209,10 +245,11 @@ function Dashboard() {
           {/* Sidebar / Events */}
           <div className="mt-6 lg:mt-0 lg:sticky lg:top-8">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-display text-[16px] font-semibold text-white" >Events near you</h2>
+              <h2 className="font-bold text-[15px]" style={{ color: "#F2F0E9" }}>Events near you</h2>
               <Link
                 to="/community"
-                className="text-[12px] flex items-center gap-1 hover:opacity-75 text-white/80" 
+                className="text-[12px] flex items-center gap-1 font-medium hover:opacity-75 transition-opacity"
+                style={{ color: "rgba(242,240,233,0.5)" }}
               >
                 See all <ChevronRight size={12} />
               </Link>
@@ -243,24 +280,22 @@ function Stat({
   accentColor: string;
 }) {
   return (
-    <div
-      className="card-frosted p-4"
-    >
+    <div className="card-frosted p-4">
       <div
-        className="w-8 h-8 rounded-xl grid place-items-center mb-2"
+        className="w-8 h-8 rounded-xl grid place-items-center mb-3"
         style={{ background: accentBg, color: accentColor }}
       >
         {icon}
       </div>
       <div
-        className="font-semibold tabular leading-none whitespace-nowrap"
-        style={{ fontSize: "44px", fontWeight: 800, color: "#0f2420" }}
+        className="font-black tabular leading-none whitespace-nowrap"
+        style={{ fontSize: "36px", color: "#F2F0E9" }}
       >
         {value}
       </div>
       <div
-        className="uppercase tracking-wide mt-2"
-        style={{ fontSize: "10px", color: "#6e9e96" }}
+        className="uppercase tracking-wider mt-2 font-semibold"
+        style={{ fontSize: "10px", color: "rgba(242,240,233,0.4)" }}
       >
         {label}
       </div>

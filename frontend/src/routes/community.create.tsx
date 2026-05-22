@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Sparkles, Loader2, Minus, Plus } from "lucide-react";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -27,10 +27,24 @@ function CreateEvent() {
     setGenerating(true);
     setTimeout(() => {
       setDesc(
-        `Sesi ${sport.toLowerCase()} ${tags.includes("beginner-friendly") ? "ramah pemula " : ""}di ${location || "lokasi yang nyaman"}. ${tags.includes("women-only") ? "Khusus untuk perempuan, " : ""}${tags.includes("adaptive access") ? "dengan akses adaptif untuk semua kemampuan, " : ""}suasana ${tags.includes("casual") ? "santai" : "ramah"} — datang sendiri atau ajak teman. Tidak ada tekanan, hanya gerak bersama.`,
+        `A ${tags.includes("beginner-friendly") ? "beginner-friendly " : ""}${sport.toLowerCase()} session at ${location || "a comfortable venue"}. ${tags.includes("women-only") ? "Women only. " : ""}${tags.includes("adaptive access") ? "Adaptive access for all abilities. " : ""}${tags.includes("casual") ? "Casual and relaxed vibes" : "Friendly atmosphere"} — come solo or bring a friend.`,
       );
       setGenerating(false);
     }, 1200);
+  };
+
+  const inputStyle = {
+    width: "100%",
+    background: "rgba(242,240,233,0.05)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+    border: "1px solid rgba(242,240,233,0.1)",
+    borderRadius: "14px",
+    padding: "12px 16px",
+    fontSize: "14px",
+    fontWeight: 500,
+    outline: "none",
+    color: "#F2F0E9",
   };
 
   return (
@@ -43,14 +57,20 @@ function CreateEvent() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Saturday Morning Run"
-              className="input"
+              style={inputStyle}
+              onFocus={e => (e.currentTarget.style.borderColor = "rgba(214,232,0,0.4)")}
+              onBlur={e => (e.currentTarget.style.borderColor = "rgba(242,240,233,0.1)")}
             />
           </Field>
           <Field label="Sport">
-            <select value={sport} onChange={(e) => setSport(e.target.value)} className="input">
-              {sports.map((s) => (
-                <option key={s}>{s}</option>
-              ))}
+            <select
+              value={sport}
+              onChange={(e) => setSport(e.target.value)}
+              style={{ ...inputStyle, appearance: "none" }}
+              onFocus={e => (e.currentTarget.style.borderColor = "rgba(214,232,0,0.4)")}
+              onBlur={e => (e.currentTarget.style.borderColor = "rgba(242,240,233,0.1)")}
+            >
+              {sports.map((s) => <option key={s} style={{ background: "#1E1E1B" }}>{s}</option>)}
             </select>
           </Field>
           <Field label="Date & time">
@@ -58,7 +78,9 @@ function CreateEvent() {
               type="datetime-local"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="input"
+              style={{ ...inputStyle, colorScheme: "dark" }}
+              onFocus={e => (e.currentTarget.style.borderColor = "rgba(214,232,0,0.4)")}
+              onBlur={e => (e.currentTarget.style.borderColor = "rgba(242,240,233,0.1)")}
             />
           </Field>
           <Field label="Location">
@@ -66,21 +88,39 @@ function CreateEvent() {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               placeholder="GBK, Jakarta"
-              className="input"
+              style={inputStyle}
+              onFocus={e => (e.currentTarget.style.borderColor = "rgba(214,232,0,0.4)")}
+              onBlur={e => (e.currentTarget.style.borderColor = "rgba(242,240,233,0.1)")}
             />
           </Field>
           <Field label="Max participants">
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setCap(Math.max(2, cap - 1))}
-                className="w-11 h-11 rounded-xl border border-[rgba(0,0,0,0.1)] grid place-items-center hover:bg-[rgba(255,255,255,0.4)] text-[var(--foreground)] active:scale-90"
+                className="w-11 h-11 rounded-xl grid place-items-center transition-all active:scale-90"
+                style={{
+                  background: "rgba(242,240,233,0.06)",
+                  border: "1px solid rgba(242,240,233,0.1)",
+                  color: "rgba(242,240,233,0.6)",
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = "rgba(242,240,233,0.1)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "rgba(242,240,233,0.06)")}
               >
                 <Minus size={14} />
               </button>
-              <div className="flex-1 text-center text-[24px] font-bold text-[var(--foreground)] tabular">{cap}</div>
+              <div className="flex-1 text-center text-[24px] font-black tabular" style={{ color: "#F2F0E9" }}>
+                {cap}
+              </div>
               <button
                 onClick={() => setCap(cap + 1)}
-                className="w-11 h-11 rounded-xl border border-[rgba(0,0,0,0.1)] grid place-items-center hover:bg-[rgba(255,255,255,0.4)] text-[var(--foreground)] active:scale-90"
+                className="w-11 h-11 rounded-xl grid place-items-center transition-all active:scale-90"
+                style={{
+                  background: "rgba(242,240,233,0.06)",
+                  border: "1px solid rgba(242,240,233,0.1)",
+                  color: "rgba(242,240,233,0.6)",
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = "rgba(242,240,233,0.1)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "rgba(242,240,233,0.06)")}
               >
                 <Plus size={14} />
               </button>
@@ -96,12 +136,16 @@ function CreateEvent() {
                 <button
                   key={t}
                   onClick={() => setTags(active ? tags.filter((x) => x !== t) : [...tags, t])}
-                  className={cn(
-                    "px-4 py-2 rounded-full text-sm font-semibold border transition-all active:scale-95",
+                  className="px-4 py-2 rounded-full text-sm font-semibold transition-all active:scale-95"
+                  style={
                     active
-                      ? "bg-[rgba(26,61,53,0.15)] border-[#1a3d35] text-[#1a3d35]"
-                      : "bg-[rgba(255,255,255,0.45)] border-[rgba(255,255,255,0.6)] text-[var(--foreground)]",
-                  )}
+                      ? { background: "#D6E800", color: "#1C1C1A", border: "none" }
+                      : {
+                          background: "rgba(242,240,233,0.05)",
+                          border: "1px solid rgba(242,240,233,0.1)",
+                          color: "rgba(242,240,233,0.6)",
+                        }
+                  }
                 >
                   {t}
                 </button>
@@ -116,12 +160,17 @@ function CreateEvent() {
             onChange={(e) => setDesc(e.target.value)}
             rows={5}
             placeholder="What can attendees expect?"
-            className="input resize-none"
+            style={{ ...inputStyle, resize: "none" }}
+            onFocus={e => (e.currentTarget.style.borderColor = "rgba(214,232,0,0.4)")}
+            onBlur={e => (e.currentTarget.style.borderColor = "rgba(242,240,233,0.1)")}
           />
           <button
             onClick={generate}
             disabled={generating}
-            className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-[#1a3d35] hover:underline disabled:opacity-50"
+            className="mt-2 inline-flex items-center gap-2 text-sm font-bold transition-colors disabled:opacity-50"
+            style={{ color: "#6B5FC3" }}
+            onMouseEnter={e => (e.currentTarget.style.color = "#8B80D4")}
+            onMouseLeave={e => (e.currentTarget.style.color = "#6B5FC3")}
           >
             {generating ? <Loader2 className="animate-spin" size={14} /> : <Sparkles size={14} />}
             {generating ? "Generating..." : "Generate with AI"}
@@ -132,16 +181,19 @@ function CreateEvent() {
           <button
             onClick={() => navigate({ to: "/community" })}
             disabled={!name || !date || !location}
-            className="w-full h-[52px] rounded-full bg-[#1a3d35] text-white font-bold disabled:opacity-50 hover:opacity-90 active:scale-[0.98] transition-all"
+            className="w-full h-[52px] rounded-full font-bold text-[15px] transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-30"
+            style={{ background: "#D6E800", color: "#1C1C1A", boxShadow: "0 0 24px rgba(214,232,0,0.2)" }}
           >
             Publish event
           </button>
-          <button className="w-full text-center text-sm font-semibold text-[var(--foreground)] opacity-70 hover:opacity-100">
+          <button
+            className="w-full text-center text-sm font-semibold transition-opacity hover:opacity-100"
+            style={{ color: "rgba(242,240,233,0.4)" }}
+          >
             Save as draft
           </button>
         </div>
       </div>
-      <style>{`.input{width:100%;background:rgba(255,255,255,0.45);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.6);border-radius:16px;padding:12px 16px;font-size:14px;font-weight:500;outline:none;color:var(--foreground);box-shadow:var(--shadow-glass)}.input::placeholder{color:var(--foreground);opacity:0.5}.input:focus{border-color:#1a3d35}`}</style>
     </AppShell>
   );
 }
@@ -149,7 +201,12 @@ function CreateEvent() {
 function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <h2 className="text-xs font-bold uppercase tracking-widest text-[#0f2420] opacity-60 mb-3">{label}</h2>
+      <h2
+        className="text-xs font-bold uppercase tracking-widest mb-3"
+        style={{ color: "rgba(242,240,233,0.35)" }}
+      >
+        {label}
+      </h2>
       <div className="space-y-3">{children}</div>
     </div>
   );
@@ -158,7 +215,9 @@ function Section({ label, children }: { label: string; children: React.ReactNode
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-sm font-semibold text-[#0f2420] mb-1.5">{label}</label>
+      <label className="block text-sm font-semibold mb-1.5" style={{ color: "rgba(242,240,233,0.55)" }}>
+        {label}
+      </label>
       {children}
     </div>
   );

@@ -102,7 +102,7 @@ export function WorkoutCalendar({
   };
 
   return (
-    <div className="card-frosted p-5">
+    <div className="card-frosted p-5" style={{ borderColor: "rgba(242,240,233,0.07)" }}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-1">
           <button
@@ -112,11 +112,14 @@ export function WorkoutCalendar({
               else d.setMonth(d.getMonth() - 1);
               setViewDate(d);
             }}
-            className="w-7 h-7 rounded-md grid place-items-center hover:bg-surface-3 text-text-2"
+            className="w-7 h-7 rounded-md grid place-items-center transition-colors"
+            style={{ color: "rgba(242,240,233,0.45)" }}
+            onMouseEnter={e => (e.currentTarget.style.background = "rgba(242,240,233,0.07)")}
+            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
           >
             <ChevronLeft size={14} />
           </button>
-          <span className="text-sm font-semibold text-text-1 px-1.5 min-w-[100px] text-center">
+          <span className="text-sm font-semibold px-1.5 min-w-[100px] text-center" style={{ color: "#F2F0E9" }}>
             {mode === "week"
               ? "This week"
               : viewDate.toLocaleString("default", { month: "long", year: "numeric" })}
@@ -128,14 +131,20 @@ export function WorkoutCalendar({
               else d.setMonth(d.getMonth() + 1);
               setViewDate(d);
             }}
-            className="w-7 h-7 rounded-md grid place-items-center hover:bg-surface-3 text-text-2"
+            className="w-7 h-7 rounded-md grid place-items-center transition-colors"
+            style={{ color: "rgba(242,240,233,0.45)" }}
+            onMouseEnter={e => (e.currentTarget.style.background = "rgba(242,240,233,0.07)")}
+            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
           >
             <ChevronRight size={14} />
           </button>
         </div>
         <button
           onClick={() => setMode(mode === "week" ? "month" : "week")}
-          className="text-xs text-text-2 hover:text-text-1 flex items-center gap-1.5 px-2.5 h-7 rounded-md hover:bg-surface-3 transition-colors"
+          className="text-xs flex items-center gap-1.5 px-2.5 h-7 rounded-md transition-colors"
+          style={{ color: "rgba(242,240,233,0.4)" }}
+          onMouseEnter={e => { e.currentTarget.style.background = "rgba(242,240,233,0.06)"; e.currentTarget.style.color = "#F2F0E9"; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(242,240,233,0.4)"; }}
         >
           {mode === "week" ? (
             <>
@@ -197,29 +206,45 @@ function WeekView({
             onClick={() => onSelect(d)}
             className="flex flex-col items-center gap-1.5 group"
           >
-            <span className="text-[10px] text-text-3 uppercase tracking-wider font-medium">
+            <span className="text-[10px] uppercase tracking-wider font-semibold" style={{ color: "rgba(242,240,233,0.35)" }}>
               {DOW_EN[(date.getDay() + 6) % 7]}
             </span>
             <span
-              className={cn(
-                "w-full aspect-square rounded-xl flex items-center justify-center text-xs font-medium font-mono relative transition-all",
-                d.status === "done" && "bg-accent text-white shadow-sm",
-                isToday &&
-                  "bg-primary text-primary-foreground ring-2 ring-primary/30 ring-offset-2 ring-offset-background",
-                d.status === "planned" &&
-                  "bg-surface-2 text-text-2 border border-border group-hover:border-border-strong",
-                d.status === "rest" &&
-                  "bg-surface-2/60 text-text-3 border border-dashed border-border",
-                d.status === "skipped" &&
-                  "bg-surface-3 text-text-3 border border-dashed border-border",
-                isSelected && !isToday && "ring-2 ring-primary/40",
-              )}
+              className="w-full aspect-square rounded-xl flex items-center justify-center text-xs font-medium font-mono relative transition-all"
+              style={{
+                background: d.status === "done"
+                  ? "rgba(214,232,0,0.15)"
+                  : isToday
+                    ? "#D6E800"
+                    : d.status === "planned"
+                      ? "rgba(242,240,233,0.06)"
+                      : d.status === "rest"
+                        ? "rgba(242,240,233,0.03)"
+                        : d.status === "skipped"
+                          ? "rgba(245,82,42,0.08)"
+                          : "transparent",
+                color: d.status === "done"
+                  ? "#D6E800"
+                  : isToday
+                    ? "#1C1C1A"
+                    : d.status === "planned"
+                      ? "rgba(242,240,233,0.55)"
+                      : d.status === "rest"
+                        ? "rgba(242,240,233,0.25)"
+                        : d.status === "skipped"
+                          ? "rgba(245,82,42,0.7)"
+                          : "rgba(242,240,233,0.3)",
+                border: isSelected && !isToday ? "2px solid rgba(214,232,0,0.5)" :
+                  d.status === "rest" ? "1px dashed rgba(242,240,233,0.1)" :
+                  d.status === "skipped" ? "1px dashed rgba(245,82,42,0.2)" : "none",
+                fontWeight: isToday ? 900 : 500,
+              }}
             >
               {d.status === "done" && <Check size={14} strokeWidth={3} />}
               {isToday && "•"}
               {d.status === "planned" && date.getDate()}
-              {d.status === "rest" && "S"}
-              {d.status === "skipped" && "z"}
+              {d.status === "rest" && "R"}
+              {d.status === "skipped" && "×"}
             </span>
           </button>
         );
@@ -261,7 +286,8 @@ function MonthView({
         {DOW_ID.map((d) => (
           <div
             key={d}
-            className="text-[10px] text-text-3 uppercase tracking-wider text-center font-medium"
+            className="text-[10px] uppercase tracking-wider text-center font-semibold"
+            style={{ color: "rgba(242,240,233,0.3)" }}
           >
             {d}
           </div>
@@ -277,39 +303,52 @@ function MonthView({
             <button
               key={d.date}
               onClick={() => onSelect(d)}
-              className={cn(
-                "aspect-square rounded-lg flex flex-col items-center justify-center gap-1 transition-colors hover:bg-surface-3 relative",
-                isToday && "bg-primary-light ring-1 ring-primary/40",
-                d.status === "done" && "bg-[rgba(244,124,60,0.15)]",
-                isSelected && "ring-2 ring-primary/60",
-              )}
+              className="aspect-square rounded-lg flex flex-col items-center justify-center gap-1 transition-all relative"
+              style={{
+                background: isToday
+                  ? "rgba(214,232,0,0.12)"
+                  : d.status === "done"
+                    ? "rgba(214,232,0,0.06)"
+                    : "transparent",
+                border: isSelected
+                  ? "2px solid rgba(214,232,0,0.5)"
+                  : isToday
+                    ? "1px solid rgba(214,232,0,0.25)"
+                    : "none",
+              }}
+              onMouseEnter={e => { if (!isToday && !isSelected) e.currentTarget.style.background = "rgba(242,240,233,0.04)"; }}
+              onMouseLeave={e => { if (!isToday && !isSelected) e.currentTarget.style.background = d.status === "done" ? "rgba(214,232,0,0.06)" : "transparent"; }}
             >
               <span
-                className={cn(
-                  "text-xs font-medium tabular-nums",
-                  d.status === "done" && "text-text-1",
-                  isToday && "text-primary font-semibold",
-                  d.status === "skipped" && "text-text-3 line-through",
-                  d.status === "rest" && "text-text-3",
-                  d.status === "planned" && "text-text-2",
-                )}
+                className="text-xs font-medium tabular-nums"
+                style={{
+                  color: isToday
+                    ? "#D6E800"
+                    : d.status === "done"
+                      ? "rgba(242,240,233,0.75)"
+                      : d.status === "skipped"
+                        ? "rgba(245,82,42,0.5)"
+                        : d.status === "rest"
+                          ? "rgba(242,240,233,0.25)"
+                          : "rgba(242,240,233,0.5)",
+                  textDecoration: d.status === "skipped" ? "line-through" : "none",
+                  fontWeight: isToday ? 700 : 500,
+                }}
               >
                 {dateNum}
               </span>
-              {d.status === "done" && <span className="w-1.5 h-1.5 rounded-full bg-[#f47c3c]" />}
-              {isToday && <span className="w-1.5 h-1.5 rounded-full bg-primary" />}
-              {d.status === "skipped" && (
-                <span className="w-1.5 h-1.5 rounded-full bg-surface-3 border border-border" />
-              )}
-              {d.status === "planned" && <span className="w-1.5 h-1.5 rounded-full bg-border" />}
+              {d.status === "done" && <span className="w-1 h-1 rounded-full" style={{ background: "#D6E800" }} />}
+              {isToday && <span className="w-1 h-1 rounded-full" style={{ background: "#D6E800" }} />}
+              {d.status === "skipped" && <span className="w-1 h-1 rounded-full" style={{ background: "rgba(245,82,42,0.5)" }} />}
+              {d.status === "planned" && <span className="w-1 h-1 rounded-full" style={{ background: "rgba(242,240,233,0.15)" }} />}
             </button>
           );
         })}
       </div>
-      <div className="flex gap-4 px-1 pt-3 border-t border-border mt-3">
-        <Stat color="bg-[#f47c3c]" label={`${stats.done} done`} />
-        <Stat color="bg-surface-3" label={`${stats.skipped} skipped`} />
-        <Stat color="bg-border" label={`${stats.rest} rest days`} />
+      <div className="flex gap-4 px-1 pt-3 mt-3" style={{ borderTop: "1px solid rgba(242,240,233,0.07)" }}>
+        <Stat color="#D6E800" label={`${stats.done} done`} />
+        <Stat color="rgba(245,82,42,0.6)" label={`${stats.skipped} skipped`} />
+        <Stat color="rgba(242,240,233,0.2)" label={`${stats.rest} rest days`} />
       </div>
     </div>
   );
@@ -317,8 +356,8 @@ function MonthView({
 
 function Stat({ color, label }: { color: string; label: string }) {
   return (
-    <div className="flex items-center gap-1.5 text-xs text-text-2">
-      <span className={cn("w-1.5 h-1.5 rounded-full", color)} />
+    <div className="flex items-center gap-1.5 text-xs" style={{ color: "rgba(242,240,233,0.4)" }}>
+      <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
       {label}
     </div>
   );
@@ -333,24 +372,29 @@ function DayPopover({ day, onClose }: { day: CalendarDay; onClose: () => void })
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.18, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="mt-4 card-frosted p-4 shadow-xl relative"
+      style={{ borderColor: "rgba(242,240,233,0.1)" }}
     >
       <button
         onClick={onClose}
-        className="absolute top-2.5 right-2.5 w-7 h-7 grid place-items-center rounded-md hover:bg-surface-3 text-text-3"
+        className="absolute top-2.5 right-2.5 w-7 h-7 grid place-items-center rounded-lg transition-colors"
+        style={{ color: "rgba(242,240,233,0.35)" }}
+        onMouseEnter={e => (e.currentTarget.style.background = "rgba(242,240,233,0.07)")}
+        onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
       >
         <X size={13} />
       </button>
-      <div className="text-xs text-text-2 font-medium pr-6">{label}</div>
+      <div className="text-xs font-semibold pr-6" style={{ color: "rgba(242,240,233,0.45)" }}>{label}</div>
       <div className="mt-2.5">
         {day.status === "today" && day.workout && (
           <>
-            <div className="text-sm font-medium text-text-1">
+            <div className="text-sm font-semibold" style={{ color: "#F2F0E9" }}>
               {day.workout.title} · {day.workout.duration} min
             </div>
             <Link
               to="/coach/workout/$sessionId"
               params={{ sessionId: day.workout.sessionId }}
-              className="inline-flex items-center mt-3 h-9 px-4 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:opacity-90 active:scale-[0.97] transition-all"
+              className="inline-flex items-center mt-3 h-9 px-4 rounded-lg text-xs font-bold hover:opacity-90 active:scale-[0.97] transition-all"
+              style={{ background: "#D6E800", color: "#1C1C1A" }}
             >
               Start workout →
             </Link>
@@ -358,40 +402,49 @@ function DayPopover({ day, onClose }: { day: CalendarDay; onClose: () => void })
         )}
         {day.status === "done" && (
           <>
-            <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(244,124,60,0.15)] text-[#f47c3c] uppercase tracking-wider">
+            <span
+              className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
+              style={{ background: "rgba(214,232,0,0.1)", color: "#D6E800", border: "1px solid rgba(214,232,0,0.2)" }}
+            >
               ✓ Completed
             </span>
-            <div className="text-sm font-medium text-text-1 mt-2">
+            <div className="text-sm font-semibold mt-2" style={{ color: "#F2F0E9" }}>
               {day.workout?.title ?? "Session"} · {day.workout?.duration ?? 30} min
             </div>
-            <button className="text-xs text-primary hover:underline mt-3">View details →</button>
+            <button className="text-xs font-bold hover:underline mt-3" style={{ color: "#D6E800" }}>View details →</button>
           </>
         )}
         {day.status === "planned" && (
           <>
-            <div className="text-sm font-medium text-text-1">{day.workout?.title ?? "Workout"}</div>
-            <div className="text-xs text-text-2 mt-0.5">
+            <div className="text-sm font-semibold" style={{ color: "#F2F0E9" }}>{day.workout?.title ?? "Workout"}</div>
+            <div className="text-xs mt-0.5" style={{ color: "rgba(242,240,233,0.45)" }}>
               {day.workout?.duration ?? 30} min · planned
             </div>
-            <button className="text-xs text-primary hover:underline mt-3">Edit plan</button>
+            <button className="text-xs font-bold hover:underline mt-3" style={{ color: "rgba(242,240,233,0.5)" }}>Edit plan</button>
           </>
         )}
         {day.status === "rest" && (
           <>
-            <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(244,124,60,0.15)] text-[#f47c3c] uppercase tracking-wider">
+            <span
+              className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
+              style={{ background: "rgba(107,95,195,0.12)", color: "#8B80D4", border: "1px solid rgba(107,95,195,0.2)" }}
+            >
               Rest day
             </span>
-            <div className="text-xs text-text-2 mt-2">
+            <div className="text-xs mt-2" style={{ color: "rgba(242,240,233,0.4)" }}>
               Recovery matters as much as the work. Hydrate & sleep well.
             </div>
           </>
         )}
         {day.status === "skipped" && (
           <>
-            <span className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-surface-3 text-text-2 uppercase tracking-wider">
+            <span
+              className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
+              style={{ background: "rgba(245,82,42,0.1)", color: "#F5522A", border: "1px solid rgba(245,82,42,0.2)" }}
+            >
               Skipped
             </span>
-            <button className="block text-xs text-primary hover:underline mt-3">Log reason</button>
+            <button className="block text-xs font-bold hover:underline mt-3" style={{ color: "rgba(242,240,233,0.45)" }}>Log reason</button>
           </>
         )}
       </div>

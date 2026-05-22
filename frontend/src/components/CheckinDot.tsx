@@ -15,13 +15,16 @@ export function CheckinDot({
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-[14px] font-medium flex items-center gap-2 text-white" >
-          <span aria-hidden className="text-white/60">
+        <span
+          className="text-[14px] font-semibold flex items-center gap-2"
+          style={{ color: "#F2F0E9" }}
+        >
+          <span aria-hidden style={{ color: "rgba(242,240,233,0.4)" }}>
             {icon}
           </span>
           {label}
         </span>
-        <span className="text-[11px] text-white/60" >
+        <span className="text-[11px] font-medium" style={{ color: "rgba(242,240,233,0.4)" }}>
           {value > 0 ? `${value}/5` : "Tap to rate"}
         </span>
       </div>
@@ -35,14 +38,15 @@ export function CheckinDot({
               onClick={() => onChange(n)}
               aria-label={`${label} ${n} of 5`}
               className={cn(
-                "flex-1 flex items-center justify-center transition-all duration-150 active:scale-95 text-[13px] font-medium",
+                "flex-1 flex items-center justify-center transition-all duration-150 active:scale-95 text-[13px] font-bold",
               )}
               style={{
                 height: "40px",
                 borderRadius: "10px",
-                border: filled ? "none" : "1px solid rgba(255,255,255,0.50)",
-                background: filled ? "#1a3d35" : "rgba(255,255,255,0.60)",
-                color: filled ? "#ffffff" : "#3d6058",
+                border: filled ? "none" : "1px solid rgba(242,240,233,0.12)",
+                background: filled ? "#D6E800" : "rgba(242,240,233,0.05)",
+                color: filled ? "#1C1C1A" : "rgba(242,240,233,0.4)",
+                boxShadow: filled ? "0 0 16px rgba(214,232,0,0.25)" : "none",
               }}
             >
               {n}

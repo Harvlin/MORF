@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { House, Dumbbell, Video, Users, User, Sparkles } from "lucide-react";
+import { House, Dumbbell, Video, Users, User, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const items = [
@@ -16,12 +16,26 @@ export function SideNav() {
     return null;
 
   return (
-    <aside className="glass hidden lg:flex fixed inset-y-4 left-4 w-60 flex-col px-4 py-6 z-30 rounded-[32px]">
-      <Link to="/dashboard" className="flex items-center gap-2 px-2 mb-8">
-        <div className="w-8 h-8 grid place-items-center font-bold text-white text-[15px] rounded-lg bg-[color:var(--sage-deep)]">
-          M
+    <aside
+      className="glass hidden lg:flex fixed inset-y-4 left-4 w-60 flex-col px-4 py-6 z-30 rounded-[28px]"
+      style={{ borderColor: "rgba(242,240,233,0.09)" }}
+    >
+      <Link to="/dashboard" className="flex items-center gap-2.5 px-2 mb-8">
+        <div
+          className="w-8 h-8 grid place-items-center font-bold text-[15px] rounded-xl"
+          style={{ background: "#D6E800", color: "#1C1C1A" }}
+        >
+          <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
+            <path d="M16 4 L28 28 L22 28 L16 14 L10 28 L4 28 Z" fill="currentColor" />
+            <path d="M11.5 22 L20.5 22" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
         </div>
-        <span className="text-xl font-bold tracking-tight text-white">MORF</span>
+        <span
+          className="text-xl font-bold tracking-tight"
+          style={{ color: "#F2F0E9" }}
+        >
+          MORF
+        </span>
       </Link>
 
       <nav className="flex-1">
@@ -35,11 +49,16 @@ export function SideNav() {
                 <Link
                   to={item.to}
                   className={cn(
-                    "flex items-center gap-3 px-3.5 py-2 text-sm font-medium rounded-[10px] transition-colors",
+                    "flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-[12px] transition-all duration-200",
                     active
-                      ? "bg-[color:var(--sage-deep)] text-white font-semibold ring-1 ring-white/30"
-                      : "text-white/75 hover:bg-white/10 hover:text-white",
+                      ? "font-semibold"
+                      : "hover:bg-white/5",
                   )}
+                  style={
+                    active
+                      ? { background: "#D6E800", color: "#1C1C1A" }
+                      : { color: "rgba(242,240,233,0.65)" }
+                  }
                 >
                   <Icon size={18} strokeWidth={active ? 2.5 : 2} />
                   {item.label}
@@ -50,10 +69,16 @@ export function SideNav() {
         </ul>
       </nav>
 
-      <div className="border-t border-white/20 pt-4">
-        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/15">
-          <Sparkles size={14} className="text-white/90" />
-          <span className="text-xs text-white/70">Beta build · v0.1</span>
+      <div
+        className="border-t pt-4"
+        style={{ borderColor: "rgba(242,240,233,0.08)" }}
+      >
+        <div
+          className="flex items-center gap-2 px-3 py-2.5 rounded-xl"
+          style={{ background: "rgba(214,232,0,0.06)", border: "1px solid rgba(214,232,0,0.12)" }}
+        >
+          <Zap size={13} style={{ color: "#D6E800" }} />
+          <span className="text-xs font-medium" style={{ color: "rgba(242,240,233,0.55)" }}>Beta build · v0.1</span>
         </div>
       </div>
     </aside>

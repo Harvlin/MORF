@@ -112,9 +112,9 @@ function OnboardingPage() {
 
   return (
     <div className="app-stage min-h-dvh flex flex-col text-white">
-      <div className="h-1 bg-[rgba(255,255,255,0.2)]">
+      <div className="h-1" style={{ background: "rgba(242,240,233,0.1)" }}>
         <motion.div
-          className="h-full bg-white"
+          style={{ height: "100%", background: "#D6E800", boxShadow: "0 0 8px rgba(214,232,0,0.4)" }}
           animate={{ width: `${progress * 100}%` }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         />
@@ -162,20 +162,26 @@ function OnboardingPage() {
                               : [...onboarding.goals, g.id],
                           })
                         }
-                        className={cn(
+                      className={cn(
                           "p-5 rounded-[28px] border text-left transition-all active:scale-[0.97]",
                           active
-                            ? "bg-white text-[#1a3d35] border-white shadow-[0_8px_32px_rgba(0,0,0,0.15)]"
-                            : "bg-[rgba(255,255,255,0.6)] text-[#0f2420] border-transparent hover:bg-[rgba(255,255,255,0.75)] backdrop-blur-md",
+                            ? "border-transparent"
+                            : "bg-[rgba(255,255,255,0.06)] border-[rgba(242,240,233,0.08)] hover:bg-[rgba(255,255,255,0.09)]",
                         )}
+                        style={
+                          active
+                            ? { background: "rgba(214,232,0,0.12)", border: "1px solid rgba(214,232,0,0.3)", boxShadow: "0 0 24px rgba(214,232,0,0.1)" }
+                            : {}
+                        }
                       >
                         <div className={cn(
                           "w-9 h-9 rounded-xl grid place-items-center mb-2 transition-colors",
-                          active ? "bg-[#f0f5f2] text-[#1a3d35]" : "bg-[rgba(255,255,255,0.4)] text-[#1a3d35]"
-                        )}>
+                        )}
+                          style={active ? { background: "rgba(214,232,0,0.15)", color: "#D6E800" } : { background: "rgba(255,255,255,0.08)", color: "rgba(242,240,233,0.6)" }}
+                        >
                           <Icon size={18} />
                         </div>
-                        <div className="font-semibold text-[15px] leading-tight">{g.label}</div>
+                        <div className="font-bold text-[15px] leading-tight" style={{ color: active ? "#D6E800" : "rgba(242,240,233,0.85)" }}>{g.label}</div>
                       </button>
                     );
                   })}
@@ -216,12 +222,13 @@ function OnboardingPage() {
                           className={cn(
                             "flex flex-col items-center justify-center gap-1 h-14 rounded-xl border-2 transition-all active:scale-95",
                             active
-                              ? "bg-white text-[#1a3d35] border-white shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
-                              : "bg-[rgba(255,255,255,0.4)] text-white border-transparent hover:bg-[rgba(255,255,255,0.6)] backdrop-blur-md",
+                              ? ""
+                              : "bg-[rgba(255,255,255,0.06)] border-transparent hover:bg-[rgba(255,255,255,0.1)]",
                           )}
+                          style={active ? { background: "rgba(214,232,0,0.15)", border: "1px solid rgba(214,232,0,0.4)" } : {}}
                         >
-                          <span className={cn("text-sm font-semibold", active ? "text-[#1a3d35]" : "text-white")}>{c.value}</span>
-                          <span className={cn("text-[10px] leading-tight", active ? "text-[#1a3d35]" : "text-[rgba(255,255,255,0.8)]")}>{c.label}</span>
+                          <span style={{ fontSize: "14px", fontWeight: 700, color: active ? "#D6E800" : "#F2F0E9" }}>{c.value}</span>
+                          <span style={{ fontSize: "10px", lineHeight: 1.2, color: active ? "rgba(214,232,0,0.7)" : "rgba(242,240,233,0.6)" }}>{c.label}</span>
                         </button>
                       );
                     })}
@@ -280,7 +287,14 @@ function OnboardingPage() {
                     value={onboarding.notes}
                     onChange={(e) => setOnboarding({ notes: e.target.value })}
                     rows={3}
-                    className="w-full bg-[rgba(255,255,255,0.4)] text-[#0f2420] border border-transparent rounded-xl px-4 py-3 text-sm resize-none focus:outline-none focus:bg-white placeholder-[rgba(15,36,32,0.5)] transition-colors backdrop-blur-md"
+                    className="w-full rounded-xl px-4 py-3 text-sm resize-none focus:outline-none transition-all"
+                    style={{
+                      background: "rgba(242,240,233,0.06)",
+                      border: "1px solid rgba(242,240,233,0.1)",
+                      color: "#F2F0E9",
+                    }}
+                    onFocus={e => (e.currentTarget.style.borderColor = "rgba(214,232,0,0.4)")}
+                    onBlur={e => (e.currentTarget.style.borderColor = "rgba(242,240,233,0.1)")}
                   />
                 </div>
               </motion.div>
@@ -294,11 +308,12 @@ function OnboardingPage() {
                 className="min-h-[60vh] flex flex-col items-center justify-center text-center"
               >
                 <motion.div
-                  className="w-24 h-24 rounded-full bg-primary-light grid place-items-center mb-8"
+                  className="w-24 h-24 rounded-full grid place-items-center mb-8"
+                  style={{ background: "rgba(214,232,0,0.12)" }}
                   animate={{ scale: [1, 1.15, 1] }}
                   transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <div className="w-12 h-12 rounded-full bg-primary" />
+                  <div className="w-12 h-12 rounded-full" style={{ background: "#D6E800", boxShadow: "0 0 24px rgba(214,232,0,0.4)" }} />
                 </motion.div>
                 <AnimatePresence mode="wait">
                   <motion.p
@@ -306,7 +321,8 @@ function OnboardingPage() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
-                    className="text-text-2 text-lg"
+                    className="text-lg font-medium"
+                    style={{ color: "rgba(242,240,233,0.6)" }}
                   >
                     {phrases[phraseIdx]}
                   </motion.p>
@@ -377,17 +393,22 @@ function OnboardingPage() {
       </div>
 
       {!loading && !showResult && (
-        <div className="sticky bottom-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-xl border-t border-[rgba(255,255,255,0.2)] px-5 py-4">
+        <div
+          className="sticky bottom-0 backdrop-blur-xl px-5 py-4"
+          style={{ background: "rgba(24,24,22,0.85)", borderTop: "1px solid rgba(242,240,233,0.07)" }}
+        >
           <div className="max-w-[480px] mx-auto">
             <button
               onClick={next}
               disabled={!canContinue}
               className={cn(
-                "w-full h-[52px] rounded-full font-semibold text-[15px] transition-all flex items-center justify-center gap-2 active:scale-[0.98]",
-                canContinue
-                  ? "bg-white text-[#1a3d35] hover:opacity-90 shadow-lg"
-                  : "bg-[rgba(255,255,255,0.2)] text-[rgba(255,255,255,0.5)] cursor-not-allowed",
+                "w-full h-[52px] rounded-full font-bold text-[15px] transition-all flex items-center justify-center gap-2 active:scale-[0.98]",
               )}
+              style={
+                canContinue
+                  ? { background: "#D6E800", color: "#1C1C1A", boxShadow: "0 0 28px rgba(214,232,0,0.2)" }
+                  : { background: "rgba(242,240,233,0.06)", color: "rgba(242,240,233,0.25)", cursor: "not-allowed" }
+              }
             >
               {step === 3 ? "Find my sports" : "Continue"} <ChevronRight size={16} />
             </button>
@@ -429,11 +450,13 @@ function Pills({
               key={o}
               onClick={() => onChange(o)}
               className={cn(
-                "px-4 py-2 rounded-full border text-sm font-medium transition-all active:scale-95",
+            "px-4 py-2 rounded-full border text-sm font-semibold transition-all active:scale-95",
+          )}
+              style={
                 active
-                  ? "bg-white border-white text-[#1a3d35] shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
-                  : "bg-[rgba(255,255,255,0.4)] border-transparent text-white hover:bg-[rgba(255,255,255,0.6)] backdrop-blur-md",
-              )}
+                  ? { background: "#D6E800", color: "#1C1C1A", border: "none", boxShadow: "0 0 12px rgba(214,232,0,0.2)" }
+                  : { background: "rgba(255,255,255,0.07)", border: "1px solid rgba(242,240,233,0.12)", color: "rgba(242,240,233,0.7)" }
+              }
             >
               {o}
             </button>
@@ -458,12 +481,13 @@ function SportRecCard({
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
             <span
-              className="w-9 h-9 rounded-full bg-surface-3 border border-border text-[11px] font-semibold grid place-items-center text-text-2"
+              className="w-9 h-9 rounded-full text-[11px] font-black grid place-items-center"
+              style={{ background: "rgba(214,232,0,0.12)", color: "#D6E800", border: "1px solid rgba(214,232,0,0.2)" }}
               aria-hidden
             >
               {getInitials(sport.name)}
             </span>
-            <h3 className="text-[24px] font-bold text-text-1">{sport.name}</h3>
+            <h3 className="text-[24px] font-black" style={{ color: "#F2F0E9" }}>{sport.name}</h3>
           </div>
           <p className="text-sm italic text-text-2">{sport.reason}</p>
         </div>
@@ -492,7 +516,8 @@ function SportRecCard({
       </AnimatePresence>
       <button
         onClick={onPick}
-        className="w-full mt-4 h-11 rounded-xl bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 active:scale-[0.98] transition-all"
+        className="w-full mt-4 h-11 rounded-xl font-bold text-sm hover:opacity-90 active:scale-[0.98] transition-all"
+        style={{ background: "#D6E800", color: "#1C1C1A", boxShadow: "0 0 16px rgba(214,232,0,0.2)" }}
       >
         Let's start with {sport.name}
       </button>
@@ -579,12 +604,14 @@ function ConditionDetailCards({ selected }: { selected: string[] }) {
                                   : [...selectedSubs, o];
                                 set(c, { details: { values: next } });
                               }}
-                              className={cn(
-                                "px-3 py-1.5 rounded-full text-xs font-medium border transition-all",
-                                active
-                                  ? "bg-[#1a3d35] border-transparent text-white"
-                                  : "bg-[rgba(255,255,255,0.4)] border-transparent text-[#0f2420] hover:bg-[rgba(255,255,255,0.6)]",
-                              )}
+                          className={cn(
+                            "px-3 py-1.5 rounded-full text-xs font-semibold border transition-all",
+                          )}
+                          style={
+                            active
+                              ? { background: "#D6E800", color: "#1C1C1A", border: "none" }
+                              : { background: "rgba(255,255,255,0.07)", border: "1px solid rgba(242,240,233,0.12)", color: "rgba(242,240,233,0.7)" }
+                          }
                             >
                               {o}
                             </button>

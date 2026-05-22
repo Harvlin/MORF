@@ -5,7 +5,7 @@ import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
 import { AuthShell, AuthInput, AuthLabel } from "@/components/AuthShell";
 
 export const Route = createFileRoute("/login")({
-  head: () => ({ meta: [{ title: "Sign in — Athena" }] }),
+  head: () => ({ meta: [{ title: "Sign in — MORF" }] }),
   component: LoginPage,
 });
 
@@ -39,8 +39,10 @@ function LoginPage() {
         animate={shake ? { x: [0, -8, 8, -6, 6, 0] } : {}}
         transition={{ duration: 0.4 }}
       >
-        <h1 className="text-2xl font-medium text-foreground">Welcome back</h1>
-        <p className="text-sm text-text-2 mt-1.5">Sign in to continue your journey.</p>
+        <h1 className="text-2xl font-black" style={{ color: "#F2F0E9" }}>Welcome back</h1>
+        <p className="text-sm mt-1.5 font-medium" style={{ color: "rgba(242,240,233,0.45)" }}>
+          Sign in to continue your journey.
+        </p>
 
         <AnimatePresence>
           {error && (
@@ -48,9 +50,14 @@ function LoginPage() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="rounded-xl px-4 py-3 mt-5 flex items-start gap-2.5 text-sm border border-destructive/20 bg-destructive/10 text-destructive"
+              className="rounded-xl px-4 py-3 mt-5 flex items-start gap-2.5 text-sm"
+              style={{
+                border: "1px solid rgba(245,82,42,0.25)",
+                background: "rgba(245,82,42,0.08)",
+                color: "#F5522A",
+              }}
             >
-              <AlertCircle size={16} className="text-destructive mt-0.5 flex-shrink-0" />
+              <AlertCircle size={16} className="mt-0.5 flex-shrink-0" />
               <span>{error}</span>
             </motion.div>
           )}
@@ -62,7 +69,7 @@ function LoginPage() {
             <AuthInput
               icon={Mail}
               type="email"
-              placeholder="you@athena.app"
+              placeholder="you@morf.app"
               value={email}
               onChange={setEmail}
               autoComplete="email"
@@ -74,7 +81,10 @@ function LoginPage() {
               <AuthLabel>Password</AuthLabel>
               <Link
                 to="/forgot-password"
-                className="text-xs text-text-2 hover:text-text-1 transition-colors"
+                className="text-xs font-semibold transition-colors"
+                style={{ color: "rgba(242,240,233,0.4)" }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#D6E800")}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(242,240,233,0.4)")}
               >
                 Forgot password?
               </Link>
@@ -91,7 +101,8 @@ function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPw(!showPw)}
-                  className="w-8 h-8 grid place-items-center rounded-md text-text-3 hover:text-text-1 transition-colors"
+                  className="w-8 h-8 grid place-items-center rounded-lg transition-colors"
+                  style={{ color: "rgba(242,240,233,0.35)" }}
                 >
                   {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
@@ -102,7 +113,12 @@ function LoginPage() {
           <button
             type="submit"
             disabled={loading || !email || !password}
-            className="w-full h-12 rounded-xl bg-primary text-primary-foreground text-sm font-medium flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50"
+            className="w-full h-12 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-40"
+            style={{
+              background: "#D6E800",
+              color: "#1C1C1A",
+              boxShadow: !loading && email && password ? "0 0 28px rgba(214,232,0,0.25)" : "none",
+            }}
           >
             {loading ? (
               <>
@@ -115,25 +131,42 @@ function LoginPage() {
         </form>
 
         <div className="flex items-center gap-3 my-6">
-          <span className="flex-1 h-px bg-border" />
-          <span className="text-xs text-text-3">or</span>
-          <span className="flex-1 h-px bg-border" />
+          <span className="flex-1 h-px" style={{ background: "rgba(242,240,233,0.07)" }} />
+          <span className="text-xs font-medium" style={{ color: "rgba(242,240,233,0.3)" }}>or</span>
+          <span className="flex-1 h-px" style={{ background: "rgba(242,240,233,0.07)" }} />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           {["Google", "Apple"].map((p) => (
             <button
               key={p}
-              className="bg-surface border border-border rounded-xl h-11 text-sm text-text-1 hover:text-foreground transition-colors"
+              className="rounded-xl h-11 text-sm font-semibold transition-all"
+              style={{
+                background: "rgba(242,240,233,0.05)",
+                border: "1px solid rgba(242,240,233,0.08)",
+                color: "rgba(242,240,233,0.65)",
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = "rgba(242,240,233,0.08)";
+                e.currentTarget.style.color = "#F2F0E9";
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = "rgba(242,240,233,0.05)";
+                e.currentTarget.style.color = "rgba(242,240,233,0.65)";
+              }}
             >
               {p}
             </button>
           ))}
         </div>
 
-        <p className="text-sm text-text-2 text-center mt-7">
+        <p className="text-sm text-center mt-7" style={{ color: "rgba(242,240,233,0.4)" }}>
           Don't have an account?{" "}
-          <Link to="/signup" className="text-primary hover:underline font-medium">
+          <Link
+            to="/signup"
+            className="font-bold transition-colors"
+            style={{ color: "#D6E800" }}
+          >
             Sign up
           </Link>
         </p>

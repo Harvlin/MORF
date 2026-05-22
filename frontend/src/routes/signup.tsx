@@ -5,7 +5,7 @@ import { Mail, Lock, Eye, EyeOff, Loader2, User, Check } from "lucide-react";
 import { AuthShell, AuthInput, AuthLabel } from "@/components/AuthShell";
 
 export const Route = createFileRoute("/signup")({
-  head: () => ({ meta: [{ title: "Create account — Athena" }] }),
+  head: () => ({ meta: [{ title: "Create account — MORF" }] }),
   component: SignupPage,
 });
 
@@ -18,7 +18,7 @@ function strength(pw: string) {
   return s;
 }
 const labels = ["", "Weak", "Fair", "Good", "Strong"];
-const colors = ["bg-border", "bg-red-400", "bg-orange-400", "bg-yellow-400", "bg-green-400"];
+const strengthColors = ["transparent", "#F5522A", "#F5A52A", "#D6E800", "#D6E800"];
 
 function SignupPage() {
   const nav = useNavigate();
@@ -42,8 +42,8 @@ function SignupPage() {
   return (
     <AuthShell>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        <h1 className="text-2xl font-medium text-foreground">Create your account</h1>
-        <p className="text-sm text-text-2 mt-1.5">
+        <h1 className="text-2xl font-black" style={{ color: "#F2F0E9" }}>Create your account</h1>
+        <p className="text-sm mt-1.5 font-medium" style={{ color: "rgba(242,240,233,0.45)" }}>
           Start your inclusive sports journey in 60 seconds.
         </p>
 
@@ -63,7 +63,7 @@ function SignupPage() {
             <AuthInput
               icon={Mail}
               type="email"
-              placeholder="you@athena.app"
+              placeholder="you@morf.app"
               value={email}
               onChange={setEmail}
               autoComplete="email"
@@ -82,7 +82,8 @@ function SignupPage() {
                 <button
                   type="button"
                   onClick={() => setShowPw(!showPw)}
-                  className="w-8 h-8 grid place-items-center rounded-md text-text-3 hover:text-text-1 transition-colors"
+                  className="w-8 h-8 grid place-items-center rounded-lg transition-colors"
+                  style={{ color: "rgba(242,240,233,0.35)" }}
                 >
                   {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
@@ -94,11 +95,14 @@ function SignupPage() {
                   {[1, 2, 3, 4].map((i) => (
                     <div
                       key={i}
-                      className={`h-0.5 rounded-full transition-colors ${i <= s ? colors[s] : "bg-border"}`}
+                      className="h-0.5 rounded-full transition-all"
+                      style={{ background: i <= s ? strengthColors[s] : "rgba(242,240,233,0.1)" }}
                     />
                   ))}
                 </div>
-                <span className="text-[11px] text-text-3 w-12 text-right">{labels[s]}</span>
+                <span className="text-[11px] w-12 text-right font-semibold" style={{ color: s > 0 ? strengthColors[s] : "rgba(242,240,233,0.3)" }}>
+                  {labels[s]}
+                </span>
               </div>
             )}
           </div>
@@ -109,19 +113,21 @@ function SignupPage() {
               onClick={() => setAgreed(!agreed)}
               aria-checked={agreed}
               role="checkbox"
-              className={`w-4 h-4 rounded border mt-0.5 grid place-items-center flex-shrink-0 transition-colors ${
-                agreed ? "bg-primary border-primary" : "border-border bg-surface-2"
-              }`}
+              className="w-4 h-4 rounded mt-0.5 grid place-items-center flex-shrink-0 transition-all"
+              style={{
+                background: agreed ? "#D6E800" : "transparent",
+                border: agreed ? "none" : "1.5px solid rgba(242,240,233,0.2)",
+              }}
             >
-              {agreed && <Check size={11} className="text-white" strokeWidth={3} />}
+              {agreed && <Check size={11} style={{ color: "#1C1C1A" }} strokeWidth={3} />}
             </button>
-            <span className="text-xs text-text-2 leading-relaxed">
-              I agree to Athena's{" "}
-              <a href="#" className="text-foreground hover:underline">
+            <span className="text-xs leading-relaxed" style={{ color: "rgba(242,240,233,0.5)" }}>
+              I agree to MORF's{" "}
+              <a href="#" className="font-semibold hover:underline" style={{ color: "#D6E800" }}>
                 Terms
               </a>{" "}
               and{" "}
-              <a href="#" className="text-foreground hover:underline">
+              <a href="#" className="font-semibold hover:underline" style={{ color: "#D6E800" }}>
                 Privacy Policy
               </a>
               .
@@ -131,7 +137,12 @@ function SignupPage() {
           <button
             type="submit"
             disabled={!canSubmit}
-            className="w-full h-12 rounded-xl bg-primary text-primary-foreground text-sm font-medium flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50"
+            className="w-full h-12 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-35"
+            style={{
+              background: "#D6E800",
+              color: "#1C1C1A",
+              boxShadow: canSubmit ? "0 0 28px rgba(214,232,0,0.25)" : "none",
+            }}
           >
             {loading ? (
               <>
@@ -143,9 +154,9 @@ function SignupPage() {
           </button>
         </form>
 
-        <p className="text-sm text-text-2 text-center mt-6">
+        <p className="text-sm text-center mt-6" style={{ color: "rgba(242,240,233,0.4)" }}>
           Already have an account?{" "}
-          <Link to="/login" className="text-primary hover:underline font-medium">
+          <Link to="/login" className="font-bold" style={{ color: "#D6E800" }}>
             Sign in
           </Link>
         </p>

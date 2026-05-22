@@ -27,6 +27,10 @@ export function CircularScore({
   const c = 2 * Math.PI * r;
   const offset = c - (animated / 100) * c;
 
+  // Color based on score
+  const strokeColor =
+    value >= 80 ? "#D6E800" : value >= 60 ? "#F5522A" : "#6B5FC3";
+
   return (
     <div className="relative grid place-items-center" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90">
@@ -34,7 +38,7 @@ export function CircularScore({
           cx={size / 2}
           cy={size / 2}
           r={r}
-          stroke="#e2ece7"
+          stroke="rgba(242,240,233,0.08)"
           strokeWidth={10}
           fill="none"
         />
@@ -42,25 +46,28 @@ export function CircularScore({
           cx={size / 2}
           cy={size / 2}
           r={r}
-          stroke="#f47c3c"
+          stroke={strokeColor}
           strokeWidth={10}
           fill="none"
           strokeLinecap="round"
           strokeDasharray={c}
           strokeDashoffset={offset}
-          style={{ transition: "stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1)" }}
+          style={{
+            transition: "stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
+            filter: `drop-shadow(0 0 8px ${strokeColor}66)`,
+          }}
         />
       </svg>
       <div className="absolute inset-0 grid place-items-center">
         <div className="text-center">
           <div
-            className="tabular"
-            style={{ fontSize: "40px", fontWeight: 800, color: "#0f2420" }}
+            className="tabular font-black"
+            style={{ fontSize: "40px", color: strokeColor }}
           >
             {animated}
           </div>
           {label && (
-            <div style={{ fontSize: "12px", color: "#6e9e96", marginTop: "4px" }}>
+            <div style={{ fontSize: "12px", color: "rgba(242,240,233,0.45)", marginTop: "4px" }}>
               {label}
             </div>
           )}

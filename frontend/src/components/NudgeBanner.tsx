@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Flame, X } from "lucide-react";
+import { Zap, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { activeNudge } from "@/lib/mock-data";
 import { useApp } from "@/lib/store";
@@ -18,16 +18,25 @@ export function NudgeBanner() {
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
           className="card-frosted p-4 flex gap-3 items-start"
+          style={{ borderColor: "rgba(214,232,0,0.15)" }}
         >
-          <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground grid place-items-center shrink-0">
-            <Flame size={16} aria-hidden="true" />
+          <div
+            className="w-9 h-9 rounded-xl grid place-items-center shrink-0"
+            style={{ background: "rgba(214,232,0,0.12)", color: "#D6E800" }}
+          >
+            <Zap size={16} aria-hidden="true" />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="font-semibold text-sm text-white">{activeNudge.headline}</div>
-            <div className="text-sm text-white/70 mt-0.5">{activeNudge.message}</div>
+            <div className="font-bold text-sm" style={{ color: "#F2F0E9" }}>
+              {activeNudge.headline}
+            </div>
+            <div className="text-[13px] mt-0.5" style={{ color: "rgba(242,240,233,0.6)" }}>
+              {activeNudge.message}
+            </div>
             <Link
               to={activeNudge.ctaLink}
-              className="inline-block mt-3 text-sm font-semibold text-white hover:underline"
+              className="inline-flex items-center gap-1 mt-3 text-[13px] font-bold transition-all"
+              style={{ color: "#D6E800" }}
             >
               {activeNudge.cta} →
             </Link>
@@ -35,9 +44,12 @@ export function NudgeBanner() {
           <button
             onClick={dismiss}
             aria-label="Dismiss"
-            className="w-8 h-8 grid place-items-center rounded-lg hover:bg-white/10 text-white/70 shrink-0 -mt-1 -mr-1"
+            className="w-7 h-7 grid place-items-center rounded-lg transition-colors shrink-0 -mt-0.5 -mr-0.5"
+            style={{ color: "rgba(242,240,233,0.35)" }}
+            onMouseEnter={e => (e.currentTarget.style.background = "rgba(242,240,233,0.07)")}
+            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
           >
-            <X size={16} />
+            <X size={14} />
           </button>
         </motion.div>
       )}

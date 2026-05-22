@@ -12,7 +12,7 @@ function AchievementsPage() {
   const pct = (unlocked / badges.length) * 100;
 
   return (
-    <div className="min-h-dvh">
+    <div className="min-h-dvh" style={{ background: "linear-gradient(175deg, #1E1E1B 0%, #181816 100%)" }}>
       <PageHeader
         title="Achievements"
         back="/profile"
@@ -20,10 +20,18 @@ function AchievementsPage() {
       />
       <div className="px-4 lg:px-8 py-6 max-w-3xl mx-auto pb-12">
         <div className="mb-6">
-          <div className="h-1 bg-[rgba(255,255,255,0.4)] rounded-full overflow-hidden">
+          <div className="flex justify-between text-xs font-semibold mb-2" style={{ color: "rgba(242,240,233,0.4)" }}>
+            <span>Progress</span>
+            <span style={{ color: "#D6E800" }}>{Math.round(pct)}%</span>
+          </div>
+          <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(242,240,233,0.07)" }}>
             <div
-              className="h-full bg-[#1a3d35] transition-all duration-700"
-              style={{ width: `${pct}%` }}
+              className="h-full rounded-full transition-all duration-700"
+              style={{
+                width: `${pct}%`,
+                background: "#D6E800",
+                boxShadow: "0 0 8px rgba(214,232,0,0.3)",
+              }}
             />
           </div>
         </div>
