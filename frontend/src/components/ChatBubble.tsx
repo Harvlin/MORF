@@ -1,9 +1,12 @@
 import type { ChatMessage } from "@/lib/mock-data";
 import { FormattedText } from "./FormattedText";
 import { cn } from "@/lib/utils";
+import { useColors } from "@/hooks/useColors";
 
 export function ChatBubble({ message }: { message: ChatMessage }) {
   const isUser = message.role === "user";
+  const c = useColors();
+
   return (
     <div className={cn("flex w-full", isUser ? "justify-end" : "justify-start")}>
       <div className="flex flex-col gap-1 max-w-[85%] sm:max-w-[75%]">
@@ -11,13 +14,13 @@ export function ChatBubble({ message }: { message: ChatMessage }) {
           <div className="flex items-center gap-2 px-1">
             <div
               className="w-5 h-5 rounded-full text-[10px] font-black grid place-items-center"
-              style={{ background: "#D6E800", color: "#1C1C1A" }}
+              style={{ background: c.coachAvatarBg, color: c.coachAvatarColor }}
             >
               M
             </div>
             <span
               className="text-[11px] font-bold uppercase tracking-widest"
-              style={{ color: "rgba(242,240,233,0.4)" }}
+              style={{ color: c.textTertiary }}
             >
               MORF Coach
             </span>
@@ -28,22 +31,25 @@ export function ChatBubble({ message }: { message: ChatMessage }) {
           style={
             isUser
               ? {
-                  background: "#D6E800",
+                  background: c.sunGlare,
                   color: "#1C1C1A",
-                  boxShadow: "0 4px 16px rgba(214,232,0,0.15)",
+                  boxShadow: `0 4px 16px ${c.sunGlareBg}`,
                 }
               : {
-                  background: "rgba(242,240,233,0.06)",
-                  border: "1px solid rgba(242,240,233,0.08)",
-                  color: "#F2F0E9",
+                  background: c.chipBg,
+                  border: `1px solid ${c.chipBorder}`,
+                  color: c.textPrimary,
                 }
           }
         >
-          <FormattedText text={message.text} className={isUser ? "text-[#1C1C1A]" : "text-[#F2F0E9]"} />
+          <FormattedText
+            text={message.text}
+            className={isUser ? "text-[#1C1C1A]" : undefined}
+          />
         </div>
         <span
           className={cn("text-[10px] px-1 font-medium", isUser ? "text-right" : "")}
-          style={{ color: "rgba(242,240,233,0.3)" }}
+          style={{ color: c.textTertiary }}
         >
           {message.ts}
         </span>

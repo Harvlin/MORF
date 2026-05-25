@@ -27,8 +27,8 @@ function ForgotPage() {
       <AnimatePresence mode="wait">
         {!sent ? (
           <motion.div key="form" exit={{ opacity: 0 }}>
-            <h1 className="text-2xl font-medium text-white">Reset your password</h1>
-            <p className="text-sm text-white/60 mt-1.5">
+            <h1 className="text-2xl font-medium text-foreground">Reset your password</h1>
+            <p className="text-sm text-muted-foreground mt-1.5">
               Enter your email and we'll send you a reset link.
             </p>
             <form onSubmit={submit} className="mt-6 space-y-4">
@@ -46,7 +46,7 @@ function ForgotPage() {
               <button
                 type="submit"
                 disabled={!email || loading}
-                className="w-full h-12 rounded-xl bg-[#E8593C] hover:bg-[#D44E33] text-white text-sm font-medium flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-50"
+                className="w-full h-12 rounded-xl bg-[#E8593C] hover:bg-[#D44E33] text-foreground text-sm font-medium flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-50"
               >
                 {loading ? (
                   <>
@@ -57,7 +57,7 @@ function ForgotPage() {
                 )}
               </button>
             </form>
-            <p className="text-sm text-white/55 text-center mt-6">
+            <p className="text-sm text-muted-foreground text-center mt-6">
               Remembered?{" "}
               <Link to="/login" className="text-[#F06B4F] hover:underline font-medium">
                 Sign in
@@ -74,9 +74,9 @@ function ForgotPage() {
             <div className="w-14 h-14 rounded-full bg-green-400/15 grid place-items-center mx-auto mb-5">
               <CheckCircle size={24} className="text-green-400" />
             </div>
-            <h1 className="text-2xl font-medium text-white">Check your email</h1>
-            <p className="text-sm text-white/60 mt-2 leading-relaxed">
-              We sent a reset link to <span className="text-white">{email}</span>. The link expires
+            <h1 className="text-2xl font-medium text-foreground">Check your email</h1>
+            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+              We sent a reset link to <span className="text-foreground">{email}</span>. The link expires
               in 1 hour.
             </p>
             <Link

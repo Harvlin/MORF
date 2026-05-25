@@ -1,6 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { House, Dumbbell, Video, Users, User, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useColors } from "@/hooks/useColors";
+import { ThemeToggle } from "./ThemeToggle";
 
 const items = [
   { to: "/dashboard", label: "Home", icon: House },
@@ -12,6 +14,7 @@ const items = [
 
 export function SideNav() {
   const { location } = useRouterState();
+  const c = useColors();
   if (location.pathname.startsWith("/onboarding") || location.pathname.startsWith("/coach/workout"))
     return null;
 
@@ -32,7 +35,7 @@ export function SideNav() {
         </div>
         <span
           className="text-xl font-bold tracking-tight"
-          style={{ color: "#F2F0E9" }}
+          style={{ color: c.textPrimary }}
         >
           MORF
         </span>
@@ -49,16 +52,15 @@ export function SideNav() {
                 <Link
                   to={item.to}
                   className={cn(
-                    "flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-[12px] transition-all duration-200",
-                    active
-                      ? "font-semibold"
-                      : "hover:bg-white/5",
+                    "flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-[12px] transition-all duration-200 group-hover:bg-transparent",
                   )}
                   style={
                     active
-                      ? { background: "#D6E800", color: "#1C1C1A" }
-                      : { color: "rgba(242,240,233,0.65)" }
+                      ? { background: c.sideNavActiveBg, color: c.sideNavActiveColor }
+                      : { color: c.sideNavInactive }
                   }
+                  onMouseEnter={e => { if (!active) e.currentTarget.style.background = c.hoverBg; }}
+                  onMouseLeave={e => { if (!active) e.currentTarget.style.background = "transparent"; }}
                 >
                   <Icon size={18} strokeWidth={active ? 2.5 : 2} />
                   {item.label}
@@ -70,15 +72,19 @@ export function SideNav() {
       </nav>
 
       <div
-        className="border-t pt-4"
-        style={{ borderColor: "rgba(242,240,233,0.08)" }}
+        className="border-t pt-4 space-y-3"
+        style={{ borderColor: c.divider }}
       >
+        <div className="px-3 flex items-center justify-between">
+          <span className="text-xs font-medium" style={{ color: c.textSecondary }}>Theme</span>
+          <ThemeToggle />
+        </div>
         <div
           className="flex items-center gap-2 px-3 py-2.5 rounded-xl"
-          style={{ background: "rgba(214,232,0,0.06)", border: "1px solid rgba(214,232,0,0.12)" }}
+          style={{ background: c.sideNavBeta, border: `1px solid ${c.sideNavBetaBorder}` }}
         >
-          <Zap size={13} style={{ color: "#D6E800" }} />
-          <span className="text-xs font-medium" style={{ color: "rgba(242,240,233,0.55)" }}>Beta build · v0.1</span>
+          <Zap size={13} style={{ color: c.sideNavBetaIcon }} />
+          <span className="text-xs font-medium" style={{ color: c.sideNavBetaText }}>Beta build · v0.1</span>
         </div>
       </div>
     </aside>

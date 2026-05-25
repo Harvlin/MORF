@@ -7,6 +7,7 @@ import { BadgeCard } from "@/components/BadgeCard";
 import { currentUser, badges, weeklySessions } from "@/lib/mock-data";
 import { useApp } from "@/lib/store";
 import { HealthProfileCard } from "@/components/HealthProfileCard";
+import { useColors } from "@/hooks/useColors";
 
 export const Route = createFileRoute("/profile/")({
   head: () => ({ meta: [{ title: "Profile — MORF" }] }),
@@ -17,6 +18,7 @@ function ProfilePage() {
   const reminders = useApp((s) => s.smartReminders);
   const toggle = useApp((s) => s.toggleSmartReminders);
   const unlocked = badges.filter((b) => b.unlockedAt);
+  const c = useColors();
 
   return (
     <AppShell>
@@ -26,15 +28,15 @@ function ProfilePage() {
         <div className="flex items-start gap-4">
           <div
             className="w-20 h-20 rounded-3xl grid place-items-center text-[26px] font-black"
-            style={{ background: "#6B5FC3", color: "#F2F0E9" }}
+            style={{ background: c.violet, color: "#F2F0E9" }}
           >
             {currentUser.initials}
           </div>
           <div className="flex-1 pt-2">
-            <h1 className="text-[24px] font-black" style={{ color: "#F2F0E9" }}>
+            <h1 className="text-[24px] font-black" style={{ color: c.textPrimary }}>
               {currentUser.name}
             </h1>
-            <p className="text-xs mt-0.5 font-medium" style={{ color: "rgba(242,240,233,0.45)" }}>
+            <p className="text-xs mt-0.5 font-medium" style={{ color: c.textTertiary }}>
               Member since April 2025 · {unlocked.length} achievements
             </p>
           </div>
@@ -43,13 +45,13 @@ function ProfilePage() {
 
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-3">
-          <Stat label="Sessions" value={String(currentUser.totalSessions)} accent="#D6E800" />
-          <Stat label="Best streak" value={`${currentUser.bestStreak}d`} accent="#F5522A" />
-          <Stat label="Analyses" value={String(currentUser.analysesDone)} accent="#6B5FC3" />
+          <Stat c={c} label="Sessions" value={String(currentUser.totalSessions)} accent={c.sunGlare} />
+          <Stat c={c} label="Best streak" value={`${currentUser.bestStreak}d`} accent={c.exuberant} />
+          <Stat c={c} label="Analyses" value={String(currentUser.analysesDone)} accent={c.violet} />
         </div>
 
         {/* Weekly sessions chart */}
-        <Card title="Weekly sessions">
+        <Card c={c} title="Weekly sessions">
           <div className="h-32">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={weeklySessions}>
@@ -57,17 +59,17 @@ function ProfilePage() {
                   dataKey="week"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: "rgba(242,240,233,0.4)", fontSize: 11 }}
+                  tick={{ fill: c.textTertiary, fontSize: 11 }}
                 />
                 <Tooltip
-                  cursor={{ fill: "rgba(242,240,233,0.03)" }}
+                  cursor={{ fill: c.chipBg }}
                   contentStyle={{
-                    background: "rgba(30,30,27,0.95)",
-                    border: "1px solid rgba(242,240,233,0.1)",
+                    background: c.isDark ? "rgba(30,30,27,0.95)" : "rgba(255,255,255,0.95)",
+                    border: `1px solid ${c.inputBorder}`,
                     borderRadius: 12,
                     fontSize: 12,
-                    color: "#F2F0E9",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
+                    color: c.textPrimary,
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
                   }}
                 />
                 <Bar dataKey="sessions" radius={[8, 8, 0, 0]}>
@@ -76,8 +78,8 @@ function ProfilePage() {
                       key={`cell-${index}`}
                       fill={
                         index === weeklySessions.length - 1
-                          ? "#F5522A"
-                          : "rgba(245,82,42,0.12)"
+                          ? c.exuberant
+                          : c.exuberantBg
                       }
                     />
                   ))}
@@ -91,12 +93,13 @@ function ProfilePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Card
+            c={c}
             title="Achievements"
             right={
               <Link
                 to="/profile/achievements"
                 className="text-xs flex items-center gap-1 hover:opacity-100 font-semibold transition-opacity"
-                style={{ color: "rgba(242,240,233,0.4)" }}
+                style={{ color: c.textTertiary }}
               >
                 See all <ChevronRight size={12} />
               </Link>
@@ -109,38 +112,38 @@ function ProfilePage() {
             </div>
           </Card>
 
-          <Card title="My sports">
+          <Card c={c} title="My sports">
             <div className="flex flex-wrap gap-2">
               {currentUser.sports.map((s) => (
                 <span
                   key={s}
                   className="px-3 py-1.5 rounded-full text-sm font-semibold"
-                  style={{ background: "rgba(107,95,195,0.08)", color: "#6B5FC3", border: "1px solid rgba(107,95,195,0.15)" }}
+                  style={{ background: c.violetBg, border: `1px solid ${c.violet}44`, color: c.violet }}
                 >
                   {s}
                 </span>
               ))}
               <button
                 className="px-3 py-1.5 rounded-full border-dashed text-sm font-medium transition-colors"
-                style={{ border: "1px dashed rgba(242,240,233,0.15)", color: "rgba(242,240,233,0.35)" }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(242,240,233,0.3)")}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(242,240,233,0.15)")}
+                style={{ border: `1px dashed ${c.inputBorder}`, color: c.textDisabled }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = `${c.textTertiary}88`)}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = c.inputBorder)}
               >
                 + Add
               </button>
             </div>
             <div
               className="mt-4 pt-4 flex items-center justify-between"
-              style={{ borderTop: "1px solid rgba(242,240,233,0.07)" }}
+              style={{ borderTop: `1px solid ${c.divider}` }}
             >
               <div>
-                <div className="text-sm font-semibold" style={{ color: "#F2F0E9" }}>Sport profile</div>
-                <div className="text-xs mt-0.5" style={{ color: "rgba(242,240,233,0.4)" }}>Last assessed April 12</div>
+                <div className="text-sm font-semibold" style={{ color: c.textPrimary }}>Sport profile</div>
+                <div className="text-xs mt-0.5" style={{ color: c.textTertiary }}>Last assessed April 12</div>
               </div>
               <Link
                 to="/onboarding/reassess"
                 className="inline-flex items-center gap-1.5 text-sm font-bold hover:underline"
-                style={{ color: "#F5522A" }}
+                style={{ color: c.exuberant }}
               >
                 <RefreshCw size={12} /> Update
               </Link>
@@ -149,8 +152,9 @@ function ProfilePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Card title="Notifications">
+          <Card c={c} title="Notifications">
             <Toggle
+              c={c}
               label="Smart reminders"
               desc="Context-aware nudges from your coach"
               value={reminders}
@@ -159,31 +163,31 @@ function ProfilePage() {
             <Link
               to="/profile/nudges"
               className="flex items-center justify-between text-sm py-2 -mx-2 px-2 rounded-lg transition-colors"
-              style={{ color: "#F2F0E9" }}
-              onMouseEnter={e => (e.currentTarget.style.background = "rgba(242,240,233,0.04)")}
+              style={{ color: c.textPrimary }}
+              onMouseEnter={e => (e.currentTarget.style.background = c.hoverBg)}
               onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
             >
               <span className="flex items-center gap-2 font-medium">
                 <Bell size={14} /> Nudge history
               </span>
-              <ChevronRight size={14} style={{ color: "rgba(242,240,233,0.3)" }} />
+              <ChevronRight size={14} style={{ color: c.textTertiary }} />
             </Link>
           </Card>
 
-          <Card title="Account">
-            <div className="space-y-1 text-sm" style={{ color: "#F2F0E9" }}>
-              <Row label="Email" value="sarah@athena.app" />
+          <Card c={c} title="Account">
+            <div className="space-y-1 text-sm" style={{ color: c.textPrimary }}>
+              <Row c={c} label="Email" value="sarah@athena.app" />
               <button
                 className="w-full text-left py-2 font-medium -mx-2 px-2 rounded-lg transition-colors"
-                onMouseEnter={e => (e.currentTarget.style.background = "rgba(242,240,233,0.04)")}
+                onMouseEnter={e => (e.currentTarget.style.background = c.hoverBg)}
                 onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
               >
                 Change password
               </button>
               <button
                 className="w-full text-left py-2 font-medium -mx-2 px-2 rounded-lg transition-colors"
-                style={{ color: "#F5522A" }}
-                onMouseEnter={e => (e.currentTarget.style.background = "rgba(245,82,42,0.06)")}
+                style={{ color: c.exuberant }}
+                onMouseEnter={e => (e.currentTarget.style.background = c.exuberantBg)}
                 onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
               >
                 Delete account
@@ -196,19 +200,13 @@ function ProfilePage() {
   );
 }
 
-function Stat({ label, value, accent }: { label: string; value: string; accent: string }) {
+function Stat({ c, label, value, accent }: { c: ReturnType<typeof useColors>; label: string; value: string; accent: string }) {
   return (
     <div className="card-frosted p-4 text-center">
-      <div
-        className="tabular font-black"
-        style={{ fontSize: "28px", color: accent }}
-      >
+      <div className="tabular font-black" style={{ fontSize: "28px", color: accent }}>
         {value}
       </div>
-      <div
-        className="uppercase tracking-[0.1em] mt-1 font-semibold"
-        style={{ fontSize: "10px", color: "rgba(242,240,233,0.4)" }}
-      >
+      <div className="uppercase tracking-[0.1em] mt-1 font-semibold" style={{ fontSize: "10px", color: c.textTertiary }}>
         {label}
       </div>
     </div>
@@ -216,10 +214,12 @@ function Stat({ label, value, accent }: { label: string; value: string; accent: 
 }
 
 function Card({
+  c,
   title,
   right,
   children,
 }: {
+  c: ReturnType<typeof useColors>;
   title: string;
   right?: React.ReactNode;
   children: React.ReactNode;
@@ -227,7 +227,7 @@ function Card({
   return (
     <div className="card-frosted p-5">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-bold text-[13px] uppercase tracking-[0.1em]" style={{ color: "rgba(242,240,233,0.45)" }}>
+        <h2 className="font-bold text-[13px] uppercase tracking-[0.1em]" style={{ color: c.textTertiary }}>
           {title}
         </h2>
         {right}
@@ -237,43 +237,45 @@ function Card({
   );
 }
 
-function Row({ label, value }: { label: string; value: string }) {
+function Row({ c, label, value }: { c: ReturnType<typeof useColors>; label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between py-2" style={{ color: "#F2F0E9" }}>
-      <span className="font-medium" style={{ color: "rgba(242,240,233,0.5)" }}>{label}</span>
+    <div className="flex items-center justify-between py-2" style={{ color: c.textPrimary }}>
+      <span className="font-medium" style={{ color: c.textSecondary }}>{label}</span>
       <span className="font-semibold">{value}</span>
     </div>
   );
 }
 
 function Toggle({
+  c,
   label,
   desc,
   value,
   onChange,
 }: {
+  c: ReturnType<typeof useColors>;
   label: string;
   desc?: string;
   value: boolean;
   onChange: () => void;
 }) {
   return (
-    <div className="flex items-center justify-between py-2" style={{ color: "#F2F0E9" }}>
+    <div className="flex items-center justify-between py-2" style={{ color: c.textPrimary }}>
       <div>
         <div className="text-sm font-semibold">{label}</div>
-        {desc && <div className="text-xs mt-0.5" style={{ color: "rgba(242,240,233,0.45)" }}>{desc}</div>}
+        {desc && <div className="text-xs mt-0.5" style={{ color: c.textTertiary }}>{desc}</div>}
       </div>
       <button
         onClick={onChange}
         role="switch"
         aria-checked={value}
         className="w-11 h-6 rounded-full transition-all relative"
-        style={{ background: value ? "#D6E800" : "rgba(242,240,233,0.1)" }}
+        style={{ background: value ? c.sunGlare : c.chipBg }}
       >
         <span
           className="absolute top-0.5 w-5 h-5 rounded-full shadow transition-all"
           style={{
-            background: value ? "#1C1C1A" : "rgba(242,240,233,0.5)",
+            background: value ? "#1C1C1A" : c.textSecondary,
             left: value ? "22px" : "2px",
           }}
         />

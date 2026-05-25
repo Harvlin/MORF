@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import type { ReactNode } from "react";
+import { useColors } from "@/hooks/useColors";
 
 const Logo = ({ size = 32 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
@@ -11,12 +12,12 @@ const Logo = ({ size = 32 }: { size?: number }) => (
 );
 
 export function AuthShell({ children }: { children: ReactNode }) {
+  const c = useColors();
   return (
     <div
       className="min-h-dvh font-sans relative overflow-hidden"
       style={{
-        background:
-          "radial-gradient(ellipse 70% 50% at 50% -10%, rgba(214,232,0,0.08) 0%, transparent 55%), linear-gradient(175deg, #1E1E1B 0%, #181816 100%)",
+        background: `radial-gradient(ellipse 70% 50% at 50% -10%, ${c.sunGlareBg} 0%, transparent 55%), linear-gradient(175deg, ${c.isDark ? '#1E1E1B' : '#FFFFFF'} 0%, ${c.isDark ? '#181816' : '#F4F3EE'} 100%)`,
       }}
     >
       {/* Decorative blobs */}
@@ -27,7 +28,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
           height: "500px",
           top: "-120px",
           right: "-150px",
-          background: "radial-gradient(circle, rgba(107,95,195,0.07) 0%, transparent 70%)",
+          background: `radial-gradient(circle, ${c.violetBg} 0%, transparent 70%)`,
           borderRadius: "9999px",
         }}
       />
@@ -38,7 +39,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
           height: "400px",
           bottom: "-100px",
           left: "-100px",
-          background: "radial-gradient(circle, rgba(245,82,42,0.06) 0%, transparent 70%)",
+          background: `radial-gradient(circle, ${c.exuberantBg} 0%, transparent 70%)`,
           borderRadius: "9999px",
         }}
       />
@@ -47,9 +48,9 @@ export function AuthShell({ children }: { children: ReactNode }) {
         to="/"
         className="absolute top-5 left-5 z-20 size-10 rounded-full flex items-center justify-center transition-all hover:scale-105"
         style={{
-          background: "rgba(242,240,233,0.07)",
-          border: "1px solid rgba(242,240,233,0.1)",
-          color: "rgba(242,240,233,0.7)",
+          background: c.chipBg,
+          border: `1px solid ${c.chipBorder}`,
+          color: c.textSecondary,
         }}
         aria-label="Back home"
       >
@@ -57,16 +58,16 @@ export function AuthShell({ children }: { children: ReactNode }) {
       </Link>
 
       <div className="relative z-10 min-h-dvh flex flex-col items-center justify-center px-5 py-12">
-        <div className="flex items-center gap-2.5 mb-8" style={{ color: "#D6E800" }}>
+        <div className="flex items-center gap-2.5 mb-8" style={{ color: c.sunGlare }}>
           <Logo size={26} />
-          <span className="font-bold text-xl tracking-tight" style={{ color: "#F2F0E9" }}>MORF</span>
+          <span className="font-bold text-xl tracking-tight" style={{ color: c.textPrimary }}>MORF</span>
         </div>
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 12 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="glass-strong rounded-3xl p-8 w-full max-w-md"
-          style={{ borderColor: "rgba(242,240,233,0.1)" }}
+          style={{ borderColor: c.divider }}
         >
           {children}
         </motion.div>
@@ -84,6 +85,7 @@ export function AuthInput({
   autoComplete,
   rightSlot,
   error,
+  c,
 }: {
   icon: React.ComponentType<{ size?: number; className?: string }>;
   type?: string;
@@ -93,10 +95,11 @@ export function AuthInput({
   autoComplete?: string;
   rightSlot?: ReactNode;
   error?: boolean;
+  c: ReturnType<typeof useColors>;
 }) {
   return (
     <div className="relative">
-      <Icon size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: "rgba(242,240,233,0.35)" }} />
+      <Icon size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: c.textTertiary }} />
       <input
         type={type}
         placeholder={placeholder}
@@ -107,22 +110,22 @@ export function AuthInput({
           rightSlot ? "pr-12" : "pr-4"
         } text-sm outline-none transition-all`}
         style={{
-          background: "rgba(242,240,233,0.05)",
+          background: c.inputBg,
           border: error
-            ? "1px solid rgba(245,82,42,0.6)"
-            : "1px solid rgba(242,240,233,0.1)",
-          color: "#F2F0E9",
-          boxShadow: error ? "0 0 0 3px rgba(245,82,42,0.1)" : "none",
+            ? `1px solid ${c.exuberant}99`
+            : `1px solid ${c.inputBorder}`,
+          color: c.textPrimary,
+          boxShadow: error ? `0 0 0 3px ${c.exuberantBg}` : "none",
         }}
         onFocus={e => {
           if (!error) {
-            e.currentTarget.style.borderColor = "rgba(214,232,0,0.5)";
-            e.currentTarget.style.boxShadow = "0 0 0 3px rgba(214,232,0,0.08)";
+            e.currentTarget.style.borderColor = `${c.sunGlare}80`;
+            e.currentTarget.style.boxShadow = `0 0 0 3px ${c.sunGlareBg}`;
           }
         }}
         onBlur={e => {
           if (!error) {
-            e.currentTarget.style.borderColor = "rgba(242,240,233,0.1)";
+            e.currentTarget.style.borderColor = c.inputBorder;
             e.currentTarget.style.boxShadow = "none";
           }
         }}
@@ -132,11 +135,11 @@ export function AuthInput({
   );
 }
 
-export function AuthLabel({ children }: { children: ReactNode }) {
+export function AuthLabel({ children, c }: { children: ReactNode; c: ReturnType<typeof useColors> }) {
   return (
     <label
       className="text-xs font-semibold mb-1.5 block"
-      style={{ color: "rgba(242,240,233,0.5)" }}
+      style={{ color: c.textSecondary }}
     >
       {children}
     </label>

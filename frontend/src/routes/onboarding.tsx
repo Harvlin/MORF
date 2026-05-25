@@ -18,6 +18,7 @@ import {
 import { useApp } from "@/lib/store";
 import { sportRecommendations } from "@/lib/mock-data";
 import { cn, getInitials } from "@/lib/utils";
+import { useColors } from "@/hooks/useColors";
 
 export const Route = createFileRoute("/onboarding")({
   component: OnboardingPage,
@@ -61,6 +62,7 @@ function OnboardingPage() {
   const onboarding = useApp((s) => s.onboarding);
   const setOnboarding = useApp((s) => s.setOnboarding);
   const navigate = useNavigate();
+  const c = useColors();
 
   const phrases = [
     "Analyzing your profile...",
@@ -111,10 +113,10 @@ function OnboardingPage() {
   const progress = step / 4;
 
   return (
-    <div className="app-stage min-h-dvh flex flex-col text-white">
-      <div className="h-1" style={{ background: "rgba(242,240,233,0.1)" }}>
+    <div className="app-stage min-h-dvh flex flex-col" style={{ background: c.appBg, color: c.textPrimary }}>
+      <div className="h-1" style={{ background: c.divider }}>
         <motion.div
-          style={{ height: "100%", background: "#D6E800", boxShadow: "0 0 8px rgba(214,232,0,0.4)" }}
+          style={{ height: "100%", background: c.sunGlare, boxShadow: `0 0 8px ${c.sunGlareBg}` }}
           animate={{ width: `${progress * 100}%` }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         />
@@ -133,7 +135,7 @@ function OnboardingPage() {
           <div className="w-10" />
         )}
         {step === 1 && (
-          <Link to="/dashboard" className="text-sm text-[rgba(255,255,255,0.7)] hover:text-white">
+          <Link to="/dashboard" className="text-sm transition-colors" style={{ color: c.textTertiary }} onMouseEnter={e => e.currentTarget.style.color = c.textPrimary} onMouseLeave={e => e.currentTarget.style.color = c.textTertiary}>
             Skip
           </Link>
         )}
@@ -144,8 +146,8 @@ function OnboardingPage() {
           <AnimatePresence mode="wait" custom={direction}>
             {step === 1 && !loading && !showResult && (
               <motion.div key="s1" {...slide(direction)}>
-                <h1 className="text-3xl sm:text-4xl font-semibold mb-2">What brings you here?</h1>
-                <p className="text-[rgba(255,255,255,0.8)] mb-8">
+                <h1 className="text-3xl sm:text-4xl font-semibold mb-2" style={{ color: c.textPrimary }}>What brings you here?</h1>
+                <p className="mb-8" style={{ color: c.textSecondary }}>
                   Pick everything that applies. We'll personalize from here.
                 </p>
                 <div className="grid grid-cols-2 gap-3">
@@ -164,24 +166,21 @@ function OnboardingPage() {
                         }
                       className={cn(
                           "p-5 rounded-[28px] border text-left transition-all active:scale-[0.97]",
-                          active
-                            ? "border-transparent"
-                            : "bg-[rgba(255,255,255,0.06)] border-[rgba(242,240,233,0.08)] hover:bg-[rgba(255,255,255,0.09)]",
                         )}
                         style={
                           active
-                            ? { background: "rgba(214,232,0,0.12)", border: "1px solid rgba(214,232,0,0.3)", boxShadow: "0 0 24px rgba(214,232,0,0.1)" }
-                            : {}
+                            ? { background: c.sunGlareBg, border: `1px solid ${c.sunGlare}44`, boxShadow: `0 0 24px ${c.sunGlareBg}` }
+                            : { background: c.chipBg, border: `1px solid ${c.chipBorder}` }
                         }
                       >
                         <div className={cn(
                           "w-9 h-9 rounded-xl grid place-items-center mb-2 transition-colors",
                         )}
-                          style={active ? { background: "rgba(214,232,0,0.15)", color: "#D6E800" } : { background: "rgba(255,255,255,0.08)", color: "rgba(242,240,233,0.6)" }}
+                          style={active ? { background: `${c.sunGlare}22`, color: c.sunGlare } : { background: c.isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.05)", color: c.textSecondary }}
                         >
                           <Icon size={18} />
                         </div>
-                        <div className="font-bold text-[15px] leading-tight" style={{ color: active ? "#D6E800" : "rgba(242,240,233,0.85)" }}>{g.label}</div>
+                        <div className="font-bold text-[15px] leading-tight" style={{ color: active ? c.sunGlare : c.textPrimary }}>{g.label}</div>
                       </button>
                     );
                   })}
@@ -191,27 +190,30 @@ function OnboardingPage() {
 
             {step === 2 && (
               <motion.div key="s2" {...slide(direction)} className="space-y-7">
-                <h1 className="text-3xl sm:text-4xl font-semibold mb-2 text-white">Tell us about yourself</h1>
+                <h1 className="text-3xl sm:text-4xl font-semibold mb-2" style={{ color: c.textPrimary }}>Tell us about yourself</h1>
                 <Pills
                   label="Fitness level"
                   options={fitnessLevels}
                   value={onboarding.fitnessLevel}
                   onChange={(v) => setOnboarding({ fitnessLevel: v })}
+                  c={c}
                 />
                 <Pills
                   label="Where you prefer to work out"
                   options={locations}
                   value={onboarding.location}
                   onChange={(v) => setOnboarding({ location: v })}
+                  c={c}
                 />
                 <Pills
                   label="How much time per week"
                   options={times}
                   value={onboarding.timePerWeek}
                   onChange={(v) => setOnboarding({ timePerWeek: v })}
+                  c={c}
                 />
                 <div>
-                  <div className="text-sm font-medium mb-3 text-white">How do you feel about exercise?</div>
+                  <div className="text-sm font-medium mb-3" style={{ color: c.textPrimary }}>How do you feel about exercise?</div>
                   <div className="grid grid-cols-5 gap-2">
                     {confidenceLevels.map((c) => {
                       const active = onboarding.confidence === c.value;
@@ -221,14 +223,11 @@ function OnboardingPage() {
                           onClick={() => setOnboarding({ confidence: c.value })}
                           className={cn(
                             "flex flex-col items-center justify-center gap-1 h-14 rounded-xl border-2 transition-all active:scale-95",
-                            active
-                              ? ""
-                              : "bg-[rgba(255,255,255,0.06)] border-transparent hover:bg-[rgba(255,255,255,0.1)]",
                           )}
-                          style={active ? { background: "rgba(214,232,0,0.15)", border: "1px solid rgba(214,232,0,0.4)" } : {}}
+                          style={active ? { background: c.sunGlareBg, border: `1px solid ${c.sunGlare}66` } : { background: c.chipBg, border: `1px solid transparent` }}
                         >
-                          <span style={{ fontSize: "14px", fontWeight: 700, color: active ? "#D6E800" : "#F2F0E9" }}>{c.value}</span>
-                          <span style={{ fontSize: "10px", lineHeight: 1.2, color: active ? "rgba(214,232,0,0.7)" : "rgba(242,240,233,0.6)" }}>{c.label}</span>
+                          <span style={{ fontSize: "14px", fontWeight: 700, color: active ? c.sunGlare : c.textPrimary }}>{c.value}</span>
+                          <span style={{ fontSize: "10px", lineHeight: 1.2, color: active ? c.sunGlare : c.textSecondary }}>{c.label}</span>
                         </button>
                       );
                     })}
@@ -240,11 +239,11 @@ function OnboardingPage() {
             {step === 3 && (
               <motion.div key="s3" {...slide(direction)} className="space-y-7">
                 <div>
-                  <h1 className="text-3xl sm:text-4xl font-semibold text-white">We want to get this right</h1>
-                  <p className="text-[rgba(255,255,255,0.8)] mt-2">This helps us personalize your experience.</p>
+                  <h1 className="text-3xl sm:text-4xl font-semibold" style={{ color: c.textPrimary }}>We want to get this right</h1>
+                  <p className="mt-2" style={{ color: c.textSecondary }}>This helps us personalize your experience.</p>
                 </div>
                 <div>
-                  <div className="text-sm font-medium mb-3 text-white">Any physical considerations?</div>
+                  <div className="text-sm font-medium mb-3" style={{ color: c.textPrimary }}>Any physical considerations?</div>
                   <div className="flex flex-wrap gap-2">
                     {physicalOptions.map((p) => {
                       const active = onboarding.physical.includes(p);
@@ -260,26 +259,25 @@ function OnboardingPage() {
                           }
                           className={cn(
                             "px-4 py-2 rounded-full border-2 text-sm font-medium transition-all active:scale-95",
-                            active
-                              ? "bg-white border-white text-[#1a3d35] shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
-                              : "bg-[rgba(255,255,255,0.4)] border-transparent text-white backdrop-blur-md",
                           )}
+                          style={active ? { background: c.textPrimary, color: c.appBg, border: `2px solid ${c.textPrimary}` } : { background: c.chipBg, color: c.textPrimary, border: `2px solid transparent` }}
                         >
                           {p}
                         </button>
                       );
                     })}
                   </div>
-                  <ConditionDetailCards selected={onboarding.physical} />
+                  <ConditionDetailCards selected={onboarding.physical} c={c} />
                 </div>
                 <Pills
                   label="Social preference"
                   options={socialOptions}
                   value={onboarding.social}
                   onChange={(v) => setOnboarding({ social: v })}
+                  c={c}
                 />
                 <div>
-                  <label className="text-sm font-medium mb-2 block text-white">
+                  <label className="text-sm font-medium mb-2 block" style={{ color: c.textPrimary }}>
                     Anything else we should know?
                   </label>
                   <textarea
@@ -289,12 +287,12 @@ function OnboardingPage() {
                     rows={3}
                     className="w-full rounded-xl px-4 py-3 text-sm resize-none focus:outline-none transition-all"
                     style={{
-                      background: "rgba(242,240,233,0.06)",
-                      border: "1px solid rgba(242,240,233,0.1)",
-                      color: "#F2F0E9",
+                      background: c.inputBg,
+                      border: `1px solid ${c.inputBorder}`,
+                      color: c.textPrimary,
                     }}
-                    onFocus={e => (e.currentTarget.style.borderColor = "rgba(214,232,0,0.4)")}
-                    onBlur={e => (e.currentTarget.style.borderColor = "rgba(242,240,233,0.1)")}
+                    onFocus={e => (e.currentTarget.style.borderColor = `${c.sunGlare}66`)}
+                    onBlur={e => (e.currentTarget.style.borderColor = c.inputBorder)}
                   />
                 </div>
               </motion.div>
@@ -309,11 +307,11 @@ function OnboardingPage() {
               >
                 <motion.div
                   className="w-24 h-24 rounded-full grid place-items-center mb-8"
-                  style={{ background: "rgba(214,232,0,0.12)" }}
+                  style={{ background: c.sunGlareBg }}
                   animate={{ scale: [1, 1.15, 1] }}
                   transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <div className="w-12 h-12 rounded-full" style={{ background: "#D6E800", boxShadow: "0 0 24px rgba(214,232,0,0.4)" }} />
+                  <div className="w-12 h-12 rounded-full" style={{ background: c.sunGlare, boxShadow: `0 0 24px ${c.sunGlareBg}` }} />
                 </motion.div>
                 <AnimatePresence mode="wait">
                   <motion.p
@@ -322,7 +320,7 @@ function OnboardingPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     className="text-lg font-medium"
-                    style={{ color: "rgba(242,240,233,0.6)" }}
+                    style={{ color: c.textSecondary }}
                   >
                     {phrases[phraseIdx]}
                   </motion.p>
@@ -336,10 +334,10 @@ function OnboardingPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <h1 className="text-3xl sm:text-4xl font-semibold mb-2 text-white">
+                <h1 className="text-3xl sm:text-4xl font-semibold mb-2" style={{ color: c.textPrimary }}>
                   Here's what we think you'll love
                 </h1>
-                <p className="text-[rgba(255,255,255,0.8)] mb-8">Three sports tuned to your answers.</p>
+                <p className="mb-8" style={{ color: c.textSecondary }}>Three sports tuned to your answers.</p>
                 <div className="space-y-3 mb-8">
                   {sportRecommendations.map((sport) => (
                     <SportRecCard
@@ -349,24 +347,26 @@ function OnboardingPage() {
                         setOnboarding({ pickedSportId: sport.id });
                         navigate({ to: "/dashboard" });
                       }}
+                      c={c}
                     />
                   ))}
                 </div>
                 <div className="mb-6">
-                  <h3 className="font-semibold mb-3 text-white">Your 4-week starter plan</h3>
+                  <h3 className="font-semibold mb-3" style={{ color: c.textPrimary }}>Your 4-week starter plan</h3>
                   <div className="flex gap-3 overflow-x-auto no-scrollbar -mx-5 px-5 pb-2">
                     {[1, 2, 3, 4].map((w) => (
                       <div
                         key={w}
                         className="card-frosted shrink-0 w-44 p-4"
+                        style={{ borderColor: c.divider }}
                       >
-                        <div className="text-xs text-text-2 uppercase tracking-wider mb-1">
+                        <div className="text-xs uppercase tracking-wider mb-1" style={{ color: c.textTertiary }}>
                           Week {w}
                         </div>
-                        <div className="font-semibold text-sm mb-2">
+                        <div className="font-semibold text-sm mb-2" style={{ color: c.textPrimary }}>
                           {["Foundation", "Form & flow", "Build endurance", "Test yourself"][w - 1]}
                         </div>
-                        <div className="text-xs text-text-2">
+                        <div className="text-xs" style={{ color: c.textSecondary }}>
                           {
                             [
                               "3 sessions · light",
@@ -382,7 +382,10 @@ function OnboardingPage() {
                 </div>
                 <button
                   onClick={() => navigate({ to: "/dashboard" })}
-                  className="text-sm text-[rgba(255,255,255,0.7)] hover:text-white underline underline-offset-4 block mx-auto"
+                  className="text-sm underline underline-offset-4 block mx-auto transition-colors"
+                  style={{ color: c.textSecondary }}
+                  onMouseEnter={e => e.currentTarget.style.color = c.textPrimary}
+                  onMouseLeave={e => e.currentTarget.style.color = c.textSecondary}
                 >
                   I'll decide later
                 </button>
@@ -395,7 +398,7 @@ function OnboardingPage() {
       {!loading && !showResult && (
         <div
           className="sticky bottom-0 backdrop-blur-xl px-5 py-4"
-          style={{ background: "rgba(24,24,22,0.85)", borderTop: "1px solid rgba(242,240,233,0.07)" }}
+          style={{ background: c.isDark ? "rgba(24,24,22,0.85)" : "rgba(244,243,238,0.85)", borderTop: `1px solid ${c.divider}` }}
         >
           <div className="max-w-[480px] mx-auto">
             <button
@@ -406,8 +409,8 @@ function OnboardingPage() {
               )}
               style={
                 canContinue
-                  ? { background: "#D6E800", color: "#1C1C1A", boxShadow: "0 0 28px rgba(214,232,0,0.2)" }
-                  : { background: "rgba(242,240,233,0.06)", color: "rgba(242,240,233,0.25)", cursor: "not-allowed" }
+                  ? { background: c.sunGlare, color: "#1C1C1A", boxShadow: `0 0 28px ${c.sunGlareBg}` }
+                  : { background: c.chipBg, color: c.textDisabled, cursor: "not-allowed", border: `1px solid ${c.chipBorder}` }
               }
             >
               {step === 3 ? "Find my sports" : "Continue"} <ChevronRight size={16} />
@@ -433,15 +436,17 @@ function Pills({
   options,
   value,
   onChange,
+  c,
 }: {
   label: string;
   options: string[];
   value?: string;
   onChange: (v: string) => void;
+  c: ReturnType<typeof useColors>;
 }) {
   return (
     <div>
-      <div className="text-sm font-medium mb-3">{label}</div>
+      <div className="text-sm font-medium mb-3" style={{ color: c.textPrimary }}>{label}</div>
       <div className="flex flex-wrap gap-2">
         {options.map((o) => {
           const active = value === o;
@@ -454,8 +459,8 @@ function Pills({
           )}
               style={
                 active
-                  ? { background: "#D6E800", color: "#1C1C1A", border: "none", boxShadow: "0 0 12px rgba(214,232,0,0.2)" }
-                  : { background: "rgba(255,255,255,0.07)", border: "1px solid rgba(242,240,233,0.12)", color: "rgba(242,240,233,0.7)" }
+                  ? { background: c.sunGlare, color: "#1C1C1A", border: "none", boxShadow: `0 0 12px ${c.sunGlareBg}` }
+                  : { background: c.chipBg, border: `1px solid ${c.chipBorder}`, color: c.textSecondary }
               }
             >
               {o}
@@ -470,34 +475,42 @@ function Pills({
 function SportRecCard({
   sport,
   onPick,
+  c,
 }: {
   sport: (typeof sportRecommendations)[0];
   onPick: () => void;
+  c: ReturnType<typeof useColors>;
 }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="card-frosted p-5">
+    <div className="card-frosted p-5" style={{ borderColor: c.divider }}>
       <div className="flex items-start justify-between gap-3 mb-2">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
             <span
               className="w-9 h-9 rounded-full text-[11px] font-black grid place-items-center"
-              style={{ background: "rgba(214,232,0,0.12)", color: "#D6E800", border: "1px solid rgba(214,232,0,0.2)" }}
+              style={{ background: c.sunGlareBg, color: c.sunGlare, border: `1px solid ${c.sunGlare}33` }}
               aria-hidden
             >
               {getInitials(sport.name)}
             </span>
-            <h3 className="text-[24px] font-black" style={{ color: "#F2F0E9" }}>{sport.name}</h3>
+            <h3 className="text-[24px] font-black" style={{ color: c.textPrimary }}>{sport.name}</h3>
           </div>
-          <p className="text-sm italic text-text-2">{sport.reason}</p>
+          <p className="text-sm italic" style={{ color: c.textSecondary }}>{sport.reason}</p>
         </div>
-        <span className="text-[10px] font-semibold bg-[#1a3d35] text-white px-2 py-1 rounded-full uppercase tracking-wider">
+        <span
+          className="text-[10px] font-semibold px-2 py-1 rounded-full uppercase tracking-wider"
+          style={{ background: c.textPrimary, color: c.appBg }}
+        >
           {sport.difficulty}
         </span>
       </div>
       <button
         onClick={() => setOpen((o) => !o)}
-        className="text-xs text-text-2 hover:text-text-1 flex items-center gap-1 mt-2"
+        className="text-xs flex items-center gap-1 mt-2 transition-colors"
+        style={{ color: c.textSecondary }}
+        onMouseEnter={e => e.currentTarget.style.color = c.textPrimary}
+        onMouseLeave={e => e.currentTarget.style.color = c.textSecondary}
       >
         Why this?{" "}
         <ChevronDown size={12} className={cn("transition-transform", open && "rotate-180")} />
@@ -508,7 +521,8 @@ function SportRecCard({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="text-sm text-text-2 mt-3 overflow-hidden"
+            className="text-sm mt-3 overflow-hidden"
+            style={{ color: c.textSecondary }}
           >
             {sport.why}
           </motion.p>
@@ -517,7 +531,7 @@ function SportRecCard({
       <button
         onClick={onPick}
         className="w-full mt-4 h-11 rounded-xl font-bold text-sm hover:opacity-90 active:scale-[0.98] transition-all"
-        style={{ background: "#D6E800", color: "#1C1C1A", boxShadow: "0 0 16px rgba(214,232,0,0.2)" }}
+        style={{ background: c.sunGlare, color: "#1C1C1A", boxShadow: `0 0 16px ${c.sunGlareBg}` }}
       >
         Let's start with {sport.name}
       </button>
@@ -560,7 +574,7 @@ const conditionMeta: Record<
 };
 const severities = ["mild", "moderate", "significant"] as const;
 
-function ConditionDetailCards({ selected }: { selected: string[] }) {
+function ConditionDetailCards({ selected, c }: { selected: string[]; c: ReturnType<typeof useColors> }) {
   const details = useApp((s) => s.onboarding.physicalDetails);
   const set = useApp((s) => s.setPhysicalDetail);
   const conds = selected.filter((c) => c !== "None" && c !== "Prefer not to say");
@@ -581,16 +595,16 @@ function ConditionDetailCards({ selected }: { selected: string[] }) {
             const d = details[c] ?? {};
             const selectedSubs = (d.details?.values as string[]) ?? [];
             return (
-              <div key={c} className="card-frosted p-4 mb-3">
+              <div key={c_} className="card-frosted p-4 mb-3" style={{ borderColor: c.divider }}>
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-text-2">
+                  <span style={{ color: c.textSecondary }}>
                     <Icon size={16} />
                   </span>
-                  <span className="text-sm font-medium text-text-1">{c}</span>
+                  <span className="text-sm font-medium" style={{ color: c.textPrimary }}>{c_}</span>
                 </div>
                 {meta.subLabel && (
                   <div className="mb-3">
-                    <div className="text-xs text-text-2 mb-2">{meta.subLabel}</div>
+                    <div className="text-xs mb-2" style={{ color: c.textSecondary }}>{meta.subLabel}</div>
                     {meta.subOptions ? (
                       <div className="flex gap-2 flex-wrap">
                         {meta.subOptions.map((o) => {
@@ -609,8 +623,8 @@ function ConditionDetailCards({ selected }: { selected: string[] }) {
                           )}
                           style={
                             active
-                              ? { background: "#D6E800", color: "#1C1C1A", border: "none" }
-                              : { background: "rgba(255,255,255,0.07)", border: "1px solid rgba(242,240,233,0.12)", color: "rgba(242,240,233,0.7)" }
+                              ? { background: c.sunGlare, color: "#1C1C1A", border: "none" }
+                              : { background: c.chipBg, border: `1px solid ${c.chipBorder}`, color: c.textSecondary }
                           }
                             >
                               {o}
@@ -622,28 +636,33 @@ function ConditionDetailCards({ selected }: { selected: string[] }) {
                       <input
                         type="text"
                         value={(d.details?.text as string) ?? ""}
-                        onChange={(e) => set(c, { details: { text: e.target.value } })}
-                        className="w-full h-10 bg-[rgba(255,255,255,0.4)] border border-transparent rounded-lg px-3 text-sm focus:outline-none focus:bg-white text-[#0f2420] placeholder-[rgba(15,36,32,0.5)] transition-colors"
+                        onChange={(e) => set(c_, { details: { text: e.target.value } })}
+                        className="w-full h-10 border border-transparent rounded-lg px-3 text-sm focus:outline-none transition-colors"
+                        style={{ background: c.inputBg, color: c.textPrimary, border: `1px solid ${c.inputBorder}` }}
                         placeholder="e.g. right knee, ACL recovery"
+                        onFocus={e => (e.currentTarget.style.borderColor = `${c.sunGlare}66`)}
+                        onBlur={e => (e.currentTarget.style.borderColor = c.inputBorder)}
                       />
                     )}
                   </div>
                 )}
                 <div className="mb-3">
-                  <div className="text-xs text-text-2 mb-2">Severity</div>
+                  <div className="text-xs mb-2" style={{ color: c.textSecondary }}>Severity</div>
                   <div className="flex gap-2">
                     {severities.map((s) => {
                       const active = d.severity === s;
                       return (
                         <button
                           key={s}
-                          onClick={() => set(c, { severity: s })}
+                          onClick={() => set(c_, { severity: s })}
                           className={cn(
                             "px-3 py-1.5 rounded-full text-xs font-medium border transition-all capitalize",
-                            active
-                              ? "bg-[#1a3d35] border-transparent text-white"
-                              : "bg-[rgba(255,255,255,0.4)] border-transparent text-[#0f2420] hover:bg-[rgba(255,255,255,0.6)]",
                           )}
+                          style={
+                            active
+                              ? { background: c.textPrimary, color: c.appBg, border: "none" }
+                              : { background: c.chipBg, color: c.textPrimary, border: `1px solid transparent` }
+                          }
                         >
                           {s}
                         </button>
@@ -653,10 +672,13 @@ function ConditionDetailCards({ selected }: { selected: string[] }) {
                 </div>
                 <textarea
                   value={d.avoidances ?? ""}
-                  onChange={(e) => set(c, { avoidances: e.target.value })}
+                  onChange={(e) => set(c_, { avoidances: e.target.value })}
                   rows={2}
                   placeholder={meta.placeholder}
-                  className="w-full bg-[rgba(255,255,255,0.4)] border border-transparent rounded-lg px-3 py-2 text-sm resize-none min-h-[72px] focus:outline-none focus:bg-white text-[#0f2420] placeholder-[rgba(15,36,32,0.5)] transition-colors"
+                  className="w-full rounded-lg px-3 py-2 text-sm resize-none min-h-[72px] focus:outline-none transition-colors"
+                  style={{ background: c.inputBg, color: c.textPrimary, border: `1px solid ${c.inputBorder}` }}
+                  onFocus={e => (e.currentTarget.style.borderColor = `${c.sunGlare}66`)}
+                  onBlur={e => (e.currentTarget.style.borderColor = c.inputBorder)}
                 />
               </div>
             );

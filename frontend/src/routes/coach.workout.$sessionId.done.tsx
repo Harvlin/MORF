@@ -14,7 +14,7 @@ function DonePage() {
   const [note, setNote] = useState("");
 
   return (
-    <div className="app-stage min-h-dvh text-white flex flex-col px-5 py-8">
+    <div className="app-stage min-h-dvh text-foreground flex flex-col px-5 py-8">
       <div className="flex-1 flex flex-col items-center text-center max-w-md mx-auto w-full">
         <motion.div
           initial={{ scale: 0, rotate: -45 }}

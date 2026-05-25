@@ -15,7 +15,7 @@ function Reassess() {
 
   if (stage === "welcome") {
     return (
-      <div className="app-stage min-h-dvh text-white flex flex-col px-5 py-8">
+      <div className="app-stage min-h-dvh text-foreground flex flex-col px-5 py-8">
         <Link
           to="/dashboard"
           className="w-10 h-10 -ml-2 grid place-items-center rounded-lg hover:bg-surface-3 self-start"
@@ -61,7 +61,7 @@ function Reassess() {
   }
 
   return (
-    <div className="app-stage min-h-dvh text-white px-5 py-8">
+    <div className="app-stage min-h-dvh text-foreground px-5 py-8">
       <Link
         to="/dashboard"
         className="w-10 h-10 -ml-2 grid place-items-center rounded-lg hover:bg-surface-3 mb-4"

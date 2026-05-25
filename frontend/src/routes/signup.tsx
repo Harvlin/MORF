@@ -3,6 +3,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, Loader2, User, Check } from "lucide-react";
 import { AuthShell, AuthInput, AuthLabel } from "@/components/AuthShell";
+import { useColors } from "@/hooks/useColors";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({ meta: [{ title: "Create account — MORF" }] }),
@@ -17,8 +18,8 @@ function strength(pw: string) {
   if (/[^A-Za-z0-9]/.test(pw)) s++;
   return s;
 }
+
 const labels = ["", "Weak", "Fair", "Good", "Strong"];
-const strengthColors = ["transparent", "#F5522A", "#F5A52A", "#D6E800", "#D6E800"];
 
 function SignupPage() {
   const nav = useNavigate();
@@ -28,6 +29,8 @@ function SignupPage() {
   const [showPw, setShowPw] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const c = useColors();
+  const strengthColors = ["transparent", c.exuberant, "#F5A52A", c.sunGlare, c.sunGlare];
   const s = strength(pw);
 
   const submit = async (e: React.FormEvent) => {
@@ -42,15 +45,16 @@ function SignupPage() {
   return (
     <AuthShell>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        <h1 className="text-2xl font-black" style={{ color: "#F2F0E9" }}>Create your account</h1>
-        <p className="text-sm mt-1.5 font-medium" style={{ color: "rgba(242,240,233,0.45)" }}>
+        <h1 className="text-2xl font-black" style={{ color: c.textPrimary }}>Create your account</h1>
+        <p className="text-sm mt-1.5 font-medium" style={{ color: c.textTertiary }}>
           Start your inclusive sports journey in 60 seconds.
         </p>
 
         <form onSubmit={submit} className="mt-6 space-y-4">
           <div>
-            <AuthLabel>Full name</AuthLabel>
+            <AuthLabel c={c}>Full name</AuthLabel>
             <AuthInput
+              c={c}
               icon={User}
               placeholder="Your name"
               value={name}
@@ -59,8 +63,9 @@ function SignupPage() {
             />
           </div>
           <div>
-            <AuthLabel>Email</AuthLabel>
+            <AuthLabel c={c}>Email</AuthLabel>
             <AuthInput
+              c={c}
               icon={Mail}
               type="email"
               placeholder="you@morf.app"
@@ -70,8 +75,9 @@ function SignupPage() {
             />
           </div>
           <div>
-            <AuthLabel>Password</AuthLabel>
+            <AuthLabel c={c}>Password</AuthLabel>
             <AuthInput
+              c={c}
               icon={Lock}
               type={showPw ? "text" : "password"}
               placeholder="At least 8 characters"
@@ -83,7 +89,7 @@ function SignupPage() {
                   type="button"
                   onClick={() => setShowPw(!showPw)}
                   className="w-8 h-8 grid place-items-center rounded-lg transition-colors"
-                  style={{ color: "rgba(242,240,233,0.35)" }}
+                  style={{ color: c.textTertiary }}
                 >
                   {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
@@ -96,11 +102,11 @@ function SignupPage() {
                     <div
                       key={i}
                       className="h-0.5 rounded-full transition-all"
-                      style={{ background: i <= s ? strengthColors[s] : "rgba(242,240,233,0.1)" }}
+                      style={{ background: i <= s ? strengthColors[s] : c.divider }}
                     />
                   ))}
                 </div>
-                <span className="text-[11px] w-12 text-right font-semibold" style={{ color: s > 0 ? strengthColors[s] : "rgba(242,240,233,0.3)" }}>
+                <span className="text-[11px] w-12 text-right font-semibold" style={{ color: s > 0 ? strengthColors[s] : c.textTertiary }}>
                   {labels[s]}
                 </span>
               </div>
@@ -115,19 +121,19 @@ function SignupPage() {
               role="checkbox"
               className="w-4 h-4 rounded mt-0.5 grid place-items-center flex-shrink-0 transition-all"
               style={{
-                background: agreed ? "#D6E800" : "transparent",
-                border: agreed ? "none" : "1.5px solid rgba(242,240,233,0.2)",
+                background: agreed ? c.sunGlare : "transparent",
+                border: agreed ? "none" : `1.5px solid ${c.chipBorder}`,
               }}
             >
               {agreed && <Check size={11} style={{ color: "#1C1C1A" }} strokeWidth={3} />}
             </button>
-            <span className="text-xs leading-relaxed" style={{ color: "rgba(242,240,233,0.5)" }}>
+            <span className="text-xs leading-relaxed" style={{ color: c.textSecondary }}>
               I agree to MORF's{" "}
-              <a href="#" className="font-semibold hover:underline" style={{ color: "#D6E800" }}>
+              <a href="#" className="font-semibold hover:underline" style={{ color: c.sunGlare }}>
                 Terms
               </a>{" "}
               and{" "}
-              <a href="#" className="font-semibold hover:underline" style={{ color: "#D6E800" }}>
+              <a href="#" className="font-semibold hover:underline" style={{ color: c.sunGlare }}>
                 Privacy Policy
               </a>
               .
@@ -139,9 +145,9 @@ function SignupPage() {
             disabled={!canSubmit}
             className="w-full h-12 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-35"
             style={{
-              background: "#D6E800",
+              background: c.sunGlare,
               color: "#1C1C1A",
-              boxShadow: canSubmit ? "0 0 28px rgba(214,232,0,0.25)" : "none",
+              boxShadow: canSubmit ? `0 0 28px ${c.sunGlareBg}` : "none",
             }}
           >
             {loading ? (
@@ -154,9 +160,9 @@ function SignupPage() {
           </button>
         </form>
 
-        <p className="text-sm text-center mt-6" style={{ color: "rgba(242,240,233,0.4)" }}>
+        <p className="text-sm text-center mt-6" style={{ color: c.textTertiary }}>
           Already have an account?{" "}
-          <Link to="/login" className="font-bold" style={{ color: "#D6E800" }}>
+          <Link to="/login" className="font-bold" style={{ color: c.sunGlare }}>
             Sign in
           </Link>
         </p>

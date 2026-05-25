@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { CircularScore } from "@/components/CircularScore";
 import { FormattedText } from "@/components/FormattedText";
 import { analyses } from "@/lib/mock-data";
+import { useColors } from "@/hooks/useColors";
 
 export const Route = createFileRoute("/analysis/result")({
   component: ResultPage,
@@ -21,6 +22,7 @@ function ResultPage() {
           ? "Keep practicing"
           : "Let's improve together";
   const delta = result.prevScore ? result.score - result.prevScore : null;
+  const c = useColors();
 
   return (
     <AppShell>
@@ -30,13 +32,13 @@ function ResultPage() {
           <CircularScore value={result.score} label="Movement Score" />
           <div
             className="text-[24px] font-black mt-5"
-            style={{ color: "#F2F0E9" }}
+            style={{ color: c.textPrimary }}
           >
             {grade}
           </div>
           <div
             className="text-xs mt-1.5 uppercase tracking-wider font-semibold"
-            style={{ color: "rgba(242,240,233,0.4)" }}
+            style={{ color: c.textTertiary }}
           >
             {result.exercise} ·{" "}
             {new Date(result.date).toLocaleDateString("en-US", {
@@ -48,7 +50,7 @@ function ResultPage() {
           {delta !== null && (
             <div
               className="mt-4 inline-flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full"
-              style={{ background: "rgba(107,95,195,0.12)", color: "#6B5FC3", border: "1px solid rgba(107,95,195,0.2)" }}
+              style={{ background: c.violetBg, color: c.violet, border: `1px solid ${c.violet}33` }}
             >
               <ArrowUp size={12} /> +{delta} vs last week
             </div>
@@ -57,7 +59,7 @@ function ResultPage() {
 
         {/* Breakdown */}
         <div className="card-frosted p-5 mb-4">
-          <h2 className="font-bold text-sm uppercase tracking-widest mb-4" style={{ color: "rgba(242,240,233,0.4)" }}>
+          <h2 className="font-bold text-sm uppercase tracking-widest mb-4" style={{ color: c.textTertiary }}>
             Breakdown
           </h2>
           <div className="space-y-4">
@@ -67,18 +69,18 @@ function ResultPage() {
                   className="w-7 h-7 rounded-lg grid place-items-center shrink-0 font-bold"
                   style={
                     m.status === "good"
-                      ? { background: "rgba(107,95,195,0.12)", color: "#6B5FC3" }
-                      : { background: "rgba(245,82,42,0.12)", color: "#F5522A" }
+                      ? { background: c.violetBg, color: c.violet }
+                      : { background: c.exuberantBg, color: c.exuberant }
                   }
                 >
                   {m.status === "good" ? <Check size={14} strokeWidth={3} /> : <ArrowUp size={14} />}
                 </div>
                 <div className="flex-1">
                   <div className="flex items-baseline justify-between gap-3">
-                    <div className="font-semibold text-sm" style={{ color: "#F2F0E9" }}>{m.label}</div>
-                    <div className="font-bold text-sm tabular" style={{ color: "rgba(242,240,233,0.7)" }}>{m.value}</div>
+                    <div className="font-semibold text-sm" style={{ color: c.textPrimary }}>{m.label}</div>
+                    <div className="font-bold text-sm tabular" style={{ color: c.textSecondary }}>{m.value}</div>
                   </div>
-                  <div className="text-xs mt-0.5" style={{ color: "rgba(242,240,233,0.45)" }}>{m.note}</div>
+                  <div className="text-xs mt-0.5" style={{ color: c.textTertiary }}>{m.note}</div>
                 </div>
               </div>
             ))}
@@ -90,11 +92,11 @@ function ResultPage() {
           <div className="flex items-center gap-2 mb-3">
             <div
               className="w-7 h-7 rounded-full grid place-items-center text-xs font-black"
-              style={{ background: "#6B5FC3", color: "#F2F0E9" }}
+              style={{ background: c.coachAvatarBg, color: c.coachAvatarColor }}
             >
               M
             </div>
-            <span className="font-bold text-sm" style={{ color: "#F2F0E9" }}>Your coach says</span>
+            <span className="font-bold text-sm" style={{ color: c.textPrimary }}>Your coach says</span>
           </div>
           <FormattedText text={result.feedback} />
         </div>
@@ -102,23 +104,23 @@ function ResultPage() {
         {/* Drill */}
         <div
           className="card-frosted p-5 mb-6"
-          style={{ borderColor: "rgba(245,82,42,0.2)", background: "rgba(245,82,42,0.05)" }}
+          style={{ borderColor: `${c.exuberant}33`, background: c.exuberantBg }}
         >
           <div
             className="text-xs uppercase tracking-widest font-bold mb-2 flex items-center gap-1.5"
-            style={{ color: "#F5522A" }}
+            style={{ color: c.exuberant }}
           >
             <TrendingUp size={12} strokeWidth={3} /> Try this drill
           </div>
-          <h3 className="text-xl font-black mb-1" style={{ color: "#F2F0E9" }}>
+          <h3 className="text-xl font-black mb-1" style={{ color: c.textPrimary }}>
             {result.drill.name}
           </h3>
-          <p className="text-sm font-medium mb-4" style={{ color: "rgba(242,240,233,0.6)" }}>
+          <p className="text-sm font-medium mb-4" style={{ color: c.textSecondary }}>
             {result.drill.description}
           </p>
           <button
             className="h-11 px-5 rounded-full text-sm font-bold hover:opacity-90 active:scale-[0.98] transition-all"
-            style={{ background: "#F5522A", color: "#F2F0E9", boxShadow: "0 4px 16px rgba(245,82,42,0.3)" }}
+            style={{ background: c.exuberant, color: "#F2F0E9", boxShadow: `0 4px 16px ${c.exuberantBg}` }}
           >
             Add to my plan
           </button>
@@ -129,9 +131,9 @@ function ResultPage() {
             to="/analysis"
             className="h-[52px] rounded-full font-bold text-[15px] grid place-items-center transition-all hover:opacity-90 active:scale-[0.98]"
             style={{
-              background: "rgba(242,240,233,0.08)",
-              border: "1px solid rgba(242,240,233,0.12)",
-              color: "#F2F0E9",
+              background: c.chipBg,
+              border: `1px solid ${c.chipBorder}`,
+              color: c.textPrimary,
             }}
           >
             Analyze another
@@ -139,7 +141,7 @@ function ResultPage() {
           <Link
             to="/coach"
             className="h-[52px] rounded-full font-bold text-[15px] grid place-items-center hover:opacity-90 active:scale-[0.98] transition-all"
-            style={{ background: "#D6E800", color: "#1C1C1A", boxShadow: "0 0 24px rgba(214,232,0,0.2)" }}
+            style={{ background: c.sunGlare, color: "#1C1C1A", boxShadow: `0 0 24px ${c.sunGlareBg}` }}
           >
             Go to my plan
           </Link>

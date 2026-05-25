@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { BadgeCard } from "@/components/BadgeCard";
 import { badges } from "@/lib/mock-data";
+import { useColors } from "@/hooks/useColors";
 
 export const Route = createFileRoute("/profile/achievements")({
   component: AchievementsPage,
@@ -10,9 +11,10 @@ export const Route = createFileRoute("/profile/achievements")({
 function AchievementsPage() {
   const unlocked = badges.filter((b) => b.unlockedAt).length;
   const pct = (unlocked / badges.length) * 100;
+  const c = useColors();
 
   return (
-    <div className="min-h-dvh" style={{ background: "linear-gradient(175deg, #1E1E1B 0%, #181816 100%)" }}>
+    <div className="min-h-dvh" style={{ background: `linear-gradient(175deg, ${c.isDark ? '#1E1E1B' : '#FFFFFF'} 0%, ${c.isDark ? '#181816' : '#F4F3EE'} 100%)` }}>
       <PageHeader
         title="Achievements"
         back="/profile"
@@ -20,17 +22,17 @@ function AchievementsPage() {
       />
       <div className="px-4 lg:px-8 py-6 max-w-3xl mx-auto pb-12">
         <div className="mb-6">
-          <div className="flex justify-between text-xs font-semibold mb-2" style={{ color: "rgba(242,240,233,0.4)" }}>
+          <div className="flex justify-between text-xs font-semibold mb-2" style={{ color: c.textTertiary }}>
             <span>Progress</span>
-            <span style={{ color: "#D6E800" }}>{Math.round(pct)}%</span>
+            <span style={{ color: c.sunGlare }}>{Math.round(pct)}%</span>
           </div>
-          <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(242,240,233,0.07)" }}>
+          <div className="h-1.5 rounded-full overflow-hidden" style={{ background: c.divider }}>
             <div
               className="h-full rounded-full transition-all duration-700"
               style={{
                 width: `${pct}%`,
-                background: "#D6E800",
-                boxShadow: "0 0 8px rgba(214,232,0,0.3)",
+                background: c.sunGlare,
+                boxShadow: `0 0 8px ${c.sunGlareBg}`,
               }}
             />
           </div>

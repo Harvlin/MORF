@@ -68,20 +68,30 @@ const sampleHealth: HealthProfile = {
   ],
 };
 
+const _savedTheme = (typeof localStorage !== "undefined"
+  ? (localStorage.getItem("morf-theme") as Theme | null)
+  : null) ?? "dark";
+
+/* Apply saved theme immediately before React mounts */
+if (typeof document !== "undefined") {
+  document.documentElement.classList.remove("light", "dark");
+  document.documentElement.classList.add(_savedTheme === "system"
+    ? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+    : _savedTheme);
+}
+
 export const useApp = create<AppState>((set) => ({
-  theme: "dark",
+  theme: _savedTheme,
   setTheme: (t) => {
     set({ theme: t });
     if (typeof document !== "undefined") {
-      const root = document.documentElement;
-      root.classList.remove("light", "dark");
       const resolved =
         t === "system"
-          ? window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light"
+          ? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
           : t;
-      root.classList.add(resolved);
+      document.documentElement.classList.remove("light", "dark");
+      document.documentElement.classList.add(resolved);
+      localStorage.setItem("morf-theme", t);
     }
   },
 

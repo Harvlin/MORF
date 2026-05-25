@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useColors } from "@/hooks/useColors";
 
 export function CircularScore({
   value,
@@ -11,6 +12,7 @@ export function CircularScore({
   label?: string;
 }) {
   const [animated, setAnimated] = useState(0);
+  const colors = useColors();
   useEffect(() => {
     const start = performance.now();
     const dur = 1200;
@@ -29,7 +31,7 @@ export function CircularScore({
 
   // Color based on score
   const strokeColor =
-    value >= 80 ? "#D6E800" : value >= 60 ? "#F5522A" : "#6B5FC3";
+    value >= 80 ? colors.sunGlare : value >= 60 ? colors.exuberant : colors.violet;
 
   return (
     <div className="relative grid place-items-center" style={{ width: size, height: size }}>
@@ -38,7 +40,7 @@ export function CircularScore({
           cx={size / 2}
           cy={size / 2}
           r={r}
-          stroke="rgba(242,240,233,0.08)"
+          stroke={colors.chipBorder}
           strokeWidth={10}
           fill="none"
         />
@@ -67,7 +69,7 @@ export function CircularScore({
             {animated}
           </div>
           {label && (
-            <div style={{ fontSize: "12px", color: "rgba(242,240,233,0.45)", marginTop: "4px" }}>
+            <div style={{ fontSize: "12px", color: colors.textTertiary, marginTop: "4px" }}>
               {label}
             </div>
           )}

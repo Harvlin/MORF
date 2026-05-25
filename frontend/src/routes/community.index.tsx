@@ -6,6 +6,7 @@ import { EventCard } from "@/components/EventCard";
 import { EmptyState, CrowdIllustration } from "@/components/EmptyState";
 import { events } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+import { useColors } from "@/hooks/useColors";
 
 export const Route = createFileRoute("/community/")({
   head: () => ({ meta: [{ title: "Community — MORF" }] }),
@@ -17,6 +18,7 @@ const filters = ["All", "Beginner-friendly", "Women only", "Free", "Adaptive acc
 function CommunityPage() {
   const [filter, setFilter] = useState("All");
   const [q, setQ] = useState("");
+  const c = useColors();
   const filtered = events.filter((e) => {
     const matchQ =
       !q ||
@@ -33,21 +35,21 @@ function CommunityPage() {
       <div className="px-4 lg:px-8 py-6 lg:py-8 max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] mb-2" style={{ color: "#6B5FC3" }}>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] mb-2" style={{ color: c.violet }}>
               Discover
             </p>
-            <h1 className="text-[26px] font-black" style={{ color: "#F2F0E9" }}>Community</h1>
+            <h1 className="text-[26px] font-black" style={{ color: c.textPrimary }}>Community</h1>
           </div>
           <Link
             to="/community/create"
             className="hidden lg:flex items-center gap-2 text-sm font-bold hover:opacity-90 transition-all"
             style={{
-              background: "#F5522A",
+              background: c.exuberant,
               color: "#F2F0E9",
               height: "40px",
               padding: "0 18px",
               borderRadius: "9999px",
-              boxShadow: "0 0 20px rgba(245,82,42,0.2)",
+              boxShadow: `0 0 20px ${c.exuberantBg}`,
             }}
           >
             <Plus size={15} /> Create event
@@ -59,7 +61,7 @@ function CommunityPage() {
           <Search
             className="absolute left-4 top-1/2 -translate-y-1/2"
             size={15}
-            style={{ color: "rgba(242,240,233,0.35)" }}
+            style={{ color: c.textTertiary }}
           />
           <input
             value={q}
@@ -67,20 +69,20 @@ function CommunityPage() {
             placeholder="Search events, places..."
             className="w-full pl-11 pr-4 text-sm focus:outline-none"
             style={{
-              background: "rgba(242,240,233,0.05)",
+              background: c.inputBg,
               backdropFilter: "blur(20px)",
               WebkitBackdropFilter: "blur(20px)",
-              border: "1px solid rgba(242,240,233,0.1)",
+              border: `1px solid ${c.inputBorder}`,
               borderRadius: "9999px",
               height: "48px",
-              color: "#F2F0E9",
+              color: c.textPrimary,
             }}
             onFocus={e => {
-              e.currentTarget.style.borderColor = "rgba(107,95,195,0.4)";
-              e.currentTarget.style.boxShadow = "0 0 0 3px rgba(107,95,195,0.06)";
+              e.currentTarget.style.borderColor = c.violet;
+              e.currentTarget.style.boxShadow = `0 0 0 3px ${c.violetBg}`;
             }}
             onBlur={e => {
-              e.currentTarget.style.borderColor = "rgba(242,240,233,0.1)";
+              e.currentTarget.style.borderColor = c.inputBorder;
               e.currentTarget.style.boxShadow = "none";
             }}
           />
@@ -98,14 +100,14 @@ function CommunityPage() {
               style={
                 filter === f
                   ? {
-                      background: "#6B5FC3",
+                      background: c.violet,
                       color: "#F2F0E9",
-                      boxShadow: "0 0 16px rgba(107,95,195,0.3)",
+                      boxShadow: `0 0 16px ${c.violetBg}`,
                     }
                   : {
-                      background: "rgba(242,240,233,0.05)",
-                      color: "rgba(242,240,233,0.55)",
-                      border: "1px solid rgba(242,240,233,0.08)",
+                      background: c.chipBg,
+                      color: c.textSecondary,
+                      border: `1px solid ${c.chipBorder}`,
                     }
               }
             >
@@ -123,7 +125,7 @@ function CommunityPage() {
               <Link
                 to="/community/create"
                 className="font-bold h-10 px-5 rounded-full text-sm flex items-center hover:opacity-90 transition-all"
-                style={{ background: "#F5522A", color: "#F2F0E9", boxShadow: "0 0 16px rgba(245,82,42,0.3)" }}
+                style={{ background: c.exuberant, color: "#F2F0E9", boxShadow: `0 0 16px ${c.exuberantBg}` }}
               >
                 Create event
               </Link>
@@ -143,9 +145,9 @@ function CommunityPage() {
         className="lg:hidden fixed bottom-24 right-4 z-30 w-14 h-14 rounded-full grid place-items-center hover:opacity-90 active:scale-90 transition-all"
         aria-label="Create event"
         style={{
-          background: "#F5522A",
+          background: c.exuberant,
           color: "#F2F0E9",
-          boxShadow: "0 4px 24px rgba(245,82,42,0.4)",
+          boxShadow: `0 4px 24px ${c.exuberantBg}`,
         }}
       >
         <Plus size={22} strokeWidth={2.5} />

@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useMemo } from "react";
 import { ShieldAlert, ChevronDown, CheckCircle, AlertTriangle } from "lucide-react";
 import { useApp } from "@/lib/store";
+import { useColors } from "@/hooks/useColors";
 
 function buildRecs(conditions: ReturnType<typeof useApp.getState>["healthProfile"]["conditions"]) {
   const recs: string[] = [];
@@ -34,6 +35,7 @@ export function HealthConsiderationsPanel() {
   const profile = useApp((s) => s.healthProfile);
   const expanded = useApp((s) => s.healthPanelExpanded);
   const toggle = useApp((s) => s.toggleHealthPanel);
+  const c = useColors();
   const { recs, cautions } = useMemo(() => buildRecs(profile.conditions), [profile]);
 
   if (!profile.hasConditions || profile.conditions.length === 0) return null;
@@ -42,26 +44,26 @@ export function HealthConsiderationsPanel() {
     <div
       className="rounded-2xl overflow-hidden mb-4"
       style={{
-        background: "rgba(245,82,42,0.06)",
-        border: "1px solid rgba(245,82,42,0.15)",
+        background: c.exuberantBg,
+        border: `1px solid ${c.exuberant}26`,
       }}
     >
       <button
         onClick={toggle}
         className="w-full px-5 py-3.5 flex items-center justify-between transition-colors"
-        onMouseEnter={e => (e.currentTarget.style.background = "rgba(245,82,42,0.04)")}
+        onMouseEnter={e => (e.currentTarget.style.background = c.exuberantBg)}
         onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
       >
         <div className="flex items-center gap-2.5">
-          <ShieldAlert size={15} style={{ color: "#F5522A" }} />
-          <span className="text-sm font-bold" style={{ color: "#F5522A" }}>
+          <ShieldAlert size={15} style={{ color: c.exuberant }} />
+          <span className="text-sm font-bold" style={{ color: c.exuberant }}>
             Health considerations for today
           </span>
         </div>
         <ChevronDown
           size={14}
           className={`transition-transform ${expanded ? "rotate-180" : ""}`}
-          style={{ color: "rgba(245,82,42,0.6)" }}
+          style={{ color: `${c.exuberant}99` }}
         />
       </button>
       <AnimatePresence initial={false}>
@@ -73,40 +75,40 @@ export function HealthConsiderationsPanel() {
             transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="overflow-hidden"
           >
-            <div className="px-5 pb-4" style={{ borderTop: "1px solid rgba(245,82,42,0.1)" }}>
+            <div className="px-5 pb-4" style={{ borderTop: `1px solid ${c.exuberant}1A` }}>
               <div
                 className="text-[11px] uppercase tracking-wider mb-2 mt-3 font-bold flex items-center gap-1.5"
-                style={{ color: "#D6E800" }}
+                style={{ color: c.sunGlare }}
               >
                 <CheckCircle size={12} /> Recommended for you
               </div>
               <ul className="flex flex-col gap-1.5">
                 {recs.map((r, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm">
-                    <CheckCircle size={13} className="flex-shrink-0 mt-0.5" style={{ color: "#D6E800" }} />
-                    <span style={{ color: "rgba(242,240,233,0.65)" }}>{r}</span>
+                    <CheckCircle size={13} className="flex-shrink-0 mt-0.5" style={{ color: c.sunGlare }} />
+                    <span style={{ color: c.textSecondary }}>{r}</span>
                   </li>
                 ))}
               </ul>
 
               <div
                 className="text-[11px] uppercase tracking-wider mb-2 mt-4 font-bold flex items-center gap-1.5"
-                style={{ color: "#F5522A" }}
+                style={{ color: c.exuberant }}
               >
                 <AlertTriangle size={12} /> Move mindfully
               </div>
               <ul className="flex flex-col gap-1.5">
-                {cautions.map((c, i) => (
+                {cautions.map((c_str, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm">
-                    <AlertTriangle size={13} className="flex-shrink-0 mt-0.5" style={{ color: "#F5522A" }} />
-                    <span style={{ color: "rgba(242,240,233,0.65)" }}>{c}</span>
+                    <AlertTriangle size={13} className="flex-shrink-0 mt-0.5" style={{ color: c.exuberant }} />
+                    <span style={{ color: c.textSecondary }}>{c_str}</span>
                   </li>
                 ))}
               </ul>
 
               <div
                 className="mt-4 pt-3 text-xs italic"
-                style={{ borderTop: "1px solid rgba(245,82,42,0.1)", color: "rgba(242,240,233,0.35)" }}
+                style={{ borderTop: `1px solid ${c.exuberant}1A`, color: c.textTertiary }}
               >
                 These are AI suggestions, not medical advice. Always follow your doctor's guidance.
               </div>

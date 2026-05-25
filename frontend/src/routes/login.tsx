@@ -3,6 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
 import { AuthShell, AuthInput, AuthLabel } from "@/components/AuthShell";
+import { useColors } from "@/hooks/useColors";
 
 export const Route = createFileRoute("/login")({
   head: () => ({ meta: [{ title: "Sign in — MORF" }] }),
@@ -17,6 +18,7 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [shake, setShake] = useState(0);
+  const c = useColors();
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,8 +41,8 @@ function LoginPage() {
         animate={shake ? { x: [0, -8, 8, -6, 6, 0] } : {}}
         transition={{ duration: 0.4 }}
       >
-        <h1 className="text-2xl font-black" style={{ color: "#F2F0E9" }}>Welcome back</h1>
-        <p className="text-sm mt-1.5 font-medium" style={{ color: "rgba(242,240,233,0.45)" }}>
+        <h1 className="text-2xl font-black" style={{ color: c.textPrimary }}>Welcome back</h1>
+        <p className="text-sm mt-1.5 font-medium" style={{ color: c.textTertiary }}>
           Sign in to continue your journey.
         </p>
 
@@ -52,9 +54,9 @@ function LoginPage() {
               exit={{ opacity: 0 }}
               className="rounded-xl px-4 py-3 mt-5 flex items-start gap-2.5 text-sm"
               style={{
-                border: "1px solid rgba(245,82,42,0.25)",
-                background: "rgba(245,82,42,0.08)",
-                color: "#F5522A",
+                border: `1px solid ${c.exuberant}44`,
+                background: c.exuberantBg,
+                color: c.exuberant,
               }}
             >
               <AlertCircle size={16} className="mt-0.5 flex-shrink-0" />
@@ -65,8 +67,9 @@ function LoginPage() {
 
         <form onSubmit={submit} className="mt-6 space-y-4">
           <div>
-            <AuthLabel>Email</AuthLabel>
+            <AuthLabel c={c}>Email</AuthLabel>
             <AuthInput
+              c={c}
               icon={Mail}
               type="email"
               placeholder="you@morf.app"
@@ -78,18 +81,19 @@ function LoginPage() {
           </div>
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <AuthLabel>Password</AuthLabel>
+              <AuthLabel c={c}>Password</AuthLabel>
               <Link
                 to="/forgot-password"
                 className="text-xs font-semibold transition-colors"
-                style={{ color: "rgba(242,240,233,0.4)" }}
-                onMouseEnter={e => (e.currentTarget.style.color = "#D6E800")}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(242,240,233,0.4)")}
+                style={{ color: c.textTertiary }}
+                onMouseEnter={e => (e.currentTarget.style.color = c.sunGlare)}
+                onMouseLeave={e => (e.currentTarget.style.color = c.textTertiary)}
               >
                 Forgot password?
               </Link>
             </div>
             <AuthInput
+              c={c}
               icon={Lock}
               type={showPw ? "text" : "password"}
               placeholder="••••••••"
@@ -102,7 +106,7 @@ function LoginPage() {
                   type="button"
                   onClick={() => setShowPw(!showPw)}
                   className="w-8 h-8 grid place-items-center rounded-lg transition-colors"
-                  style={{ color: "rgba(242,240,233,0.35)" }}
+                  style={{ color: c.textTertiary }}
                 >
                   {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
@@ -115,9 +119,9 @@ function LoginPage() {
             disabled={loading || !email || !password}
             className="w-full h-12 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-40"
             style={{
-              background: "#D6E800",
+              background: c.sunGlare,
               color: "#1C1C1A",
-              boxShadow: !loading && email && password ? "0 0 28px rgba(214,232,0,0.25)" : "none",
+              boxShadow: !loading && email && password ? `0 0 28px ${c.sunGlareBg}` : "none",
             }}
           >
             {loading ? (
@@ -131,9 +135,9 @@ function LoginPage() {
         </form>
 
         <div className="flex items-center gap-3 my-6">
-          <span className="flex-1 h-px" style={{ background: "rgba(242,240,233,0.07)" }} />
-          <span className="text-xs font-medium" style={{ color: "rgba(242,240,233,0.3)" }}>or</span>
-          <span className="flex-1 h-px" style={{ background: "rgba(242,240,233,0.07)" }} />
+          <span className="flex-1 h-px" style={{ background: c.divider }} />
+          <span className="text-xs font-medium" style={{ color: c.textTertiary }}>or</span>
+          <span className="flex-1 h-px" style={{ background: c.divider }} />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
@@ -142,17 +146,17 @@ function LoginPage() {
               key={p}
               className="rounded-xl h-11 text-sm font-semibold transition-all"
               style={{
-                background: "rgba(242,240,233,0.05)",
-                border: "1px solid rgba(242,240,233,0.08)",
-                color: "rgba(242,240,233,0.65)",
+                background: c.chipBg,
+                border: `1px solid ${c.chipBorder}`,
+                color: c.textSecondary,
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.background = "rgba(242,240,233,0.08)";
-                e.currentTarget.style.color = "#F2F0E9";
+                e.currentTarget.style.background = c.hoverBg;
+                e.currentTarget.style.color = c.textPrimary;
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.background = "rgba(242,240,233,0.05)";
-                e.currentTarget.style.color = "rgba(242,240,233,0.65)";
+                e.currentTarget.style.background = c.chipBg;
+                e.currentTarget.style.color = c.textSecondary;
               }}
             >
               {p}
@@ -160,12 +164,12 @@ function LoginPage() {
           ))}
         </div>
 
-        <p className="text-sm text-center mt-7" style={{ color: "rgba(242,240,233,0.4)" }}>
+        <p className="text-sm text-center mt-7" style={{ color: c.textTertiary }}>
           Don't have an account?{" "}
           <Link
             to="/signup"
             className="font-bold transition-colors"
-            style={{ color: "#D6E800" }}
+            style={{ color: c.sunGlare }}
           >
             Sign up
           </Link>

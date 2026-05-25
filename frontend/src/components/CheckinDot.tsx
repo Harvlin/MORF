@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { useColors } from "@/hooks/useColors";
 
 export function CheckinDot({
   value,
@@ -12,19 +13,20 @@ export function CheckinDot({
   label: string;
   icon: ReactNode;
 }) {
+  const c = useColors();
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
         <span
           className="text-[14px] font-semibold flex items-center gap-2"
-          style={{ color: "#F2F0E9" }}
+          style={{ color: c.textPrimary }}
         >
-          <span aria-hidden style={{ color: "rgba(242,240,233,0.4)" }}>
+          <span aria-hidden style={{ color: c.textTertiary }}>
             {icon}
           </span>
           {label}
         </span>
-        <span className="text-[11px] font-medium" style={{ color: "rgba(242,240,233,0.4)" }}>
+        <span className="text-[11px] font-medium" style={{ color: c.textTertiary }}>
           {value > 0 ? `${value}/5` : "Tap to rate"}
         </span>
       </div>
@@ -43,10 +45,10 @@ export function CheckinDot({
               style={{
                 height: "40px",
                 borderRadius: "10px",
-                border: filled ? "none" : "1px solid rgba(242,240,233,0.12)",
-                background: filled ? "#D6E800" : "rgba(242,240,233,0.05)",
-                color: filled ? "#1C1C1A" : "rgba(242,240,233,0.4)",
-                boxShadow: filled ? "0 0 16px rgba(214,232,0,0.25)" : "none",
+                border: filled ? "none" : `1px solid ${c.chipBorder}`,
+                background: filled ? c.sunGlare : c.chipBg,
+                color: filled ? "#1C1C1A" : c.textTertiary,
+                boxShadow: filled ? `0 0 16px ${c.sunGlareBg}` : "none",
               }}
             >
               {n}

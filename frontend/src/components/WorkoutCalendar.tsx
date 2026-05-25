@@ -3,6 +3,7 @@ import { useState } from "react";
 import { CalendarDays, LayoutGrid, ChevronLeft, ChevronRight, Check, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+import { useColors } from "@/hooks/useColors";
 
 export type CalendarDay = {
   date: string;
@@ -94,6 +95,7 @@ export function WorkoutCalendar({
   const [mode, setMode] = useState<"week" | "month">(defaultMode);
   const [viewDate, setViewDate] = useState(currentDate);
   const [selected, setSelected] = useState<CalendarDay | null>(null);
+  const c = useColors();
 
   const handleSelect = (d: CalendarDay) => {
     if (d.status === "empty") return;
@@ -102,7 +104,7 @@ export function WorkoutCalendar({
   };
 
   return (
-    <div className="card-frosted p-5" style={{ borderColor: "rgba(242,240,233,0.07)" }}>
+    <div className="card-frosted p-5" style={{ borderColor: c.divider }}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-1">
           <button
@@ -113,13 +115,13 @@ export function WorkoutCalendar({
               setViewDate(d);
             }}
             className="w-7 h-7 rounded-md grid place-items-center transition-colors"
-            style={{ color: "rgba(242,240,233,0.45)" }}
-            onMouseEnter={e => (e.currentTarget.style.background = "rgba(242,240,233,0.07)")}
+            style={{ color: c.textTertiary }}
+            onMouseEnter={e => (e.currentTarget.style.background = c.hoverBg)}
             onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
           >
             <ChevronLeft size={14} />
           </button>
-          <span className="text-sm font-semibold px-1.5 min-w-[100px] text-center" style={{ color: "#F2F0E9" }}>
+          <span className="text-sm font-semibold px-1.5 min-w-[100px] text-center" style={{ color: c.textPrimary }}>
             {mode === "week"
               ? "This week"
               : viewDate.toLocaleString("default", { month: "long", year: "numeric" })}
@@ -132,8 +134,8 @@ export function WorkoutCalendar({
               setViewDate(d);
             }}
             className="w-7 h-7 rounded-md grid place-items-center transition-colors"
-            style={{ color: "rgba(242,240,233,0.45)" }}
-            onMouseEnter={e => (e.currentTarget.style.background = "rgba(242,240,233,0.07)")}
+            style={{ color: c.textTertiary }}
+            onMouseEnter={e => (e.currentTarget.style.background = c.hoverBg)}
             onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
           >
             <ChevronRight size={14} />
@@ -142,9 +144,9 @@ export function WorkoutCalendar({
         <button
           onClick={() => setMode(mode === "week" ? "month" : "week")}
           className="text-xs flex items-center gap-1.5 px-2.5 h-7 rounded-md transition-colors"
-          style={{ color: "rgba(242,240,233,0.4)" }}
-          onMouseEnter={e => { e.currentTarget.style.background = "rgba(242,240,233,0.06)"; e.currentTarget.style.color = "#F2F0E9"; }}
-          onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(242,240,233,0.4)"; }}
+          style={{ color: c.textTertiary }}
+          onMouseEnter={e => { e.currentTarget.style.background = c.hoverBg; e.currentTarget.style.color = c.textPrimary; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = c.textTertiary; }}
         >
           {mode === "week" ? (
             <>
@@ -168,19 +170,20 @@ export function WorkoutCalendar({
           className="overflow-hidden"
         >
           {mode === "week" ? (
-            <WeekView data={data} onSelect={handleSelect} selected={selected} />
+            <WeekView data={data} onSelect={handleSelect} selected={selected} c={c} />
           ) : (
             <MonthView
               viewDate={viewDate}
               weekData={data}
               onSelect={handleSelect}
               selected={selected}
+              c={c}
             />
           )}
         </motion.div>
       </AnimatePresence>
 
-      {selected && <DayPopover day={selected} onClose={() => setSelected(null)} />}
+      {selected && <DayPopover day={selected} onClose={() => setSelected(null)} c={c} />}
     </div>
   );
 }
@@ -189,10 +192,12 @@ function WeekView({
   data,
   onSelect,
   selected,
+  c,
 }: {
   data: CalendarDay[];
   onSelect: (d: CalendarDay) => void;
   selected: CalendarDay | null;
+  c: ReturnType<typeof useColors>;
 }) {
   return (
     <div className="grid grid-cols-7 gap-2">
@@ -206,37 +211,37 @@ function WeekView({
             onClick={() => onSelect(d)}
             className="flex flex-col items-center gap-1.5 group"
           >
-            <span className="text-[10px] uppercase tracking-wider font-semibold" style={{ color: "rgba(242,240,233,0.35)" }}>
+            <span className="text-[10px] uppercase tracking-wider font-semibold" style={{ color: c.textTertiary }}>
               {DOW_EN[(date.getDay() + 6) % 7]}
             </span>
             <span
               className="w-full aspect-square rounded-xl flex items-center justify-center text-xs font-medium font-mono relative transition-all"
               style={{
                 background: d.status === "done"
-                  ? "rgba(214,232,0,0.15)"
+                  ? c.sunGlareBg
                   : isToday
-                    ? "#D6E800"
+                    ? c.sunGlare
                     : d.status === "planned"
-                      ? "rgba(242,240,233,0.06)"
+                      ? c.chipBg
                       : d.status === "rest"
-                        ? "rgba(242,240,233,0.03)"
+                        ? c.isDark ? "rgba(242,240,233,0.03)" : "rgba(28,28,26,0.03)"
                         : d.status === "skipped"
-                          ? "rgba(245,82,42,0.08)"
+                          ? c.exuberantBg
                           : "transparent",
                 color: d.status === "done"
-                  ? "#D6E800"
+                  ? c.sunGlare
                   : isToday
                     ? "#1C1C1A"
                     : d.status === "planned"
-                      ? "rgba(242,240,233,0.55)"
+                      ? c.textSecondary
                       : d.status === "rest"
-                        ? "rgba(242,240,233,0.25)"
+                        ? c.textDisabled
                         : d.status === "skipped"
-                          ? "rgba(245,82,42,0.7)"
-                          : "rgba(242,240,233,0.3)",
-                border: isSelected && !isToday ? "2px solid rgba(214,232,0,0.5)" :
-                  d.status === "rest" ? "1px dashed rgba(242,240,233,0.1)" :
-                  d.status === "skipped" ? "1px dashed rgba(245,82,42,0.2)" : "none",
+                          ? c.exuberant
+                          : c.textDisabled,
+                border: isSelected && !isToday ? `2px solid ${c.sunGlare}88` :
+                  d.status === "rest" ? `1px dashed ${c.inputBorder}` :
+                  d.status === "skipped" ? `1px dashed ${c.exuberant}33` : "none",
                 fontWeight: isToday ? 900 : 500,
               }}
             >
@@ -258,11 +263,13 @@ function MonthView({
   weekData,
   onSelect,
   selected,
+  c,
 }: {
   viewDate: Date;
   weekData: CalendarDay[];
   onSelect: (d: CalendarDay) => void;
   selected: CalendarDay | null;
+  c: ReturnType<typeof useColors>;
 }) {
   const days = generateMonth(viewDate, weekData);
   const first = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1);
@@ -287,7 +294,7 @@ function MonthView({
           <div
             key={d}
             className="text-[10px] uppercase tracking-wider text-center font-semibold"
-            style={{ color: "rgba(242,240,233,0.3)" }}
+            style={{ color: c.textTertiary }}
           >
             {d}
           </div>
@@ -306,64 +313,64 @@ function MonthView({
               className="aspect-square rounded-lg flex flex-col items-center justify-center gap-1 transition-all relative"
               style={{
                 background: isToday
-                  ? "rgba(214,232,0,0.12)"
+                  ? c.sunGlareBg
                   : d.status === "done"
-                    ? "rgba(214,232,0,0.06)"
+                    ? `${c.sunGlare}11`
                     : "transparent",
                 border: isSelected
-                  ? "2px solid rgba(214,232,0,0.5)"
+                  ? `2px solid ${c.sunGlare}88`
                   : isToday
-                    ? "1px solid rgba(214,232,0,0.25)"
+                    ? `1px solid ${c.sunGlare}44`
                     : "none",
               }}
-              onMouseEnter={e => { if (!isToday && !isSelected) e.currentTarget.style.background = "rgba(242,240,233,0.04)"; }}
-              onMouseLeave={e => { if (!isToday && !isSelected) e.currentTarget.style.background = d.status === "done" ? "rgba(214,232,0,0.06)" : "transparent"; }}
+              onMouseEnter={e => { if (!isToday && !isSelected) e.currentTarget.style.background = c.hoverBg; }}
+              onMouseLeave={e => { if (!isToday && !isSelected) e.currentTarget.style.background = d.status === "done" ? `${c.sunGlare}11` : "transparent"; }}
             >
               <span
                 className="text-xs font-medium tabular-nums"
                 style={{
                   color: isToday
-                    ? "#D6E800"
+                    ? c.sunGlare
                     : d.status === "done"
-                      ? "rgba(242,240,233,0.75)"
+                      ? c.textPrimary
                       : d.status === "skipped"
-                        ? "rgba(245,82,42,0.5)"
+                        ? c.exuberant
                         : d.status === "rest"
-                          ? "rgba(242,240,233,0.25)"
-                          : "rgba(242,240,233,0.5)",
+                          ? c.textDisabled
+                          : c.textSecondary,
                   textDecoration: d.status === "skipped" ? "line-through" : "none",
                   fontWeight: isToday ? 700 : 500,
                 }}
               >
                 {dateNum}
               </span>
-              {d.status === "done" && <span className="w-1 h-1 rounded-full" style={{ background: "#D6E800" }} />}
-              {isToday && <span className="w-1 h-1 rounded-full" style={{ background: "#D6E800" }} />}
-              {d.status === "skipped" && <span className="w-1 h-1 rounded-full" style={{ background: "rgba(245,82,42,0.5)" }} />}
-              {d.status === "planned" && <span className="w-1 h-1 rounded-full" style={{ background: "rgba(242,240,233,0.15)" }} />}
+              {d.status === "done" && <span className="w-1 h-1 rounded-full" style={{ background: c.sunGlare }} />}
+              {isToday && <span className="w-1 h-1 rounded-full" style={{ background: c.sunGlare }} />}
+              {d.status === "skipped" && <span className="w-1 h-1 rounded-full" style={{ background: c.exuberant }} />}
+              {d.status === "planned" && <span className="w-1 h-1 rounded-full" style={{ background: c.chipBorder }} />}
             </button>
           );
         })}
       </div>
-      <div className="flex gap-4 px-1 pt-3 mt-3" style={{ borderTop: "1px solid rgba(242,240,233,0.07)" }}>
-        <Stat color="#D6E800" label={`${stats.done} done`} />
-        <Stat color="rgba(245,82,42,0.6)" label={`${stats.skipped} skipped`} />
-        <Stat color="rgba(242,240,233,0.2)" label={`${stats.rest} rest days`} />
+      <div className="flex gap-4 px-1 pt-3 mt-3" style={{ borderTop: `1px solid ${c.divider}` }}>
+        <Stat color={c.sunGlare} label={`${stats.done} done`} c={c} />
+        <Stat color={c.exuberant} label={`${stats.skipped} skipped`} c={c} />
+        <Stat color={c.textDisabled} label={`${stats.rest} rest days`} c={c} />
       </div>
     </div>
   );
 }
 
-function Stat({ color, label }: { color: string; label: string }) {
+function Stat({ color, label, c }: { color: string; label: string; c: ReturnType<typeof useColors> }) {
   return (
-    <div className="flex items-center gap-1.5 text-xs" style={{ color: "rgba(242,240,233,0.4)" }}>
+    <div className="flex items-center gap-1.5 text-xs" style={{ color: c.textTertiary }}>
       <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
       {label}
     </div>
   );
 }
 
-function DayPopover({ day, onClose }: { day: CalendarDay; onClose: () => void }) {
+function DayPopover({ day, onClose, c }: { day: CalendarDay; onClose: () => void; c: ReturnType<typeof useColors> }) {
   const d = parseISO(day.date);
   const label = d.toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "short" });
   return (
@@ -372,29 +379,29 @@ function DayPopover({ day, onClose }: { day: CalendarDay; onClose: () => void })
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.18, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="mt-4 card-frosted p-4 shadow-xl relative"
-      style={{ borderColor: "rgba(242,240,233,0.1)" }}
+      style={{ borderColor: c.divider }}
     >
       <button
         onClick={onClose}
         className="absolute top-2.5 right-2.5 w-7 h-7 grid place-items-center rounded-lg transition-colors"
-        style={{ color: "rgba(242,240,233,0.35)" }}
-        onMouseEnter={e => (e.currentTarget.style.background = "rgba(242,240,233,0.07)")}
+        style={{ color: c.textTertiary }}
+        onMouseEnter={e => (e.currentTarget.style.background = c.hoverBg)}
         onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
       >
         <X size={13} />
       </button>
-      <div className="text-xs font-semibold pr-6" style={{ color: "rgba(242,240,233,0.45)" }}>{label}</div>
+      <div className="text-xs font-semibold pr-6" style={{ color: c.textTertiary }}>{label}</div>
       <div className="mt-2.5">
         {day.status === "today" && day.workout && (
           <>
-            <div className="text-sm font-semibold" style={{ color: "#F2F0E9" }}>
+            <div className="text-sm font-semibold" style={{ color: c.textPrimary }}>
               {day.workout.title} · {day.workout.duration} min
             </div>
             <Link
               to="/coach/workout/$sessionId"
               params={{ sessionId: day.workout.sessionId }}
               className="inline-flex items-center mt-3 h-9 px-4 rounded-lg text-xs font-bold hover:opacity-90 active:scale-[0.97] transition-all"
-              style={{ background: "#D6E800", color: "#1C1C1A" }}
+              style={{ background: c.sunGlare, color: "#1C1C1A" }}
             >
               Start workout →
             </Link>
@@ -404,34 +411,34 @@ function DayPopover({ day, onClose }: { day: CalendarDay; onClose: () => void })
           <>
             <span
               className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
-              style={{ background: "rgba(214,232,0,0.1)", color: "#D6E800", border: "1px solid rgba(214,232,0,0.2)" }}
+              style={{ background: c.sunGlareBg, color: c.sunGlare, border: `1px solid ${c.sunGlare}33` }}
             >
               ✓ Completed
             </span>
-            <div className="text-sm font-semibold mt-2" style={{ color: "#F2F0E9" }}>
+            <div className="text-sm font-semibold mt-2" style={{ color: c.textPrimary }}>
               {day.workout?.title ?? "Session"} · {day.workout?.duration ?? 30} min
             </div>
-            <button className="text-xs font-bold hover:underline mt-3" style={{ color: "#D6E800" }}>View details →</button>
+            <button className="text-xs font-bold hover:underline mt-3" style={{ color: c.sunGlare }}>View details →</button>
           </>
         )}
         {day.status === "planned" && (
           <>
-            <div className="text-sm font-semibold" style={{ color: "#F2F0E9" }}>{day.workout?.title ?? "Workout"}</div>
-            <div className="text-xs mt-0.5" style={{ color: "rgba(242,240,233,0.45)" }}>
+            <div className="text-sm font-semibold" style={{ color: c.textPrimary }}>{day.workout?.title ?? "Workout"}</div>
+            <div className="text-xs mt-0.5" style={{ color: c.textTertiary }}>
               {day.workout?.duration ?? 30} min · planned
             </div>
-            <button className="text-xs font-bold hover:underline mt-3" style={{ color: "rgba(242,240,233,0.5)" }}>Edit plan</button>
+            <button className="text-xs font-bold hover:underline mt-3" style={{ color: c.textSecondary }}>Edit plan</button>
           </>
         )}
         {day.status === "rest" && (
           <>
             <span
               className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
-              style={{ background: "rgba(107,95,195,0.12)", color: "#8B80D4", border: "1px solid rgba(107,95,195,0.2)" }}
+              style={{ background: c.violetBg, color: c.violet, border: `1px solid ${c.violet}33` }}
             >
               Rest day
             </span>
-            <div className="text-xs mt-2" style={{ color: "rgba(242,240,233,0.4)" }}>
+            <div className="text-xs mt-2" style={{ color: c.textTertiary }}>
               Recovery matters as much as the work. Hydrate & sleep well.
             </div>
           </>
@@ -440,11 +447,11 @@ function DayPopover({ day, onClose }: { day: CalendarDay; onClose: () => void })
           <>
             <span
               className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
-              style={{ background: "rgba(245,82,42,0.1)", color: "#F5522A", border: "1px solid rgba(245,82,42,0.2)" }}
+              style={{ background: c.exuberantBg, color: c.exuberant, border: `1px solid ${c.exuberant}33` }}
             >
               Skipped
             </span>
-            <button className="block text-xs font-bold hover:underline mt-3" style={{ color: "rgba(242,240,233,0.45)" }}>Log reason</button>
+            <button className="block text-xs font-bold hover:underline mt-3" style={{ color: c.textTertiary }}>Log reason</button>
           </>
         )}
       </div>
