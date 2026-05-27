@@ -6,7 +6,7 @@ import { AuthShell, AuthInput, AuthLabel } from "@/components/AuthShell";
 import { useColors } from "@/hooks/useColors";
 
 export const Route = createFileRoute("/signup")({
-  head: () => ({ meta: [{ title: "Create account — MORF" }] }),
+  head: () => ({ meta: [{ title: "Create account — Physcal" }] }),
   component: SignupPage,
 });
 
@@ -68,7 +68,7 @@ function SignupPage() {
               c={c}
               icon={Mail}
               type="email"
-              placeholder="you@morf.app"
+              placeholder="you@physcal.app"
               value={email}
               onChange={setEmail}
               autoComplete="email"
@@ -128,7 +128,7 @@ function SignupPage() {
               {agreed && <Check size={11} style={{ color: "#1C1C1A" }} strokeWidth={3} />}
             </button>
             <span className="text-xs leading-relaxed" style={{ color: c.textSecondary }}>
-              I agree to MORF's{" "}
+              I agree to Physcal's{" "}
               <a href="#" className="font-semibold hover:underline" style={{ color: c.sunGlare }}>
                 Terms
               </a>{" "}

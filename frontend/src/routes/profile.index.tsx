@@ -10,7 +10,7 @@ import { HealthProfileCard } from "@/components/HealthProfileCard";
 import { useColors } from "@/hooks/useColors";
 
 export const Route = createFileRoute("/profile/")({
-  head: () => ({ meta: [{ title: "Profile — MORF" }] }),
+  head: () => ({ meta: [{ title: "Profile — Physcal" }] }),
   component: ProfilePage,
 });
 

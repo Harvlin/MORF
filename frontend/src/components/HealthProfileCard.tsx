@@ -66,7 +66,7 @@ export function HealthProfileCard() {
             <div style={{ borderTop: `1px solid ${c.divider}` }}>
               {!profile.hasConditions || count === 0 ? (
                 <div className="px-5 py-4 text-sm italic" style={{ color: c.textTertiary }}>
-                  No conditions added. MORF will give general recommendations.
+                  No conditions added. Physcal will give general recommendations.
                 </div>
               ) : (
                 <div>

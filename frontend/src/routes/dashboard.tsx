@@ -12,8 +12,8 @@ import { useApp } from "@/lib/store";
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Home — MORF" },
-      { name: "description", content: "Your daily MORF hub: today's plan, check-in, events." },
+      { title: "Home — Physcal" },
+      { name: "description", content: "Your daily Physcal hub: today's plan, check-in, events." },
     ],
   }),
   component: Dashboard,
@@ -210,7 +210,7 @@ function Dashboard() {
                 >
                   M
                 </div>
-                <span className="text-[12px] font-semibold" style={{ color: c.textPrimary }}>MORF Coach</span>
+                <span className="text-[12px] font-semibold" style={{ color: c.textPrimary }}>Physcal Coach</span>
                 <span className="ml-auto text-[11px]" style={{ color: c.textTertiary }}>just now</span>
               </div>
               <p className="text-[13px] line-clamp-2 mb-3 font-medium" style={{ color: c.textSecondary }}>

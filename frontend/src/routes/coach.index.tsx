@@ -40,7 +40,7 @@ const calendarData: CalendarDay[] = weekOverview.map((d) => ({
 export const Route = createFileRoute("/coach/")({
   head: () => ({
     meta: [
-      { title: "Coach — MORF" },
+      { title: "Coach — Physcal" },
       { name: "description", content: "Adaptive workout plan and daily check-in." },
     ],
   }),

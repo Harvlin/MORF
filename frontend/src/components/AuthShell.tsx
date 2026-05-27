@@ -60,7 +60,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
       <div className="relative z-10 min-h-dvh flex flex-col items-center justify-center px-5 py-12">
         <div className="flex items-center gap-2.5 mb-8" style={{ color: c.sunGlare }}>
           <Logo size={26} />
-          <span className="font-bold text-xl tracking-tight" style={{ color: c.textPrimary }}>MORF</span>
+          <span className="font-bold text-xl tracking-tight" style={{ color: c.textPrimary }}>Physcal</span>
         </div>
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 12 }}

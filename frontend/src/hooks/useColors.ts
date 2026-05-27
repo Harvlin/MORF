@@ -59,6 +59,7 @@ export function useColors() {
     sideNavBetaText:    isDark ? "rgba(242,240,233,0.55)"   : "rgba(28,28,26,0.5)",
 
     /* Misc */
+    appBg: isDark ? "#1C1C1A" : "#F4F3EE",
     isDark,
   };
 }

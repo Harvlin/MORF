@@ -6,7 +6,7 @@ import { cn, getInitials } from "@/lib/utils";
 import { useColors } from "@/hooks/useColors";
 
 export const Route = createFileRoute("/analysis/")({
-  head: () => ({ meta: [{ title: "Movement Analysis — MORF" }] }),
+  head: () => ({ meta: [{ title: "Movement Analysis — Physcal" }] }),
   component: AnalysisPage,
 });
 

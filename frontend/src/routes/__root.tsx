@@ -74,14 +74,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "MORF — Inclusive sports for everyone" },
+      { title: "Physcal — Inclusive sports for everyone" },
       {
         name: "description",
         content:
           "AI-powered inclusive sports platform for beginners, women, and people with accessibility needs.",
       },
-      { name: "author", content: "MORF" },
-      { property: "og:title", content: "MORF — Inclusive sports for everyone" },
+      { name: "author", content: "Physcal" },
+      { property: "og:title", content: "Physcal — Inclusive sports for everyone" },
       {
         property: "og:description",
         content: "Sports for every body. Adaptive coaching, real community.",
@@ -123,7 +123,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
                 <path d="M11.5 22 L20.5 22" stroke="#1C1C1A" strokeWidth="2.2" strokeLinecap="round" />
               </svg>
             </div>
-            <div className="app-loading__label">MORF</div>
+            <div className="app-loading__label">Physcal</div>
             <div className="app-loading__bar">
               <span />
             </div>

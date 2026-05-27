@@ -69,7 +69,7 @@ const sampleHealth: HealthProfile = {
 };
 
 const _savedTheme = (typeof localStorage !== "undefined"
-  ? (localStorage.getItem("morf-theme") as Theme | null)
+  ? (localStorage.getItem("physcal-theme") as Theme | null)
   : null) ?? "dark";
 
 /* Apply saved theme immediately before React mounts */
@@ -91,7 +91,7 @@ export const useApp = create<AppState>((set) => ({
           : t;
       document.documentElement.classList.remove("light", "dark");
       document.documentElement.classList.add(resolved);
-      localStorage.setItem("morf-theme", t);
+      localStorage.setItem("physcal-theme", t);
     }
   },
 

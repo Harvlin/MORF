@@ -4,6 +4,8 @@ import { useState } from "react";
 import { ChevronLeft, Sparkles } from "lucide-react";
 import { currentUser, sportRecommendations } from "@/lib/mock-data";
 import { getInitials } from "@/lib/utils";
+import { useColors } from "@/hooks/useColors";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/onboarding/reassess")({
   component: Reassess,
@@ -12,13 +14,17 @@ export const Route = createFileRoute("/onboarding/reassess")({
 function Reassess() {
   const [stage, setStage] = useState<"welcome" | "result">("welcome");
   const navigate = useNavigate();
+  const c = useColors();
 
   if (stage === "welcome") {
     return (
-      <div className="app-stage min-h-dvh text-foreground flex flex-col px-5 py-8">
+      <div className="app-stage min-h-dvh flex flex-col px-5 py-8" style={{ background: c.appBg, color: c.textPrimary }}>
         <Link
           to="/dashboard"
-          className="w-10 h-10 -ml-2 grid place-items-center rounded-lg hover:bg-surface-3 self-start"
+          className="w-10 h-10 -ml-2 grid place-items-center rounded-lg self-start transition-colors"
+          style={{ color: c.textPrimary }}
+          onMouseEnter={e => e.currentTarget.style.backgroundColor = c.hoverBg}
+          onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
           aria-label="Back"
         >
           <ChevronLeft size={20} />
@@ -27,20 +33,21 @@ function Reassess() {
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="w-16 h-16 rounded-full bg-secondary-light grid place-items-center mb-6 text-secondary"
+            className="w-16 h-16 rounded-full grid place-items-center mb-6"
+            style={{ background: c.violetBg, color: c.violet }}
           >
             <Sparkles size={22} />
           </motion.div>
           <h1 className="text-4xl font-semibold mb-3">Welcome back, {currentUser.name}</h1>
-          <p className="text-text-2 mb-6">
+          <p className="mb-6" style={{ color: c.textSecondary }}>
             A lot can change in 30 days. Let's see how you've grown.
           </p>
-          <div className="bg-surface border border-border rounded-2xl px-5 py-4 mb-8">
-            <div className="text-xs uppercase tracking-widest text-text-2 mb-1">
+          <div className="card-frosted rounded-2xl px-5 py-4 mb-8 w-full" style={{ borderColor: c.divider }}>
+            <div className="text-xs uppercase tracking-widest mb-1" style={{ color: c.textSecondary }}>
               You started with
             </div>
-            <div className="text-[24px] font-bold text-text-1 flex items-center justify-center gap-2">
-              <span className="w-9 h-9 rounded-full bg-surface-3 border border-border text-[11px] font-semibold grid place-items-center text-text-2">
+            <div className="text-[24px] font-bold flex items-center justify-center gap-2" style={{ color: c.textPrimary }}>
+              <span className="w-9 h-9 rounded-full text-[11px] font-semibold grid place-items-center" style={{ background: c.chipBg, borderColor: c.chipBorder, borderWidth: 1, color: c.textSecondary }}>
                 {getInitials("Badminton")}
               </span>
               Badminton
@@ -48,11 +55,12 @@ function Reassess() {
           </div>
           <button
             onClick={() => setStage("result")}
-            className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 active:scale-[0.98] transition-all"
+            className="w-full h-12 rounded-xl font-semibold hover:opacity-90 active:scale-[0.98] transition-all"
+            style={{ background: c.sunGlare, color: "#1C1C1A", boxShadow: `0 0 16px ${c.sunGlareBg}` }}
           >
             Update my profile
           </button>
-          <Link to="/dashboard" className="mt-3 text-sm text-text-2 hover:text-text-1">
+          <Link to="/dashboard" className="mt-3 text-sm transition-colors" style={{ color: c.textSecondary }} onMouseEnter={e => e.currentTarget.style.color = c.textPrimary} onMouseLeave={e => e.currentTarget.style.color = c.textSecondary}>
             Keep my current profile
           </Link>
         </div>
@@ -61,53 +69,56 @@ function Reassess() {
   }
 
   return (
-    <div className="app-stage min-h-dvh text-foreground px-5 py-8">
+    <div className="app-stage min-h-dvh px-5 py-8" style={{ background: c.appBg, color: c.textPrimary }}>
       <Link
         to="/dashboard"
-        className="w-10 h-10 -ml-2 grid place-items-center rounded-lg hover:bg-surface-3 mb-4"
+        className="w-10 h-10 -ml-2 grid place-items-center rounded-lg mb-4 transition-colors"
+        style={{ color: c.textPrimary }}
+        onMouseEnter={e => e.currentTarget.style.backgroundColor = c.hoverBg}
+        onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
         aria-label="Back"
       >
         <ChevronLeft size={20} />
       </Link>
       <div className="max-w-md mx-auto">
-        <div className="inline-flex items-center gap-2 bg-secondary-light text-secondary text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
+        <div className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full mb-4" style={{ background: c.violetBg, color: c.violet }}>
           <Sparkles size={12} /> Comparison ready
         </div>
         <h1 className="text-3xl font-semibold mb-2">You've evolved</h1>
-        <p className="text-text-2 mb-6">
+        <p className="mb-6" style={{ color: c.textSecondary }}>
           Your taste hasn't changed — but your level has. We've leveled up your roadmap.
         </p>
 
         <div className="grid grid-cols-2 gap-3 mb-6">
-          <div className="bg-surface-3 border border-border rounded-2xl p-4">
-            <div className="text-[10px] uppercase tracking-widest text-text-2 mb-2">Before</div>
-            <div className="w-9 h-9 rounded-full bg-surface border border-border text-[11px] font-semibold grid place-items-center text-text-2 mb-2">
+          <div className="card-frosted rounded-2xl p-4" style={{ borderColor: c.divider }}>
+            <div className="text-[10px] uppercase tracking-widest mb-2" style={{ color: c.textSecondary }}>Before</div>
+            <div className="w-9 h-9 rounded-full text-[11px] font-semibold grid place-items-center mb-2" style={{ background: c.chipBg, borderColor: c.chipBorder, borderWidth: 1, color: c.textSecondary }}>
               {getInitials("Badminton")}
             </div>
             <div className="font-semibold">Badminton</div>
-            <div className="text-xs text-text-2 mt-1">Beginner</div>
+            <div className="text-xs mt-1" style={{ color: c.textSecondary }}>Beginner</div>
           </div>
-          <div className="bg-primary-light border border-primary rounded-2xl p-4">
-            <div className="text-[10px] uppercase tracking-widest text-primary mb-2">Now</div>
-            <div className="w-9 h-9 rounded-full bg-surface border border-primary text-[11px] font-semibold grid place-items-center text-primary mb-2">
+          <div className="rounded-2xl p-4" style={{ background: c.sunGlareBg, borderColor: c.sunGlare, borderWidth: 1 }}>
+            <div className="text-[10px] uppercase tracking-widest mb-2" style={{ color: c.sunGlare }}>Now</div>
+            <div className="w-9 h-9 rounded-full text-[11px] font-semibold grid place-items-center mb-2" style={{ background: c.chipBg, borderColor: c.sunGlare, borderWidth: 1, color: c.sunGlare }}>
               {getInitials("Badminton")}
             </div>
             <div className="font-semibold">Badminton</div>
-            <div className="text-xs text-primary mt-1">Intermediate</div>
+            <div className="text-xs mt-1" style={{ color: c.sunGlare }}>Intermediate</div>
           </div>
         </div>
 
-        <div className="bg-surface border border-border rounded-2xl p-4 mb-6">
-          <div className="text-xs uppercase tracking-widest text-text-2 mb-2">
+        <div className="card-frosted rounded-2xl p-4 mb-6" style={{ borderColor: c.divider }}>
+          <div className="text-xs uppercase tracking-widest mb-2" style={{ color: c.textSecondary }}>
             New recommendations
           </div>
           {sportRecommendations.slice(0, 2).map((s) => (
             <div key={s.id} className="flex items-center gap-3 py-2">
-              <span className="w-8 h-8 rounded-full bg-surface-3 border border-border text-[11px] font-semibold grid place-items-center text-text-2">
+              <span className="w-8 h-8 rounded-full text-[11px] font-semibold grid place-items-center" style={{ background: c.chipBg, borderColor: c.chipBorder, borderWidth: 1, color: c.textSecondary }}>
                 {getInitials(s.name)}
               </span>
               <div className="font-medium text-sm">{s.name}</div>
-              <span className="ml-auto text-[10px] font-semibold bg-secondary-light text-secondary px-2 py-0.5 rounded-full uppercase tracking-wider">
+              <span className="ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider" style={{ background: c.violetBg, color: c.violet }}>
                 {s.difficulty}
               </span>
             </div>
@@ -117,11 +128,12 @@ function Reassess() {
         <div className="space-y-3">
           <button
             onClick={() => navigate({ to: "/dashboard" })}
-            className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 active:scale-[0.98] transition-all"
+            className="w-full h-12 rounded-xl font-semibold hover:opacity-90 active:scale-[0.98] transition-all"
+            style={{ background: c.sunGlare, color: "#1C1C1A", boxShadow: `0 0 16px ${c.sunGlareBg}` }}
           >
             Start fresh with new plan
           </button>
-          <Link to="/dashboard" className="block text-center text-sm text-text-2 hover:text-text-1">
+          <Link to="/dashboard" className="block text-center text-sm transition-colors" style={{ color: c.textSecondary }} onMouseEnter={e => e.currentTarget.style.color = c.textPrimary} onMouseLeave={e => e.currentTarget.style.color = c.textSecondary}>
             Keep my current plan
           </Link>
         </div>

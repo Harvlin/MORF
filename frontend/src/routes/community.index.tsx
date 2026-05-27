@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { useColors } from "@/hooks/useColors";
 
 export const Route = createFileRoute("/community/")({
-  head: () => ({ meta: [{ title: "Community — MORF" }] }),
+  head: () => ({ meta: [{ title: "Community — Physcal" }] }),
   component: CommunityPage,
 });
 

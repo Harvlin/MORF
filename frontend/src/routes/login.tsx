@@ -6,7 +6,7 @@ import { AuthShell, AuthInput, AuthLabel } from "@/components/AuthShell";
 import { useColors } from "@/hooks/useColors";
 
 export const Route = createFileRoute("/login")({
-  head: () => ({ meta: [{ title: "Sign in — MORF" }] }),
+  head: () => ({ meta: [{ title: "Sign in — Physcal" }] }),
   component: LoginPage,
 });
 
@@ -72,7 +72,7 @@ function LoginPage() {
               c={c}
               icon={Mail}
               type="email"
-              placeholder="you@morf.app"
+              placeholder="you@physcal.app"
               value={email}
               onChange={setEmail}
               autoComplete="email"

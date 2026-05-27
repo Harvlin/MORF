@@ -215,19 +215,19 @@ function OnboardingPage() {
                 <div>
                   <div className="text-sm font-medium mb-3" style={{ color: c.textPrimary }}>How do you feel about exercise?</div>
                   <div className="grid grid-cols-5 gap-2">
-                    {confidenceLevels.map((c) => {
-                      const active = onboarding.confidence === c.value;
+                    {confidenceLevels.map((conf) => {
+                      const active = onboarding.confidence === conf.value;
                       return (
                         <button
-                          key={c.value}
-                          onClick={() => setOnboarding({ confidence: c.value })}
+                          key={conf.value}
+                          onClick={() => setOnboarding({ confidence: conf.value })}
                           className={cn(
                             "flex flex-col items-center justify-center gap-1 h-14 rounded-xl border-2 transition-all active:scale-95",
                           )}
                           style={active ? { background: c.sunGlareBg, border: `1px solid ${c.sunGlare}66` } : { background: c.chipBg, border: `1px solid transparent` }}
                         >
-                          <span style={{ fontSize: "14px", fontWeight: 700, color: active ? c.sunGlare : c.textPrimary }}>{c.value}</span>
-                          <span style={{ fontSize: "10px", lineHeight: 1.2, color: active ? c.sunGlare : c.textSecondary }}>{c.label}</span>
+                          <span style={{ fontSize: "14px", fontWeight: 700, color: active ? c.sunGlare : c.textPrimary }}>{conf.value}</span>
+                          <span style={{ fontSize: "10px", lineHeight: 1.2, color: active ? c.sunGlare : c.textSecondary }}>{conf.label}</span>
                         </button>
                       );
                     })}
@@ -250,13 +250,16 @@ function OnboardingPage() {
                       return (
                         <button
                           key={p}
-                          onClick={() =>
-                            setOnboarding({
-                              physical: active
+                          onClick={() => {
+                            if (p === "None" || p === "Prefer not to say") {
+                              setOnboarding({ physical: [p] });
+                            } else {
+                              const next = active
                                 ? onboarding.physical.filter((x) => x !== p)
-                                : [...onboarding.physical, p],
-                            })
-                          }
+                                : [...onboarding.physical.filter((x) => x !== "None" && x !== "Prefer not to say"), p];
+                              setOnboarding({ physical: next });
+                            }
+                          }}
                           className={cn(
                             "px-4 py-2 rounded-full border-2 text-sm font-medium transition-all active:scale-95",
                           )}
@@ -459,7 +462,7 @@ function Pills({
           )}
               style={
                 active
-                  ? { background: c.sunGlare, color: "#1C1C1A", border: "none", boxShadow: `0 0 12px ${c.sunGlareBg}` }
+                  ? { background: c.sunGlare, color: "#1C1C1A", border: "1px solid transparent", boxShadow: `0 0 12px ${c.sunGlareBg}` }
                   : { background: c.chipBg, border: `1px solid ${c.chipBorder}`, color: c.textSecondary }
               }
             >
@@ -577,7 +580,7 @@ const severities = ["mild", "moderate", "significant"] as const;
 function ConditionDetailCards({ selected, c }: { selected: string[]; c: ReturnType<typeof useColors> }) {
   const details = useApp((s) => s.onboarding.physicalDetails);
   const set = useApp((s) => s.setPhysicalDetail);
-  const conds = selected.filter((c) => c !== "None" && c !== "Prefer not to say");
+  const conds = selected.filter((cond) => cond !== "None" && cond !== "Prefer not to say");
   return (
     <AnimatePresence>
       {conds.length > 0 && (
@@ -588,19 +591,19 @@ function ConditionDetailCards({ selected, c }: { selected: string[]; c: ReturnTy
           transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="overflow-hidden mt-4"
         >
-          {conds.map((c) => {
-            const meta = conditionMeta[c];
+          {conds.map((condName) => {
+            const meta = conditionMeta[condName];
             if (!meta) return null;
             const Icon = meta.icon;
-            const d = details[c] ?? {};
+            const d = details[condName] ?? {};
             const selectedSubs = (d.details?.values as string[]) ?? [];
             return (
-              <div key={c_} className="card-frosted p-4 mb-3" style={{ borderColor: c.divider }}>
+              <div key={condName} className="card-frosted p-4 mb-3" style={{ borderColor: c.divider }}>
                 <div className="flex items-center gap-2 mb-3">
                   <span style={{ color: c.textSecondary }}>
                     <Icon size={16} />
                   </span>
-                  <span className="text-sm font-medium" style={{ color: c.textPrimary }}>{c_}</span>
+                  <span className="text-sm font-medium" style={{ color: c.textPrimary }}>{condName}</span>
                 </div>
                 {meta.subLabel && (
                   <div className="mb-3">
@@ -616,16 +619,16 @@ function ConditionDetailCards({ selected, c }: { selected: string[]; c: ReturnTy
                                 const next = active
                                   ? selectedSubs.filter((x) => x !== o)
                                   : [...selectedSubs, o];
-                                set(c, { details: { values: next } });
+                                set(condName, { details: { values: next } });
                               }}
-                          className={cn(
-                            "px-3 py-1.5 rounded-full text-xs font-semibold border transition-all",
-                          )}
-                          style={
-                            active
-                              ? { background: c.sunGlare, color: "#1C1C1A", border: "none" }
-                              : { background: c.chipBg, border: `1px solid ${c.chipBorder}`, color: c.textSecondary }
-                          }
+                              className={cn(
+                                "px-3 py-1.5 rounded-full text-xs font-semibold border transition-all",
+                              )}
+                              style={
+                                active
+                                  ? { background: c.sunGlare, color: "#1C1C1A", border: "1px solid transparent" }
+                                  : { background: c.chipBg, border: `1px solid ${c.chipBorder}`, color: c.textSecondary }
+                              }
                             >
                               {o}
                             </button>
@@ -636,7 +639,7 @@ function ConditionDetailCards({ selected, c }: { selected: string[]; c: ReturnTy
                       <input
                         type="text"
                         value={(d.details?.text as string) ?? ""}
-                        onChange={(e) => set(c_, { details: { text: e.target.value } })}
+                        onChange={(e) => set(condName, { details: { text: e.target.value } })}
                         className="w-full h-10 border border-transparent rounded-lg px-3 text-sm focus:outline-none transition-colors"
                         style={{ background: c.inputBg, color: c.textPrimary, border: `1px solid ${c.inputBorder}` }}
                         placeholder="e.g. right knee, ACL recovery"
@@ -654,13 +657,13 @@ function ConditionDetailCards({ selected, c }: { selected: string[]; c: ReturnTy
                       return (
                         <button
                           key={s}
-                          onClick={() => set(c_, { severity: s })}
+                          onClick={() => set(condName, { severity: s })}
                           className={cn(
                             "px-3 py-1.5 rounded-full text-xs font-medium border transition-all capitalize",
                           )}
                           style={
                             active
-                              ? { background: c.textPrimary, color: c.appBg, border: "none" }
+                              ? { background: c.textPrimary, color: c.appBg, border: "1px solid transparent" }
                               : { background: c.chipBg, color: c.textPrimary, border: `1px solid transparent` }
                           }
                         >
@@ -672,7 +675,7 @@ function ConditionDetailCards({ selected, c }: { selected: string[]; c: ReturnTy
                 </div>
                 <textarea
                   value={d.avoidances ?? ""}
-                  onChange={(e) => set(c_, { avoidances: e.target.value })}
+                  onChange={(e) => set(condName, { avoidances: e.target.value })}
                   rows={2}
                   placeholder={meta.placeholder}
                   className="w-full rounded-lg px-3 py-2 text-sm resize-none min-h-[72px] focus:outline-none transition-colors"

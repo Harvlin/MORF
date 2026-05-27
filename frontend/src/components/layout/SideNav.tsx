@@ -37,7 +37,7 @@ export function SideNav() {
           className="text-xl font-bold tracking-tight"
           style={{ color: c.textPrimary }}
         >
-          MORF
+          Physcal
         </span>
       </Link>
 

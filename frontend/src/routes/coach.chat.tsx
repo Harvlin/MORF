@@ -8,7 +8,7 @@ import { chatHistory, suggestedPrompts, type ChatMessage } from "@/lib/mock-data
 import { useColors } from "@/hooks/useColors";
 
 export const Route = createFileRoute("/coach/chat")({
-  head: () => ({ meta: [{ title: "Coach Chat — MORF" }] }),
+  head: () => ({ meta: [{ title: "Coach Chat — Physcal" }] }),
   component: ChatPage,
 });
 
@@ -83,7 +83,7 @@ function ChatPage() {
         </div>
         <div className="flex-1">
           <div className="font-bold text-sm flex items-center gap-2" style={{ color: c.textPrimary }}>
-            MORF Coach
+            Physcal Coach
             <span
               className="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider"
               style={{ background: c.violetBg, color: c.violet, border: `1px solid ${c.violet}33` }}
@@ -168,7 +168,7 @@ function ChatPage() {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Message MORF..."
+            placeholder="Message Physcal..."
             className="flex-1 rounded-full px-5 h-12 text-[15px] font-medium focus:outline-none transition-all"
             style={{
               background: c.inputBg,

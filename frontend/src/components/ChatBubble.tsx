@@ -22,7 +22,7 @@ export function ChatBubble({ message }: { message: ChatMessage }) {
               className="text-[11px] font-bold uppercase tracking-widest"
               style={{ color: c.textTertiary }}
             >
-              MORF Coach
+              Physcal Coach
             </span>
           </div>
         )}
